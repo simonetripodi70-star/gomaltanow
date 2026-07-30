@@ -1,90 +1,69 @@
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
 
-const beaches = [
-  {
-    name: "Golden Bay",
-    image: "/images/hero.jpg",
-    description: "One of Malta's most famous sandy beaches."
-  },
-  {
-    name: "Mellieħa Bay",
-    image: "/images/hero.jpg",
-    description: "Perfect for families and crystal-clear water."
-  },
-  {
-    name: "Blue Lagoon",
-    image: "/images/hero.jpg",
-    description: "Turquoise water that looks like the Caribbean."
-  },
-  {
-    name: "Għajn Tuffieħa",
-    image: "/images/hero.jpg",
-    description: "A hidden paradise surrounded by cliffs."
+export default async function BeachesPage() {
+  const { data: beaches, error } = await supabase
+    .from("beaches")
+    .select("*")
+    .order("name");
+
+  if (error) {
+    return (
+      <main className="p-10">
+        <h1 className="text-3xl font-bold">Errore</h1>
+        <p>{error.message}</p>
+      </main>
+    );
   }
-];
 
-export default function BeachesPage() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="max-w-7xl mx-auto p-10">
+      <h1 className="mb-10 text-5xl font-bold">
+        Malta Beaches
+      </h1>
 
-      <section className="bg-blue-700 text-white py-16 text-center">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {beaches?.map((beach) => (
+          <div
+            key={beach.id}
+            className="overflow-hidden rounded-2xl bg-white text-black shadow-lg transition hover:shadow-2xl"
+          >
+            <Image
+              src={beach.image}
+              alt={beach.name}
+              width={600}
+              height={400}
+              className="h-56 w-full object-cover"
+            />
 
-        <h1 className="text-5xl font-bold mb-4">
-          Malta Beaches
-        </h1>
+            <div className="p-6 text-black">
+              <h2 className="mb-2 text-2xl font-bold">
+                {beach.name}
+              </h2>
 
-        <p className="text-xl">
-          Discover the most beautiful beaches in Malta.
-        </p>
+              <p className="mb-2 text-gray-600">
+                📍 {beach.location}
+              </p>
 
-      </section>
+              <p className="mb-4 text-gray-700">
+                {beach.description}
+              </p>
 
-      <section className="max-w-7xl mx-auto py-16 px-8">
+              <p className="mb-2">
+                ⭐ Best months: {beach.best_months}
+              </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <p className="mb-4">
+                🚗 Parking: {beach.parking ? "Yes" : "No"}
+              </p>
 
-          {beaches.map((beach) => (
-
-            <div
-              key={beach.name}
-              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition duration-300"
-            >
-
-              <div className="relative h-56">
-
-                <Image
-                  src={beach.image}
-                  alt={beach.name}
-                  fill
-                  className="object-cover"
-                />
-
-              </div>
-
-              <div className="p-6">
-
-                <h2 className="text-2xl font-bold mb-3">
-                  {beach.name}
-                </h2>
-
-                <p className="text-gray-600 mb-5">
-                  {beach.description}
-                </p>
-
-                <button className="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">
-                  View Details
-                </button>
-
-              </div>
-
+              <button className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+                View Details
+              </button>
             </div>
-
-          ))}
-
-        </div>
-
-      </section>
-
+          </div>
+        ))}
+      </div>
     </main>
   );
 }
