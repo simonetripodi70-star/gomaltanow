@@ -184,13 +184,13 @@ export default function Home() {
         </div>
 
         {/* Curved transition */}
-        <div className="absolute bottom-[-1px] left-0 z-20 h-14 w-full rounded-t-[50%] bg-[#F7F1EA] md:h-20" />
+        <div className="absolute bottom-[-1px] left-0 z-20 h-12 w-full rounded-t-[50%] bg-[#F7F1EA] md:h-16" />
       </section>
 
       {/* Popular Guides */}
-      <section id="guides" className="bg-[#F7F1EA] py-20">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <section id="guides" className="relative z-30 bg-[#F7F1EA] pb-20 pt-8 md:pb-24 md:pt-10">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-8">
+          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.28em] text-[#B83F29]">
                 Explore Malta
@@ -200,7 +200,7 @@ export default function Home() {
                 Popular Guides
               </h2>
 
-              <p className="mt-3 max-w-xl text-[#625D57]">
+              <p className="mt-3 max-w-xl text-base leading-relaxed text-[#625D57] md:text-lg">
                 Curated guides to help you explore, plan and settle in Malta.
               </p>
             </div>
@@ -213,32 +213,32 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {/* Best Beaches */}
             <a
               href="/beaches"
-              className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <Image
                   src="/images/golden-bay.jpg"
                   alt="Golden Bay beach in Malta"
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
               </div>
 
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-7">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
                   Visit Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-2xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
                   Best Beaches
                 </h3>
 
-                <p className="mb-5 leading-relaxed text-[#625D57]">
+                <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
                   Explore Malta&apos;s most beautiful beaches, bays and swimming
                   spots.
                 </p>
@@ -252,28 +252,28 @@ export default function Home() {
             {/* Find a Home */}
             <a
               href="#"
-              className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <Image
                   src="/images/home-malta.jpg"
                   alt="Traditional Maltese home"
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover object-right transition duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
                 />
               </div>
 
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-7">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
                   Move to Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-2xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
                   Find a Home
                 </h3>
 
-                <p className="mb-5 leading-relaxed text-[#625D57]">
+                <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
                   Compare neighbourhoods, rental prices and the best areas to
                   live.
                 </p>
@@ -287,29 +287,29 @@ export default function Home() {
             {/* Find a Job */}
             <a
               href="#"
-              className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <Image
                   src="/images/jobs-malta.jpg"
                   alt="Working in Malta"
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                   className="object-cover object-center transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/15" />
+                <div className="absolute inset-0 bg-black/10" />
               </div>
 
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-7">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
                   Work in Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-2xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
                   Find a Job
                 </h3>
 
-                <p className="mb-5 leading-relaxed text-[#625D57]">
+                <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
                   Learn where to search, what documents you need and how to
                   apply.
                 </p>
@@ -323,28 +323,28 @@ export default function Home() {
             {/* Transport */}
             <a
               href="#"
-              className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <Image
                   src="/images/transport-malta.jpg"
                   alt="Public transport in Malta"
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover object-bottom transition duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
                 />
               </div>
 
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-7">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
                   Getting Around
                 </p>
 
-                <h3 className="mb-3 font-serif text-2xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
                   Transport
                 </h3>
 
-                <p className="mb-5 leading-relaxed text-[#625D57]">
+                <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
                   Understand buses, ferries, taxis, parking and travelling
                   around Malta.
                 </p>
