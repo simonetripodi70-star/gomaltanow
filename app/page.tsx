@@ -38,7 +38,7 @@ export default function Home() {
 
               <a
                 className="transition hover:text-[#D96A4A]"
-                href="#move-to-malta"
+                href="/move-to-malta"
               >
                 Move to Malta
               </a>
@@ -136,7 +136,7 @@ export default function Home() {
 
             <a
               id="move-to-malta"
-              href="#guides"
+              href="/move-to-malta"
               className="group relative overflow-hidden rounded-3xl border border-[#E6DED4] bg-[#FFFDF9] p-8 text-[#171717] shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.35)] md:p-10"
             >
               <div className="absolute bottom-[-45px] right-[-35px] text-[190px] font-serif text-[#B83F29]/5">
@@ -447,7 +447,7 @@ export default function Home() {
             </a>
 
             <a
-              href="#move-to-malta"
+              href="/move-to-malta"
               className="rounded-full border border-white/60 px-6 py-3 font-semibold text-white transition hover:-translate-y-1 hover:bg-white hover:text-[#A92F20]"
             >
               Move to Malta
