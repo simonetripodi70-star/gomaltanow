@@ -16,7 +16,7 @@ const guides = [
     description:
       "Understand the residence process and the most important documents EU citizens usually need.",
     image: "/images/residence-malta.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/residence",
     cta: "Open guide",
   },
   {
