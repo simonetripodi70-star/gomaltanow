@@ -7,7 +7,7 @@ const guides = [
     description:
       "Prepare your documents, budget and first practical steps before arriving in Malta.",
     image: "/images/before-you-move.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/before-you-move",
     cta: "Open guide",
   },
   {
@@ -67,14 +67,10 @@ const journeySteps = [
 export default function EUCitizenPage() {
   return (
     <main className="min-h-screen bg-[#F7F1EA] text-[#171717]">
-      {/* TOP BAR */}
       <nav className="bg-[#0B0D0F] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-          <a
-            href="/"
-            className="font-serif text-2xl font-semibold tracking-tight md:text-3xl"
-          >
-            <span className="text-white">GoMalta</span>
+          <a href="/" className="font-serif text-2xl font-semibold md:text-3xl">
+            <span>GoMalta</span>
             <span className="text-[#C94F32]">Now</span>
           </a>
 
@@ -87,7 +83,6 @@ export default function EUCitizenPage() {
         </div>
       </nav>
 
-      {/* HERO */}
       <section className="border-b border-[#E7DDD3] bg-[#FBF7F2]">
         <div className="mx-auto grid max-w-7xl overflow-hidden md:grid-cols-2">
           <div className="flex items-center px-6 py-16 md:px-10 md:py-20">
@@ -96,7 +91,7 @@ export default function EUCitizenPage() {
                 EU / EEA / Swiss citizens
               </p>
 
-              <h1 className="font-serif text-5xl font-medium leading-[1.02] text-[#171717] md:text-6xl">
+              <h1 className="font-serif text-5xl font-medium leading-[1.02] md:text-6xl">
                 Everything you need to know before moving to Malta.
               </h1>
 
@@ -105,21 +100,6 @@ export default function EUCitizenPage() {
                 organise your move with more clarity — from documents and
                 residence to housing, work and everyday life.
               </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <span className="rounded-full bg-[#EAF1F7] px-4 py-2 text-sm font-semibold text-[#2F5F8A]">
-                  Residence
-                </span>
-                <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#5E5147]">
-                  Housing
-                </span>
-                <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#5E5147]">
-                  Jobs
-                </span>
-                <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#5E5147]">
-                  Daily life
-                </span>
-              </div>
 
               <a
                 href="#guides"
@@ -130,7 +110,7 @@ export default function EUCitizenPage() {
             </div>
           </div>
 
-          <div className="h-full">
+          <div>
             <Image
               src="/images/casa-maltese-blu.jpg"
               alt="Traditional Maltese house with blue balcony"
@@ -142,11 +122,10 @@ export default function EUCitizenPage() {
         </div>
       </section>
 
-      {/* GUIDES */}
       <section id="guides" className="py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <div className="max-w-3xl">
-            <h2 className="font-serif text-4xl font-medium text-[#171717] md:text-5xl">
+            <h2 className="font-serif text-4xl font-medium md:text-5xl">
               Start with what you need now.
             </h2>
 
@@ -176,7 +155,7 @@ export default function EUCitizenPage() {
                     {guide.label}
                   </p>
 
-                  <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
+                  <h3 className="mb-3 font-serif text-3xl font-medium">
                     {guide.title}
                   </h3>
 
@@ -184,7 +163,7 @@ export default function EUCitizenPage() {
                     {guide.description}
                   </p>
 
-                  <span className="font-semibold text-[#B83F29] transition group-hover:tracking-wide">
+                  <span className="font-semibold text-[#B83F29]">
                     {guide.cta} →
                   </span>
                 </div>
@@ -194,7 +173,6 @@ export default function EUCitizenPage() {
         </div>
       </section>
 
-      {/* JOURNEY SECTION */}
       <section className="bg-[#173E63] py-20 text-white">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-2 md:px-8">
           <div>
@@ -202,13 +180,12 @@ export default function EUCitizenPage() {
               Your journey
             </p>
 
-            <h2 className="max-w-md font-serif text-4xl font-medium leading-tight md:text-5xl">
+            <h2 className="max-w-md font-serif text-4xl font-medium md:text-5xl">
               Move with a clearer plan.
             </h2>
 
             <p className="mt-5 max-w-md leading-relaxed text-white/80">
-              GoMaltaNow helps you focus on the right things at the right time,
-              so you can organise your move more calmly and avoid confusion.
+              GoMaltaNow helps you focus on the right things at the right time.
             </p>
           </div>
 
@@ -219,23 +196,19 @@ export default function EUCitizenPage() {
                 className="flex items-start gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4"
               >
                 <div className="mt-1 h-3 w-3 rounded-full bg-[#D96A4A]" />
-                <p className="text-sm leading-relaxed text-white/90 md:text-base">
-                  {step}
-                </p>
+                <p className="leading-relaxed text-white/90">{step}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">
           <a href="/" className="font-serif text-2xl font-semibold">
-            <span className="text-white">GoMalta</span>
+            <span>GoMalta</span>
             <span className="text-[#C94F32]">Now</span>
           </a>
-
           <p className="text-sm text-white/60">
             © 2026 GoMaltaNow. Malta Made Simple.
           </p>
