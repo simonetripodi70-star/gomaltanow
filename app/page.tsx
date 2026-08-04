@@ -357,6 +357,185 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Why GoMaltaNow */}
+      <section className="bg-[#111315] py-20 text-white md:py-24">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-[#D96A4A]">
+                Why GoMaltaNow
+              </p>
+
+              <h2 className="max-w-xl font-serif text-4xl font-medium leading-tight md:text-6xl">
+                Malta explained clearly, all in one place.
+              </h2>
+
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
+                Practical information for holidays, relocation and everyday life,
+                created to help you make better decisions without wasting time.
+              </p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
+                  ✓
+                </div>
+                <h3 className="mb-3 font-serif text-2xl">Local knowledge</h3>
+                <p className="leading-relaxed text-white/65">
+                  Useful guidance shaped around real life in Malta, not generic
+                  travel advice.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
+                  ↻
+                </div>
+                <h3 className="mb-3 font-serif text-2xl">Up-to-date guides</h3>
+                <p className="leading-relaxed text-white/65">
+                  Clear articles and checklists designed to stay useful as rules
+                  and services change.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
+                  ◇
+                </div>
+                <h3 className="mb-3 font-serif text-2xl">Simple navigation</h3>
+                <p className="leading-relaxed text-white/65">
+                  Choose whether you are visiting or moving and quickly reach the
+                  information that matters to you.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
+                  →
+                </div>
+                <h3 className="mb-3 font-serif text-2xl">One complete guide</h3>
+                <p className="leading-relaxed text-white/65">
+                  Beaches, housing, jobs, transport and documents brought
+                  together in one consistent experience.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final Call to Action */}
+      <section className="bg-[#C7442D] py-16 text-white md:py-20">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 md:flex-row md:items-center md:justify-between md:px-8">
+          <div>
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-white/70">
+              Start your Malta journey
+            </p>
+            <h2 className="max-w-3xl font-serif text-4xl font-medium md:text-5xl">
+              Visiting for a week or building a new life?
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#visit-malta"
+              className="rounded-full bg-white px-6 py-3 font-semibold text-[#A92F20] transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              Visit Malta
+            </a>
+
+            <a
+              href="#move-to-malta"
+              className="rounded-full border border-white/60 px-6 py-3 font-semibold text-white transition hover:-translate-y-1 hover:bg-white hover:text-[#A92F20]"
+            >
+              Move to Malta
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0B0D0F] py-14 text-white">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-8">
+          <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+            <div>
+              <a
+                href="/"
+                className="font-serif text-3xl font-semibold tracking-tight"
+              >
+                <span className="text-white">GoMalta</span>
+                <span className="text-[#C94F32]">Now</span>
+              </a>
+
+              <p className="mt-4 max-w-sm leading-relaxed text-white/60">
+                Malta Made Simple. Practical guides for visiting, moving and
+                living on the Maltese islands.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="mb-4 font-semibold">Visit Malta</h3>
+              <div className="flex flex-col gap-3 text-white/60">
+                <a className="transition hover:text-white" href="/beaches">
+                  Beaches
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Restaurants
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Experiences
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Itineraries
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="mb-4 font-semibold">Move to Malta</h3>
+              <div className="flex flex-col gap-3 text-white/60">
+                <a className="transition hover:text-white" href="#">
+                  Housing
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Jobs
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Residency
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Documents
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="mb-4 font-semibold">GoMaltaNow</h3>
+              <div className="flex flex-col gap-3 text-white/60">
+                <a className="transition hover:text-white" href="#guides">
+                  Guides
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Blog
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  About
+                </a>
+                <a className="transition hover:text-white" href="#">
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-7 text-sm text-white/45 md:flex-row md:items-center md:justify-between">
+            <p>© 2026 GoMaltaNow. All rights reserved.</p>
+            <p>Malta Made Simple.</p>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
