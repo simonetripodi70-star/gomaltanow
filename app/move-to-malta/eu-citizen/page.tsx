@@ -25,7 +25,7 @@ const guides = [
     description:
       "Compare areas, rental prices, contracts and the main steps involved in renting.",
     image: "/images/find-home-malta.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/find-a-home",
     cta: "Open guide",
   },
   {
@@ -34,7 +34,7 @@ const guides = [
     description:
       "Learn where to search, how to prepare your application and what to expect from the job market.",
     image: "/images/find-job-malta.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/find-a-job",
     cta: "Open guide",
   },
   {
@@ -43,7 +43,7 @@ const guides = [
     description:
       "See what you may need to open a bank account, receive your salary and manage local payments.",
     image: "/images/banking-payments-malta.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/banking-payments",
     cta: "Open guide",
   },
   {
