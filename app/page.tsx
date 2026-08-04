@@ -10,6 +10,7 @@ export default function Home() {
           alt="Valletta and the Maltese coastline"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
 
@@ -120,15 +121,12 @@ export default function Home() {
                   <span className="rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-[#7C291E]">
                     Beaches
                   </span>
-
                   <span className="rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-[#7C291E]">
                     Restaurants
                   </span>
-
                   <span className="rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-[#7C291E]">
                     Experiences
                   </span>
-
                   <span className="rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-[#7C291E]">
                     Itineraries
                   </span>
@@ -170,15 +168,12 @@ export default function Home() {
                   <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#3B3531]">
                     Housing
                   </span>
-
                   <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#3B3531]">
                     Jobs
                   </span>
-
                   <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#3B3531]">
                     Residency
                   </span>
-
                   <span className="rounded-full bg-[#F1EAE2] px-4 py-2 text-sm font-semibold text-[#3B3531]">
                     Documents
                   </span>
@@ -219,6 +214,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Best Beaches */}
             <a
               href="/beaches"
               className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
@@ -228,6 +224,7 @@ export default function Home() {
                   src="/images/golden-bay.jpg"
                   alt="Golden Bay beach in Malta"
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
               </div>
@@ -252,12 +249,19 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Find a Home */}
             <a
               href="#"
               className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
-              <div className="flex h-48 items-center justify-center bg-[#EDE3D8] text-7xl">
-                🏘️
+              <div className="relative h-48 overflow-hidden">
+                <Image
+                  src="/images/home-malta.jpg"
+                  alt="Traditional Maltese home"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover object-right transition duration-500 group-hover:scale-105"
+                />
               </div>
 
               <div className="p-6">
@@ -280,12 +284,20 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Find a Job */}
             <a
               href="#"
               className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
-              <div className="flex h-48 items-center justify-center bg-[#E5DDD4] text-7xl">
-                💼
+              <div className="relative h-48 overflow-hidden">
+                <Image
+                  src="/images/jobs-malta.jpg"
+                  alt="Working in Malta"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/15" />
               </div>
 
               <div className="p-6">
@@ -308,12 +320,19 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Transport */}
             <a
               href="#"
               className="group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
-              <div className="flex h-48 items-center justify-center bg-[#DCE3E7] text-7xl">
-                🚌
+              <div className="relative h-48 overflow-hidden">
+                <Image
+                  src="/images/transport-malta.jpg"
+                  alt="Public transport in Malta"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover object-bottom transition duration-500 group-hover:scale-105"
+                />
               </div>
 
               <div className="p-6">
