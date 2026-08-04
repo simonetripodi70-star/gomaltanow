@@ -52,7 +52,7 @@ const guides = [
     description:
       "Discover how healthcare works in Malta and what to organise after your move.",
     image: "/images/healthcare-malta.jpg",
-    href: "#",
+    href: "/move-to-malta/eu-citizen/healthcare",
     cta: "Open guide",
   },
 ];
