@@ -129,23 +129,34 @@ export async function POST(request: Request) {
     const body = (await request.json()) as CreateArticlePayload;
 
     const title = getRequiredString(body.title, "title");
+
     const slug = normalizeSlug(
       getRequiredString(body.slug, "slug"),
     );
+
     const summary = getRequiredString(body.summary, "summary");
+
     const introduction = getRequiredString(
       body.introduction,
       "introduction",
     );
-    const category = getRequiredString(body.category, "category");
-    const language = getRequiredString(body.language, "language");
+
+    const category = getRequiredString(
+      body.category,
+      "category",
+    );
+
+    const language = getRequiredString(
+      body.language,
+      "language",
+    );
 
     const sections = validateSections(body.sections);
     const faq = validateFaq(body.faq);
     const sources = validateSources(body.sources);
 
     const audience =
-      getOptionalString(body.audience) || "all-readers";
+      getOptionalString(body.audience) || "all";
 
     const sectionSlug =
       getOptionalString(body.section_slug) ||
@@ -157,12 +168,14 @@ export async function POST(request: Request) {
 
     const supabase = getSupabaseAdmin();
 
-    const { data: existingArticle, error: existingArticleError } =
-      await supabase
-        .from("articles")
-        .select("id,title,slug,status")
-        .eq("slug", slug)
-        .maybeSingle();
+    const {
+      data: existingArticle,
+      error: existingArticleError,
+    } = await supabase
+      .from("articles")
+      .select("id,title,slug,status")
+      .eq("slug", slug)
+      .maybeSingle();
 
     if (existingArticleError) {
       console.error(
@@ -269,8 +282,14 @@ export async function POST(request: Request) {
   }
 }
 
-function getRequiredString(value: unknown, fieldName: string) {
-  if (typeof value !== "string" || value.trim().length === 0) {
+function getRequiredString(
+  value: unknown,
+  fieldName: string,
+) {
+  if (
+    typeof value !== "string" ||
+    value.trim().length === 0
+  ) {
     throw new Error(`${fieldName} is required.`);
   }
 
@@ -285,14 +304,20 @@ function getOptionalString(value: unknown) {
   return value.trim();
 }
 
-function validateSections(value: unknown): ArticleSection[] {
+function validateSections(
+  value: unknown,
+): ArticleSection[] {
   if (!Array.isArray(value) || value.length === 0) {
-    throw new Error("At least one article section is required.");
+    throw new Error(
+      "At least one article section is required.",
+    );
   }
 
   return value.map((item, index) => {
     if (!isRecord(item)) {
-      throw new Error(`Section ${index + 1} is invalid.`);
+      throw new Error(
+        `Section ${index + 1} is invalid.`,
+      );
     }
 
     return {
@@ -300,6 +325,7 @@ function validateSections(value: unknown): ArticleSection[] {
         item.heading,
         `Section ${index + 1} heading`,
       ),
+
       content: getRequiredString(
         item.content,
         `Section ${index + 1} content`,
@@ -315,7 +341,9 @@ function validateFaq(value: unknown): ArticleFaq[] {
 
   return value.map((item, index) => {
     if (!isRecord(item)) {
-      throw new Error(`FAQ item ${index + 1} is invalid.`);
+      throw new Error(
+        `FAQ item ${index + 1} is invalid.`,
+      );
     }
 
     return {
@@ -323,6 +351,7 @@ function validateFaq(value: unknown): ArticleFaq[] {
         item.question,
         `FAQ item ${index + 1} question`,
       ),
+
       answer: getRequiredString(
         item.answer,
         `FAQ item ${index + 1} answer`,
@@ -331,14 +360,18 @@ function validateFaq(value: unknown): ArticleFaq[] {
   });
 }
 
-function validateSources(value: unknown): ArticleSource[] {
+function validateSources(
+  value: unknown,
+): ArticleSource[] {
   if (!Array.isArray(value) || value.length === 0) {
     throw new Error("At least one source is required.");
   }
 
   return value.map((item, index) => {
     if (!isRecord(item)) {
-      throw new Error(`Source ${index + 1} is invalid.`);
+      throw new Error(
+        `Source ${index + 1} is invalid.`,
+      );
     }
 
     const name = getOptionalString(item.name);
@@ -357,7 +390,9 @@ function validateSources(value: unknown): ArticleSource[] {
   });
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+function isRecord(
+  value: unknown,
+): value is Record<string, unknown> {
   return (
     typeof value === "object" &&
     value !== null &&

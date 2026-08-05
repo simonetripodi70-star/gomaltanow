@@ -85,6 +85,7 @@ export default function AiWriterPage() {
   const [generating, setGenerating] = useState(false);
   const [savingDraft, setSavingDraft] = useState(false);
   const [loadingDrafts, setLoadingDrafts] = useState(true);
+
   const [publishingId, setPublishingId] = useState<
     string | null
   >(null);
@@ -175,6 +176,7 @@ export default function AiWriterPage() {
       }
 
       setGeneratedDraft(data.draft);
+
       setGeneratedDraftContext({
         category,
         language,
@@ -224,7 +226,7 @@ export default function AiWriterPage() {
           sources: generatedDraft.sources,
           category: generatedDraftContext.category,
           language: generatedDraftContext.language,
-          audience: "all-readers",
+          audience: "all",
           last_checked: generatedDraft.lastChecked,
         }),
       });
@@ -233,11 +235,14 @@ export default function AiWriterPage() {
 
       if (!response.ok) {
         throw new Error(
-          data.error || "The draft could not be saved.",
+          data.details ||
+            data.error ||
+            "The draft could not be saved.",
         );
       }
 
       setSavedGeneratedSlug(generatedDraft.slug);
+
       setSuccessMessage(
         `"${generatedDraft.title}" has been saved as a draft.`,
       );
@@ -472,7 +477,10 @@ export default function AiWriterPage() {
           </section>
         </div>
 
-        <section id="saved-drafts" className="mt-16 scroll-mt-8">
+        <section
+          id="saved-drafts"
+          className="mt-16 scroll-mt-8"
+        >
           <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-bold uppercase tracking-[0.28em] text-[#B83F29]">
@@ -545,13 +553,18 @@ export default function AiWriterPage() {
                   <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="mb-4 flex flex-wrap gap-2">
-                        <MetadataBadge value={article.status} />
+                        <MetadataBadge
+                          value={article.status}
+                        />
+
                         <MetadataBadge
                           value={article.category}
                         />
+
                         <MetadataBadge
                           value={article.audience}
                         />
+
                         <MetadataBadge
                           value={article.section_slug}
                         />
