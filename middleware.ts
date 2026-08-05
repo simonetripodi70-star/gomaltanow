@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const isDevelopment = process.env.NODE_ENV === "development";
 
   const username =
@@ -33,7 +33,7 @@ export function proxy(request: NextRequest) {
         return NextResponse.next();
       }
     } catch {
-      // Le credenziali non valide vengono gestite dalla risposta sottostante.
+      // Le credenziali non valide vengono gestite sotto.
     }
   }
 
