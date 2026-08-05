@@ -106,7 +106,9 @@ function getSupabasePublicClient() {
   });
 }
 
-async function getPublishedArticles(section: string) {
+async function getPublishedArticles(
+  section: string,
+): Promise<Article[]> {
   const supabase = getSupabasePublicClient();
 
   const { data, error } = await supabase
@@ -126,14 +128,15 @@ async function getPublishedArticles(section: string) {
     )
     .eq("status", "published")
     .eq("section_slug", section)
-    .order("published_at", { ascending: false });
+    .order("published_at", { ascending: false })
+    .returns<Article[]>();
 
   if (error) {
     console.error("Could not load section articles", error);
     throw new Error("The articles could not be loaded.");
   }
 
-  return (data ?? []) as Article[];
+  return data ?? [];
 }
 
 export async function generateMetadata({
@@ -145,7 +148,8 @@ export async function generateMetadata({
   return {
     title: information
       ? `${information.title} | GoMaltaNow`
-      : `Malta Updates | GoMaltaNow`,
+      : "Malta Updates | GoMaltaNow",
+
     description:
       information?.description ??
       "Official updates and practical information about Malta.",

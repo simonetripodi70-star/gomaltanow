@@ -50,14 +50,15 @@ async function getLatestArticles(): Promise<LatestArticle[]> {
     )
     .eq("status", "published")
     .order("published_at", { ascending: false })
-    .limit(3);
+    .limit(3)
+    .returns<LatestArticle[]>();
 
   if (error) {
     console.error("Could not load latest homepage articles", error);
     return [];
   }
 
-  return (data ?? []) as LatestArticle[];
+  return data ?? [];
 }
 
 export default async function Home() {
@@ -359,6 +360,7 @@ export default async function Home() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                   className="object-cover object-center transition duration-500 group-hover:scale-105"
                 />
+
                 <div className="absolute inset-0 bg-black/10" />
               </div>
 
