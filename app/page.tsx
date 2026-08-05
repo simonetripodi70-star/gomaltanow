@@ -1,6 +1,68 @@
 import Image from "next/image";
+import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+type LatestArticle = {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  category: string;
+  audience: string;
+  section_slug: string;
+  published_at: string | null;
+  last_checked: string | null;
+};
+
+async function getLatestArticles(): Promise<LatestArticle[]> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const publishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!supabaseUrl || !publishableKey) {
+    console.error("Public Supabase configuration is missing.");
+    return [];
+  }
+
+  const supabase = createClient(supabaseUrl, publishableKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+
+  const { data, error } = await supabase
+    .from("articles")
+    .select(
+      [
+        "id",
+        "title",
+        "slug",
+        "summary",
+        "category",
+        "audience",
+        "section_slug",
+        "published_at",
+        "last_checked",
+      ].join(","),
+    )
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(3);
+
+  if (error) {
+    console.error("Could not load latest homepage articles", error);
+    return [];
+  }
+
+  return (data ?? []) as LatestArticle[];
+}
+
+export default async function Home() {
+  const latestArticles = await getLatestArticles();
+
   return (
     <main className="bg-[#F7F1EA] text-[#171717]">
       {/* HERO */}
@@ -14,19 +76,18 @@ export default function Home() {
           className="object-cover"
         />
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
 
         {/* Navbar */}
         <nav className="absolute left-0 top-0 z-30 w-full border-b border-white/10 bg-[#0B0D0F]/90 text-white backdrop-blur-md">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-8">
-            <a
+            <Link
               href="/"
               className="font-serif text-3xl font-semibold tracking-tight md:text-4xl"
             >
               <span className="text-white">GoMalta</span>
               <span className="text-[#C94F32]">Now</span>
-            </a>
+            </Link>
 
             <div className="hidden items-center gap-8 text-base font-medium md:flex">
               <a
@@ -36,19 +97,19 @@ export default function Home() {
                 Visit Malta
               </a>
 
-              <a
+              <Link
                 className="transition hover:text-[#D96A4A]"
                 href="/move-to-malta"
               >
                 Move to Malta
-              </a>
+              </Link>
 
-              <a
+              <Link
                 className="transition hover:text-[#D96A4A]"
                 href="/beaches"
               >
                 Beaches
-              </a>
+              </Link>
 
               <a
                 className="transition hover:text-[#D96A4A]"
@@ -57,8 +118,11 @@ export default function Home() {
                 Guides
               </a>
 
-              <a className="transition hover:text-[#D96A4A]" href="#">
-                Blog
+              <a
+                className="transition hover:text-[#D96A4A]"
+                href="#latest-updates"
+              >
+                Updates
               </a>
 
               <a
@@ -80,14 +144,13 @@ export default function Home() {
 
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85 md:text-xl">
               Everything you need to visit Malta or start a new life here.
-              Local insights, practical guidance and useful tools for every step
-              of your journey.
+              Local insights, practical guidance and useful tools for every
+              step of your journey.
             </p>
           </div>
 
-          {/* Choice Cards */}
           <div className="mt-10 grid w-full max-w-6xl gap-6 md:grid-cols-2">
-            <a
+            <Link
               id="visit-malta"
               href="/beaches"
               className="group relative overflow-hidden rounded-3xl border border-[#D65C40] bg-gradient-to-br from-[#C7442D] to-[#A92F20] p-8 text-white shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.4)] md:p-10"
@@ -132,9 +195,9 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
 
-            <a
+            <Link
               id="move-to-malta"
               href="/move-to-malta"
               className="group relative overflow-hidden rounded-3xl border border-[#E6DED4] bg-[#FFFDF9] p-8 text-[#171717] shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.35)] md:p-10"
@@ -179,16 +242,18 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
 
-        {/* Curved transition */}
         <div className="absolute bottom-[-1px] left-0 z-20 h-12 w-full rounded-t-[50%] bg-[#F7F1EA] md:h-16" />
       </section>
 
       {/* Popular Guides */}
-      <section id="guides" className="relative z-30 bg-[#F7F1EA] pb-20 pt-8 md:pb-24 md:pt-10">
+      <section
+        id="guides"
+        className="relative z-30 bg-[#F7F1EA] pb-20 pt-8 md:pb-24 md:pt-10"
+      >
         <div className="mx-auto max-w-[1400px] px-6 md:px-8">
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -196,7 +261,7 @@ export default function Home() {
                 Explore Malta
               </p>
 
-              <h2 className="font-serif text-4xl font-medium text-[#171717] md:text-5xl">
+              <h2 className="font-serif text-4xl font-medium md:text-5xl">
                 Popular Guides
               </h2>
 
@@ -206,16 +271,15 @@ export default function Home() {
             </div>
 
             <a
-              href="#"
+              href="#latest-updates"
               className="font-semibold text-[#B83F29] transition hover:tracking-wide"
             >
-              View all guides →
+              View latest updates →
             </a>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {/* Best Beaches */}
-            <a
+            <Link
               href="/beaches"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
@@ -234,24 +298,23 @@ export default function Home() {
                   Visit Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium">
                   Best Beaches
                 </h3>
 
                 <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
-                  Explore Malta&apos;s most beautiful beaches, bays and swimming
-                  spots.
+                  Explore Malta&apos;s most beautiful beaches, bays and
+                  swimming spots.
                 </p>
 
                 <span className="font-semibold text-[#B83F29]">
                   Explore beaches →
                 </span>
               </div>
-            </a>
+            </Link>
 
-            {/* Find a Home */}
-            <a
-              href="#"
+            <Link
+              href="/updates/housing"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -269,24 +332,23 @@ export default function Home() {
                   Move to Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium">
                   Find a Home
                 </h3>
 
                 <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
-                  Compare neighbourhoods, rental prices and the best areas to
-                  live.
+                  Compare neighbourhoods, rental information and official
+                  housing updates.
                 </p>
 
                 <span className="font-semibold text-[#B83F29]">
                   Explore housing →
                 </span>
               </div>
-            </a>
+            </Link>
 
-            {/* Find a Job */}
-            <a
-              href="#"
+            <Link
+              href="/updates/work"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -305,24 +367,23 @@ export default function Home() {
                   Work in Malta
                 </p>
 
-                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium">
                   Find a Job
                 </h3>
 
                 <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
-                  Learn where to search, what documents you need and how to
-                  apply.
+                  Learn where to search, what documents you need and which
+                  employment rules have changed.
                 </p>
 
                 <span className="font-semibold text-[#B83F29]">
                   Explore jobs →
                 </span>
               </div>
-            </a>
+            </Link>
 
-            {/* Transport */}
-            <a
-              href="#"
+            <Link
+              href="/updates/transport"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -340,20 +401,135 @@ export default function Home() {
                   Getting Around
                 </p>
 
-                <h3 className="mb-3 font-serif text-3xl font-medium text-[#171717]">
+                <h3 className="mb-3 font-serif text-3xl font-medium">
                   Transport
                 </h3>
 
                 <p className="mb-6 flex-1 text-base leading-relaxed text-[#625D57]">
-                  Understand buses, ferries, taxis, parking and travelling
-                  around Malta.
+                  Understand buses, ferries, taxis, parking and official
+                  transport updates.
                 </p>
 
                 <span className="font-semibold text-[#B83F29]">
                   Explore transport →
                 </span>
               </div>
-            </a>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Updates */}
+      <section
+        id="latest-updates"
+        className="border-y border-black/5 bg-[#EFE5DA] py-20 md:py-24"
+      >
+        <div className="mx-auto max-w-[1400px] px-6 md:px-8">
+          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.28em] text-[#B83F29]">
+                Recently published
+              </p>
+
+              <h2 className="font-serif text-4xl font-medium md:text-5xl">
+                Latest Malta Updates
+              </h2>
+
+              <p className="mt-3 max-w-2xl text-lg leading-relaxed text-[#625D57]">
+                Approved articles based on monitored official sources and
+                reviewed before publication.
+              </p>
+            </div>
+
+            <Link
+              href="/updates/government-updates"
+              className="font-semibold text-[#B83F29] transition hover:tracking-wide"
+            >
+              Government updates →
+            </Link>
+          </div>
+
+          {latestArticles.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-[#C8B8A8] bg-[#FFFDF9] p-10 text-center">
+              <h3 className="font-serif text-3xl">
+                No published updates yet
+              </h3>
+
+              <p className="mt-3 text-[#625D57]">
+                New approved articles will appear here automatically.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-6 lg:grid-cols-3">
+              {latestArticles.map((article) => (
+                <article
+                  key={article.id}
+                  className="flex h-full flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    <MetadataBadge value={article.category} />
+                    <MetadataBadge value={article.audience} />
+                  </div>
+
+                  <h3 className="mt-5 font-serif text-3xl leading-tight">
+                    {article.title}
+                  </h3>
+
+                  <p className="mt-4 flex-1 leading-7 text-[#625D57]">
+                    {article.summary}
+                  </p>
+
+                  <div className="mt-7 border-t border-black/10 pt-5">
+                    <div className="mb-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#766F69]">
+                      {article.published_at && (
+                        <span>
+                          Published: {formatDate(article.published_at)}
+                        </span>
+                      )}
+
+                      {article.last_checked && (
+                        <span>
+                          Checked: {formatDate(article.last_checked)}
+                        </span>
+                      )}
+                    </div>
+
+                    <Link
+                      href={`/articles/${article.slug}`}
+                      className="inline-flex rounded-2xl bg-[#B83F29] px-5 py-3 font-bold text-white transition hover:bg-[#9F3422]"
+                    >
+                      Read article
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <SectionLink
+              href="/updates/transport"
+              title="Transport"
+              description="Public transport and mobility"
+            />
+
+            <SectionLink
+              href="/updates/housing"
+              title="Housing"
+              description="Renting and housing services"
+            />
+
+            <SectionLink
+              href="/updates/work"
+              title="Work"
+              description="Employment and requirements"
+            />
+
+            <SectionLink
+              href="/updates/residence"
+              title="Residence"
+              description="Permits and procedures"
+            />
           </div>
         </div>
       </section>
@@ -372,67 +548,49 @@ export default function Home() {
               </h2>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-                Practical information for holidays, relocation and everyday life,
-                created to help you make better decisions without wasting time.
+                Practical information for holidays, relocation and everyday
+                life, created to help you make better decisions without
+                wasting time.
               </p>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
-                  ✓
-                </div>
-                <h3 className="mb-3 font-serif text-2xl">Local knowledge</h3>
-                <p className="leading-relaxed text-white/65">
-                  Useful guidance shaped around real life in Malta, not generic
-                  travel advice.
-                </p>
-              </div>
+              <FeatureCard
+                icon="✓"
+                title="Local knowledge"
+                description="Useful guidance shaped around real life in Malta, not generic travel advice."
+              />
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
-                  ↻
-                </div>
-                <h3 className="mb-3 font-serif text-2xl">Up-to-date guides</h3>
-                <p className="leading-relaxed text-white/65">
-                  Clear articles and checklists designed to stay useful as rules
-                  and services change.
-                </p>
-              </div>
+              <FeatureCard
+                icon="↻"
+                title="Up-to-date guides"
+                description="Official sources are monitored so important changes can be reviewed and explained."
+              />
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
-                  ◇
-                </div>
-                <h3 className="mb-3 font-serif text-2xl">Simple navigation</h3>
-                <p className="leading-relaxed text-white/65">
-                  Choose whether you are visiting or moving and quickly reach the
-                  information that matters to you.
-                </p>
-              </div>
+              <FeatureCard
+                icon="◇"
+                title="Simple navigation"
+                description="Choose whether you are visiting or moving and quickly reach the information that matters."
+              />
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
-                  →
-                </div>
-                <h3 className="mb-3 font-serif text-2xl">One complete guide</h3>
-                <p className="leading-relaxed text-white/65">
-                  Beaches, housing, jobs, transport and documents brought
-                  together in one consistent experience.
-                </p>
-              </div>
+              <FeatureCard
+                icon="→"
+                title="One complete guide"
+                description="Beaches, housing, jobs, transport and documents brought together in one experience."
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final Call to Action */}
+      {/* Final CTA */}
       <section className="bg-[#C7442D] py-16 text-white md:py-20">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 md:flex-row md:items-center md:justify-between md:px-8">
           <div>
             <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-white/70">
               Start your Malta journey
             </p>
+
             <h2 className="max-w-3xl font-serif text-4xl font-medium md:text-5xl">
               Visiting for a week or building a new life?
             </h2>
@@ -446,12 +604,12 @@ export default function Home() {
               Visit Malta
             </a>
 
-            <a
+            <Link
               href="/move-to-malta"
               className="rounded-full border border-white/60 px-6 py-3 font-semibold text-white transition hover:-translate-y-1 hover:bg-white hover:text-[#A92F20]"
             >
               Move to Malta
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -461,13 +619,13 @@ export default function Home() {
         <div className="mx-auto max-w-[1400px] px-6 md:px-8">
           <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
-              <a
+              <Link
                 href="/"
                 className="font-serif text-3xl font-semibold tracking-tight"
               >
                 <span className="text-white">GoMalta</span>
                 <span className="text-[#C94F32]">Now</span>
-              </a>
+              </Link>
 
               <p className="mt-4 max-w-sm leading-relaxed text-white/60">
                 Malta Made Simple. Practical guides for visiting, moving and
@@ -477,55 +635,81 @@ export default function Home() {
 
             <div>
               <h3 className="mb-4 font-semibold">Visit Malta</h3>
+
               <div className="flex flex-col gap-3 text-white/60">
-                <a className="transition hover:text-white" href="/beaches">
+                <Link
+                  className="transition hover:text-white"
+                  href="/beaches"
+                >
                   Beaches
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Restaurants
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Experiences
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Itineraries
-                </a>
+                </Link>
+
+                <Link
+                  className="transition hover:text-white"
+                  href="/updates/transport"
+                >
+                  Transport
+                </Link>
+
+                <span className="text-white/35">Restaurants</span>
+                <span className="text-white/35">Itineraries</span>
               </div>
             </div>
 
             <div>
               <h3 className="mb-4 font-semibold">Move to Malta</h3>
+
               <div className="flex flex-col gap-3 text-white/60">
-                <a className="transition hover:text-white" href="#">
+                <Link
+                  className="transition hover:text-white"
+                  href="/updates/housing"
+                >
                   Housing
-                </a>
-                <a className="transition hover:text-white" href="#">
+                </Link>
+
+                <Link
+                  className="transition hover:text-white"
+                  href="/updates/work"
+                >
                   Jobs
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Residency
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Documents
-                </a>
+                </Link>
+
+                <Link
+                  className="transition hover:text-white"
+                  href="/updates/residence"
+                >
+                  Residence
+                </Link>
+
+                <Link
+                  className="transition hover:text-white"
+                  href="/move-to-malta"
+                >
+                  Moving guide
+                </Link>
               </div>
             </div>
 
             <div>
               <h3 className="mb-4 font-semibold">GoMaltaNow</h3>
+
               <div className="flex flex-col gap-3 text-white/60">
-                <a className="transition hover:text-white" href="#guides">
+                <a
+                  className="transition hover:text-white"
+                  href="#guides"
+                >
                   Guides
                 </a>
-                <a className="transition hover:text-white" href="#">
-                  Blog
+
+                <a
+                  className="transition hover:text-white"
+                  href="#latest-updates"
+                >
+                  Latest updates
                 </a>
-                <a className="transition hover:text-white" href="#">
-                  About
-                </a>
-                <a className="transition hover:text-white" href="#">
-                  Contact
-                </a>
+
+                <span className="text-white/35">About</span>
+                <span className="text-white/35">Contact</span>
               </div>
             </div>
           </div>
@@ -538,4 +722,74 @@ export default function Home() {
       </footer>
     </main>
   );
+}
+
+function MetadataBadge({ value }: { value: string }) {
+  return (
+    <span className="rounded-full bg-[#E9DED3] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#655B53]">
+      {value.replaceAll("-", " ")}
+    </span>
+  );
+}
+
+function SectionLink({
+  href,
+  title,
+  description,
+}: {
+  href: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex items-center justify-between gap-4 rounded-2xl border border-black/5 bg-[#FFFDF9] p-5 transition hover:-translate-y-1 hover:border-[#B83F29]/30 hover:shadow-lg"
+    >
+      <div>
+        <h3 className="font-serif text-2xl">{title}</h3>
+        <p className="mt-1 text-sm text-[#766F69]">{description}</p>
+      </div>
+
+      <span className="text-2xl text-[#B83F29] transition group-hover:translate-x-1">
+        →
+      </span>
+    </Link>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur">
+      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#C94F32] text-xl">
+        {icon}
+      </div>
+
+      <h3 className="mb-3 font-serif text-2xl">{title}</h3>
+
+      <p className="leading-relaxed text-white/65">{description}</p>
+    </div>
+  );
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
 }
