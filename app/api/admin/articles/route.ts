@@ -156,7 +156,7 @@ export async function POST(request: Request) {
     const sources = validateSources(body.sources);
 
     const audience =
-      getOptionalString(body.audience) || "all";
+      getOptionalString(body.audience) || "general";
 
     const sectionSlug =
       getOptionalString(body.section_slug) ||

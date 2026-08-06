@@ -226,7 +226,7 @@ export default function AiWriterPage() {
           sources: generatedDraft.sources,
           category: generatedDraftContext.category,
           language: generatedDraftContext.language,
-          audience: "all",
+          audience: "general",
           last_checked: generatedDraft.lastChecked,
         }),
       });
