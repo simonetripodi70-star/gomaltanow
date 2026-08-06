@@ -69,6 +69,28 @@ const buttonSecondary =
 const buttonPrimary =
   "rounded-2xl bg-[#B83F29] px-5 py-3 font-bold text-white transition hover:bg-[#9F3422] disabled:cursor-not-allowed disabled:opacity-60";
 
+const allowedRichTextTags = new Set([
+  "A",
+  "BR",
+  "EM",
+  "H2",
+  "H3",
+  "H4",
+  "LI",
+  "OL",
+  "P",
+  "STRONG",
+  "UL",
+]);
+
+const blockedRichTextTags = new Set([
+  "SCRIPT",
+  "STYLE",
+  "IFRAME",
+  "OBJECT",
+  "EMBED",
+]);
+
 function getError(data: unknown, fallback: string) {
   if (typeof data === "object" && data !== null) {
     const value = data as {
@@ -92,6 +114,90 @@ function getError(data: unknown, fallback: string) {
   }
 
   return fallback;
+}
+
+function convertMarkdownLinksToHtml(value: string) {
+  return value.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    '<a href="$2">$1</a>',
+  );
+}
+
+function sanitizeRichText(value: string) {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const parser = new DOMParser();
+
+  const documentNode = parser.parseFromString(
+    convertMarkdownLinksToHtml(value),
+    "text/html",
+  );
+
+  function cleanNode(node: Node) {
+    Array.from(node.childNodes).forEach((child) => {
+      if (child.nodeType === Node.COMMENT_NODE) {
+        child.remove();
+        return;
+      }
+
+      if (child.nodeType !== Node.ELEMENT_NODE) {
+        return;
+      }
+
+      const element = child as HTMLElement;
+      const tagName = element.tagName;
+
+      if (blockedRichTextTags.has(tagName)) {
+        element.remove();
+        return;
+      }
+
+      if (!allowedRichTextTags.has(tagName)) {
+        const fragment =
+          documentNode.createDocumentFragment();
+
+        while (element.firstChild) {
+          fragment.appendChild(element.firstChild);
+        }
+
+        element.replaceWith(fragment);
+        cleanNode(node);
+        return;
+      }
+
+      const href =
+        tagName === "A"
+          ? element.getAttribute("href") || ""
+          : "";
+
+      Array.from(element.attributes).forEach(
+        (attribute) => {
+          element.removeAttribute(attribute.name);
+        },
+      );
+
+      if (
+        tagName === "A" &&
+        (href.startsWith("https://") ||
+          href.startsWith("http://"))
+      ) {
+        element.setAttribute("href", href);
+        element.setAttribute("target", "_blank");
+        element.setAttribute(
+          "rel",
+          "noopener noreferrer",
+        );
+      }
+
+      cleanNode(element);
+    });
+  }
+
+  cleanNode(documentNode.body);
+
+  return documentNode.body.innerHTML;
 }
 
 export default function AiWriterPage() {
@@ -198,28 +304,25 @@ export default function AiWriterPage() {
     ).trim();
 
     try {
-      const response = await fetch(
-        "/api/ai-writer",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            topic: String(
-              form.get("topic") || "",
-            ).trim(),
-            category,
-            sources: String(
-              form.get("sources") || "",
-            ).trim(),
-            instructions: String(
-              form.get("instructions") || "",
-            ).trim(),
-            language,
-          }),
+      const response = await fetch("/api/ai-writer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          topic: String(
+            form.get("topic") || "",
+          ).trim(),
+          category,
+          sources: String(
+            form.get("sources") || "",
+          ).trim(),
+          instructions: String(
+            form.get("instructions") || "",
+          ).trim(),
+          language,
+        }),
+      });
 
       const data = await response.json();
 
@@ -315,9 +418,7 @@ export default function AiWriterPage() {
         );
       }
 
-      setSavedGeneratedSlug(
-        generatedDraft.slug,
-      );
+      setSavedGeneratedSlug(generatedDraft.slug);
 
       setSuccessMessage(
         `"${generatedDraft.title}" has been saved as a draft.`,
@@ -369,8 +470,7 @@ export default function AiWriterPage() {
             language: article.language,
             audience: article.audience,
             section_slug: article.section_slug,
-            last_checked:
-              article.last_checked,
+            last_checked: article.last_checked,
             status: "draft",
           }),
         },
@@ -709,9 +809,7 @@ export default function AiWriterPage() {
                           setSelectedArticle(null);
 
                           setEditingArticle(
-                            structuredClone(
-                              article,
-                            ),
+                            structuredClone(article),
                           );
                         }}
                         className={buttonSecondary}
@@ -843,6 +941,95 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function RichText({
+  content,
+  dark = false,
+}: {
+  content: string;
+  dark?: boolean;
+}) {
+  const [sanitizedContent, setSanitizedContent] =
+    useState("");
+
+  useEffect(() => {
+    setSanitizedContent(
+      sanitizeRichText(content),
+    );
+  }, [content]);
+
+  if (!sanitizedContent) {
+    return (
+      <p
+        className={
+          dark
+            ? "whitespace-pre-wrap leading-7 text-white/70"
+            : "whitespace-pre-wrap leading-7 text-[#292521]"
+        }
+      >
+        {content}
+      </p>
+    );
+  }
+
+  return (
+    <div
+      className={
+        dark
+          ? [
+              "leading-7 text-white/70",
+              "[&_a]:text-[#F28A70]",
+              "[&_a]:underline",
+              "[&_h2]:mt-8",
+              "[&_h2]:font-serif",
+              "[&_h2]:text-3xl",
+              "[&_h2]:text-white",
+              "[&_h3]:mt-6",
+              "[&_h3]:font-serif",
+              "[&_h3]:text-2xl",
+              "[&_h3]:text-white",
+              "[&_h4]:mt-5",
+              "[&_h4]:font-bold",
+              "[&_h4]:text-white",
+              "[&_p]:mt-4",
+              "[&_ul]:mt-4",
+              "[&_ul]:list-disc",
+              "[&_ul]:pl-6",
+              "[&_ol]:mt-4",
+              "[&_ol]:list-decimal",
+              "[&_ol]:pl-6",
+              "[&_li]:mt-2",
+              "[&_strong]:font-bold",
+            ].join(" ")
+          : [
+              "leading-7 text-[#292521]",
+              "[&_a]:text-[#B83F29]",
+              "[&_a]:underline",
+              "[&_h2]:mt-10",
+              "[&_h2]:font-serif",
+              "[&_h2]:text-3xl",
+              "[&_h3]:mt-8",
+              "[&_h3]:font-serif",
+              "[&_h3]:text-2xl",
+              "[&_h4]:mt-6",
+              "[&_h4]:font-bold",
+              "[&_p]:mt-4",
+              "[&_ul]:mt-4",
+              "[&_ul]:list-disc",
+              "[&_ul]:pl-6",
+              "[&_ol]:mt-4",
+              "[&_ol]:list-decimal",
+              "[&_ol]:pl-6",
+              "[&_li]:mt-2",
+              "[&_strong]:font-bold",
+            ].join(" ")
+      }
+      dangerouslySetInnerHTML={{
+        __html: sanitizedContent,
+      }}
+    />
+  );
+}
+
 function EmptyPreview() {
   return (
     <div className="flex min-h-[450px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 px-8 text-center">
@@ -888,9 +1075,12 @@ function GeneratedPreview({
         {draft.summary}
       </p>
 
-      <p className="mt-6 whitespace-pre-wrap leading-7 text-white/70">
-        {draft.introduction}
-      </p>
+      <div className="mt-6">
+        <RichText
+          content={draft.introduction}
+          dark
+        />
+      </div>
 
       <div className="mt-8 grid gap-6">
         {draft.sections.map(
@@ -900,9 +1090,12 @@ function GeneratedPreview({
                 {section.heading}
               </h3>
 
-              <p className="mt-2 whitespace-pre-wrap leading-7 text-white/70">
-                {section.content}
-              </p>
+              <div className="mt-2">
+                <RichText
+                  content={section.content}
+                  dark
+                />
+              </div>
             </section>
           ),
         )}
@@ -1007,9 +1200,11 @@ function ReviewModal({
         Introduction
       </h4>
 
-      <p className="mt-2 whitespace-pre-wrap leading-7">
-        {article.introduction}
-      </p>
+      <div className="mt-2">
+        <RichText
+          content={article.introduction}
+        />
+      </div>
 
       {article.sections.map(
         (section, index) => (
@@ -1021,9 +1216,11 @@ function ReviewModal({
               {section.heading}
             </h4>
 
-            <p className="mt-2 whitespace-pre-wrap leading-7">
-              {section.content}
-            </p>
+            <div className="mt-2">
+              <RichText
+                content={section.content}
+              />
+            </div>
           </section>
         ),
       )}
@@ -1038,9 +1235,9 @@ function ReviewModal({
             {item.question}
           </p>
 
-          <p className="mt-1">
-            {item.answer}
-          </p>
+          <div className="mt-1">
+            <RichText content={item.answer} />
+          </div>
         </div>
       ))}
 
@@ -1057,10 +1254,9 @@ function ReviewModal({
                   className="text-[#B83F29] underline"
                   href={source.url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
-                  {source.name ||
-                    source.url}
+                  {source.name || source.url}
                 </a>
               ) : (
                 source.name
