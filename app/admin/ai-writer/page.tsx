@@ -199,7 +199,7 @@ export default function AiWriterPage() {
 
     try {
       const response = await fetch(
-        "/api/admin/ai-writer",
+        "/api/ai-writer",
         {
           method: "POST",
           headers: {
