@@ -1,4 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
+
+export const dynamic = "force-dynamic";
+
+type JobArticle = {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  category: string;
+  audience: string;
+  section_slug: string;
+  published_at: string | null;
+  last_checked: string | null;
+};
 
 const essentials = [
   {
@@ -33,23 +49,143 @@ const interviewTips = [
   "Send a short follow-up message afterwards",
 ];
 
-export default function FindAJobPage() {
+const jobArticleKeys = [
+  "jobs",
+  "job",
+  "work",
+  "employment",
+  "career",
+  "recruitment",
+  "salary",
+  "jobsplus",
+  "eures",
+];
+
+function getSupabasePublicClient() {
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  const publishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!supabaseUrl || !publishableKey) {
+    console.error(
+      "Public Supabase configuration is missing.",
+    );
+
+    return null;
+  }
+
+  return createClient(
+    supabaseUrl,
+    publishableKey,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    },
+  );
+}
+
+function normalizeValue(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replaceAll("_", "-")
+    .replace(/\s+/g, "-");
+}
+
+function isJobArticle(article: JobArticle) {
+  const searchableValues = [
+    article.category,
+    article.section_slug,
+    article.title,
+    article.slug,
+  ].map(normalizeValue);
+
+  return jobArticleKeys.some((key) => {
+    const normalizedKey = normalizeValue(key);
+
+    return searchableValues.some(
+      (value) =>
+        value === normalizedKey ||
+        value.includes(normalizedKey),
+    );
+  });
+}
+
+async function getJobArticles(): Promise<
+  JobArticle[]
+> {
+  const supabase = getSupabasePublicClient();
+
+  if (!supabase) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("articles")
+    .select(
+      [
+        "id",
+        "title",
+        "slug",
+        "summary",
+        "category",
+        "audience",
+        "section_slug",
+        "published_at",
+        "last_checked",
+      ].join(","),
+    )
+    .eq("status", "published")
+    .order("published_at", {
+      ascending: false,
+    })
+    .limit(100)
+    .returns<JobArticle[]>();
+
+  if (error) {
+    console.error(
+      "Could not load job articles",
+      error,
+    );
+
+    return [];
+  }
+
+  return (data ?? []).filter(
+    isJobArticle,
+  );
+}
+
+export default async function FindAJobPage() {
+  const jobArticles =
+    await getJobArticles();
+
   return (
     <main className="min-h-screen bg-[#F7F1EA] text-[#171717]">
       {/* Navbar */}
       <nav className="bg-[#0B0D0F] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-          <a href="/" className="font-serif text-2xl font-semibold md:text-3xl">
+          <Link
+            href="/"
+            className="font-serif text-2xl font-semibold md:text-3xl"
+          >
             <span>GoMalta</span>
-            <span className="text-[#C94F32]">Now</span>
-          </a>
 
-          <a
+            <span className="text-[#C94F32]">
+              Now
+            </span>
+          </Link>
+
+          <Link
             href="/move-to-malta/eu-citizen"
             className="text-sm font-semibold text-white/75 transition hover:text-white"
           >
             ← Back to EU guides
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -63,20 +199,34 @@ export default function FindAJobPage() {
               </p>
 
               <h1 className="max-w-3xl font-serif text-5xl font-medium leading-[1.02] md:text-7xl">
-                Prepare for your job search in Malta.
+                Prepare for your job search in
+                Malta.
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#625D57]">
-                Build a strong application, search with a clear strategy and
-                understand the important details before accepting an offer.
+                Build a strong application,
+                search with a clear strategy and
+                understand the important details
+                before accepting an offer.
               </p>
 
-              <a
-                href="#checklist"
-                className="mt-8 inline-flex rounded-full bg-[#5C477A] px-6 py-3 font-semibold text-white transition hover:bg-[#493762]"
-              >
-                View the checklist ↓
-              </a>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="#checklist"
+                  className="inline-flex rounded-full bg-[#5C477A] px-6 py-3 font-semibold text-white transition hover:bg-[#493762]"
+                >
+                  View the checklist ↓
+                </a>
+
+                {jobArticles.length > 0 && (
+                  <a
+                    href="#job-articles"
+                    className="inline-flex rounded-full border border-[#5C477A] px-6 py-3 font-semibold text-[#5C477A] transition hover:bg-[#5C477A] hover:text-white"
+                  >
+                    Read job articles
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
@@ -93,6 +243,97 @@ export default function FindAJobPage() {
         </div>
       </section>
 
+      {/* Published job articles */}
+      {jobArticles.length > 0 && (
+        <section
+          id="job-articles"
+          className="border-y border-[#D1C3E1] bg-[#E9E3F2] py-20"
+        >
+          <div className="mx-auto max-w-7xl px-6 md:px-8">
+            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-[#5C477A]">
+                  Published job guides
+                </p>
+
+                <h2 className="max-w-3xl font-serif text-4xl font-medium text-[#443653] md:text-5xl">
+                  Detailed articles about finding
+                  work in Malta.
+                </h2>
+
+                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-[#625D57]">
+                  New approved employment and job
+                  search articles are connected
+                  automatically whenever they are
+                  published.
+                </p>
+              </div>
+
+              <span className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#5C477A]">
+                {jobArticles.length}{" "}
+                {jobArticles.length === 1
+                  ? "article"
+                  : "articles"}
+              </span>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {jobArticles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/articles/${article.slug}`}
+                  className="group flex h-full flex-col rounded-3xl border border-[#D1C3E1] bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#5C477A]/40 hover:shadow-xl"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    <MetadataBadge
+                      value={article.category}
+                    />
+
+                    <MetadataBadge
+                      value={article.audience}
+                    />
+                  </div>
+
+                  <h3 className="mt-5 font-serif text-3xl leading-tight transition group-hover:text-[#5C477A]">
+                    {article.title}
+                  </h3>
+
+                  <p className="mt-4 flex-1 leading-7 text-[#625D57]">
+                    {article.summary}
+                  </p>
+
+                  <div className="mt-7 border-t border-black/10 pt-5">
+                    <div className="mb-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#766F69]">
+                      {article.published_at && (
+                        <span>
+                          Published:{" "}
+                          {formatDate(
+                            article.published_at,
+                          )}
+                        </span>
+                      )}
+
+                      {article.last_checked && (
+                        <span>
+                          Checked:{" "}
+                          {formatDate(
+                            article.last_checked,
+                          )}
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="inline-flex font-bold text-[#5C477A]">
+                      Read article →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Essentials */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
@@ -102,8 +343,10 @@ export default function FindAJobPage() {
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#625D57]">
-              A focused approach helps you apply more effectively and compare
-              opportunities with greater confidence.
+              A focused approach helps you apply
+              more effectively and compare
+              opportunities with greater
+              confidence.
             </p>
           </div>
 
@@ -113,7 +356,10 @@ export default function FindAJobPage() {
                 key={item.title}
                 className="rounded-3xl border border-[#E7DDD3] bg-[#F9F5F0] p-7"
               >
-                <h3 className="font-serif text-3xl">{item.title}</h3>
+                <h3 className="font-serif text-3xl">
+                  {item.title}
+                </h3>
+
                 <p className="mt-4 leading-relaxed text-[#625D57]">
                   {item.text}
                 </p>
@@ -124,7 +370,10 @@ export default function FindAJobPage() {
       </section>
 
       {/* Checklist */}
-      <section id="checklist" className="bg-[#5C477A] py-20 text-white">
+      <section
+        id="checklist"
+        className="bg-[#5C477A] py-20 text-white"
+      >
         <div className="mx-auto grid max-w-7xl gap-12 px-6 md:grid-cols-2 md:px-8">
           <div>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-white/60">
@@ -136,9 +385,20 @@ export default function FindAJobPage() {
             </h2>
 
             <p className="mt-5 max-w-xl leading-relaxed text-white/75">
-              Prepare these essentials before sending applications so you can
-              respond quickly when an opportunity appears.
+              Prepare these essentials before
+              sending applications so you can
+              respond quickly when an opportunity
+              appears.
             </p>
+
+            {jobArticles.length > 0 && (
+              <a
+                href="#job-articles"
+                className="mt-7 inline-flex rounded-full bg-white px-6 py-3 font-bold text-[#5C477A] transition hover:-translate-y-1 hover:shadow-xl"
+              >
+                Read the detailed guides
+              </a>
+            )}
           </div>
 
           <div className="space-y-4">
@@ -150,7 +410,10 @@ export default function FindAJobPage() {
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white font-bold text-[#5C477A]">
                   ✓
                 </span>
-                <p className="leading-relaxed text-white/90">{item}</p>
+
+                <p className="leading-relaxed text-white/90">
+                  {item}
+                </p>
               </div>
             ))}
           </div>
@@ -179,7 +442,10 @@ export default function FindAJobPage() {
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5C477A] text-sm font-bold text-white">
                   ✓
                 </span>
-                <p className="font-semibold text-[#443653]">{tip}</p>
+
+                <p className="font-semibold text-[#443653]">
+                  {tip}
+                </p>
               </div>
             ))}
           </div>
@@ -198,8 +464,10 @@ export default function FindAJobPage() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-3xl leading-relaxed text-[#625D57]">
-            Confirm the main conditions in writing and ask questions about any
-            detail that is unclear before you accept a role.
+            Confirm the main conditions in
+            writing and ask questions about any
+            detail that is unclear before you
+            accept a role.
           </p>
         </div>
       </section>
@@ -207,10 +475,16 @@ export default function FindAJobPage() {
       {/* Footer */}
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">
-          <a href="/" className="font-serif text-2xl font-semibold">
+          <Link
+            href="/"
+            className="font-serif text-2xl font-semibold"
+          >
             <span>GoMalta</span>
-            <span className="text-[#C94F32]">Now</span>
-          </a>
+
+            <span className="text-[#C94F32]">
+              Now
+            </span>
+          </Link>
 
           <p className="text-sm text-white/55">
             © 2026 GoMaltaNow. Malta Made Simple.
@@ -219,4 +493,30 @@ export default function FindAJobPage() {
       </footer>
     </main>
   );
+}
+
+function MetadataBadge({
+  value,
+}: {
+  value: string;
+}) {
+  return (
+    <span className="rounded-full bg-[#EEE8F5] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#5C477A]">
+      {value.replaceAll("-", " ")}
+    </span>
+  );
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
 }
