@@ -116,6 +116,53 @@ function getError(data: unknown, fallback: string) {
   return fallback;
 }
 
+function cleanHeading(value: string) {
+  return value
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .trim();
+}
+
+function cleanSections(
+  sections: ArticleSection[],
+): ArticleSection[] {
+  return sections.map((section) => ({
+    ...section,
+    heading: cleanHeading(section.heading),
+  }));
+}
+
+function cleanGeneratedDraft(
+  draft: GeneratedDraft,
+): GeneratedDraft {
+  return {
+    ...draft,
+    sections: cleanSections(
+      Array.isArray(draft.sections)
+        ? draft.sections
+        : [],
+    ),
+  };
+}
+
+function cleanSavedArticle(
+  article: SavedArticle,
+): SavedArticle {
+  return {
+    ...article,
+    sections: cleanSections(
+      Array.isArray(article.sections)
+        ? article.sections
+        : [],
+    ),
+  };
+}
+
 function convertMarkdownLinksToHtml(value: string) {
   return value.replace(
     /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
@@ -263,11 +310,13 @@ export default function AiWriterPage() {
         );
       }
 
-      setSavedArticles(
-        Array.isArray(data.articles)
-          ? data.articles
-          : [],
-      );
+      const articles = Array.isArray(data.articles)
+        ? data.articles.map((article: SavedArticle) =>
+            cleanSavedArticle(article),
+          )
+        : [];
+
+      setSavedArticles(articles);
     } catch (error) {
       setDraftsError(
         error instanceof Error
@@ -341,7 +390,9 @@ export default function AiWriterPage() {
         );
       }
 
-      setGeneratedDraft(data.draft);
+      setGeneratedDraft(
+        cleanGeneratedDraft(data.draft),
+      );
 
       setGeneratedContext({
         category,
@@ -377,6 +428,9 @@ export default function AiWriterPage() {
       return;
     }
 
+    const cleanedDraft =
+      cleanGeneratedDraft(generatedDraft);
+
     setSavingDraft(true);
     setSaveError("");
     setSuccessMessage("");
@@ -390,19 +444,19 @@ export default function AiWriterPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: generatedDraft.title,
-            slug: generatedDraft.slug,
-            summary: generatedDraft.summary,
+            title: cleanedDraft.title,
+            slug: cleanedDraft.slug,
+            summary: cleanedDraft.summary,
             introduction:
-              generatedDraft.introduction,
-            sections: generatedDraft.sections,
-            faq: generatedDraft.faq,
-            sources: generatedDraft.sources,
+              cleanedDraft.introduction,
+            sections: cleanedDraft.sections,
+            faq: cleanedDraft.faq,
+            sources: cleanedDraft.sources,
             category: generatedContext.category,
             language: generatedContext.language,
             audience: "general",
             last_checked:
-              generatedDraft.lastChecked,
+              cleanedDraft.lastChecked,
           }),
         },
       );
@@ -418,10 +472,11 @@ export default function AiWriterPage() {
         );
       }
 
-      setSavedGeneratedSlug(generatedDraft.slug);
+      setGeneratedDraft(cleanedDraft);
+      setSavedGeneratedSlug(cleanedDraft.slug);
 
       setSuccessMessage(
-        `"${generatedDraft.title}" has been saved as a draft.`,
+        `"${cleanedDraft.title}" has been saved as a draft.`,
       );
 
       await loadDrafts();
@@ -446,31 +501,37 @@ export default function AiWriterPage() {
   async function saveEditedDraft(
     article: SavedArticle,
   ) {
+    const cleanedArticle =
+      cleanSavedArticle(article);
+
     setSavingChanges(true);
     setDraftsError("");
     setSuccessMessage("");
 
     try {
       const response = await fetch(
-        `/api/admin/articles/${article.id}`,
+        `/api/admin/articles/${cleanedArticle.id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: article.title,
-            slug: article.slug,
-            summary: article.summary,
-            introduction: article.introduction,
-            sections: article.sections,
-            faq: article.faq,
-            sources: article.sources,
-            category: article.category,
-            language: article.language,
-            audience: article.audience,
-            section_slug: article.section_slug,
-            last_checked: article.last_checked,
+            title: cleanedArticle.title,
+            slug: cleanedArticle.slug,
+            summary: cleanedArticle.summary,
+            introduction:
+              cleanedArticle.introduction,
+            sections: cleanedArticle.sections,
+            faq: cleanedArticle.faq,
+            sources: cleanedArticle.sources,
+            category: cleanedArticle.category,
+            language: cleanedArticle.language,
+            audience: cleanedArticle.audience,
+            section_slug:
+              cleanedArticle.section_slug,
+            last_checked:
+              cleanedArticle.last_checked,
             status: "draft",
           }),
         },
@@ -487,11 +548,15 @@ export default function AiWriterPage() {
         );
       }
 
+      const updatedArticle = cleanSavedArticle(
+        data.article,
+      );
+
       setEditingArticle(null);
-      setSelectedArticle(data.article);
+      setSelectedArticle(updatedArticle);
 
       setSuccessMessage(
-        `Changes to "${data.article.title}" have been saved.`,
+        `Changes to "${updatedArticle.title}" have been saved.`,
       );
 
       await loadDrafts();
@@ -509,27 +574,45 @@ export default function AiWriterPage() {
   async function publishArticle(
     article: SavedArticle,
   ) {
+    const cleanedArticle =
+      cleanSavedArticle(article);
+
     const confirmed = window.confirm(
-      `Publish "${article.title}"?\n\nThe article will become visible on the public website.`,
+      `Publish "${cleanedArticle.title}"?\n\nThe article will become visible on the public website.`,
     );
 
     if (!confirmed) {
       return;
     }
 
-    setPublishingId(article.id);
+    setPublishingId(cleanedArticle.id);
     setDraftsError("");
     setSuccessMessage("");
 
     try {
       const response = await fetch(
-        `/api/admin/articles/${article.id}`,
+        `/api/admin/articles/${cleanedArticle.id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            title: cleanedArticle.title,
+            slug: cleanedArticle.slug,
+            summary: cleanedArticle.summary,
+            introduction:
+              cleanedArticle.introduction,
+            sections: cleanedArticle.sections,
+            faq: cleanedArticle.faq,
+            sources: cleanedArticle.sources,
+            category: cleanedArticle.category,
+            language: cleanedArticle.language,
+            audience: cleanedArticle.audience,
+            section_slug:
+              cleanedArticle.section_slug,
+            last_checked:
+              cleanedArticle.last_checked,
             status: "published",
           }),
         },
@@ -547,7 +630,7 @@ export default function AiWriterPage() {
       }
 
       setSuccessMessage(
-        `"${article.title}" has been published.`,
+        `"${cleanedArticle.title}" has been published.`,
       );
 
       setSelectedArticle(null);
@@ -749,22 +832,11 @@ export default function AiWriterPage() {
                   <div className="flex flex-col gap-6 lg:flex-row lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="mb-4 flex flex-wrap gap-2">
+                        <Badge value={article.status} />
+                        <Badge value={article.category} />
+                        <Badge value={article.audience} />
                         <Badge
-                          value={article.status}
-                        />
-
-                        <Badge
-                          value={article.category}
-                        />
-
-                        <Badge
-                          value={article.audience}
-                        />
-
-                        <Badge
-                          value={
-                            article.section_slug
-                          }
+                          value={article.section_slug}
                         />
                       </div>
 
@@ -795,7 +867,9 @@ export default function AiWriterPage() {
                         type="button"
                         onClick={() =>
                           setSelectedArticle(
-                            article,
+                            cleanSavedArticle(
+                              article,
+                            ),
                           )
                         }
                         className={buttonSecondary}
@@ -809,7 +883,11 @@ export default function AiWriterPage() {
                           setSelectedArticle(null);
 
                           setEditingArticle(
-                            structuredClone(article),
+                            structuredClone(
+                              cleanSavedArticle(
+                                article,
+                              ),
+                            ),
                           );
                         }}
                         className={buttonSecondary}
@@ -855,7 +933,11 @@ export default function AiWriterPage() {
           }
           onEdit={() => {
             setEditingArticle(
-              structuredClone(selectedArticle),
+              structuredClone(
+                cleanSavedArticle(
+                  selectedArticle,
+                ),
+              ),
             );
 
             setSelectedArticle(null);
@@ -1087,7 +1169,7 @@ function GeneratedPreview({
           (section, index) => (
             <section key={index}>
               <h3 className="font-serif text-2xl">
-                {section.heading}
+                {cleanHeading(section.heading)}
               </h3>
 
               <div className="mt-2">
@@ -1213,7 +1295,7 @@ function ReviewModal({
             className="mt-8"
           >
             <h4 className="font-serif text-2xl">
-              {section.heading}
+              {cleanHeading(section.heading)}
             </h4>
 
             <div className="mt-2">
@@ -1328,7 +1410,10 @@ function EditModal({
         itemIndex === index
           ? {
               ...item,
-              [key]: value,
+              [key]:
+                key === "heading"
+                  ? cleanHeading(value)
+                  : value,
             }
           : item,
       ),
@@ -1553,7 +1638,9 @@ function EditModal({
                   <input
                     required
                     className={inputStyle}
-                    value={section.heading}
+                    value={cleanHeading(
+                      section.heading,
+                    )}
                     onChange={(event) =>
                       updateSection(
                         index,
