@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import AdSlot from "@/components/AdSlot";
 
 export const dynamic = "force-dynamic";
 
@@ -294,6 +295,11 @@ export default async function ArticlePage({
           className="mt-10"
         />
 
+        <AdSlot
+          placement="article"
+          className="mt-12"
+        />
+
         <div className="mt-12 space-y-10">
           {sections.map(
             (section, index) => (
@@ -344,6 +350,11 @@ export default async function ArticlePage({
             </div>
           </section>
         )}
+
+        <AdSlot
+          placement="articleEnd"
+          className="mt-14"
+        />
 
         {sources.length > 0 && (
           <section className="mt-14 border-t border-black/10 pt-9">

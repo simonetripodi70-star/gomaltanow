@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import AdSlot from "@/components/AdSlot";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -459,6 +461,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <AdSlot placement="home" />
+
       {/* Latest Updates */}
       <section
         id="latest-updates"
@@ -785,9 +789,12 @@ export default async function Home() {
                   About
                 </span>
 
-                <span className="text-white/35">
+                <a
+                  className="transition hover:text-white"
+                  href={`mailto:${CONTACT_EMAIL}`}
+                >
                   Contact
-                </span>
+                </a>
               </div>
             </div>
           </div>

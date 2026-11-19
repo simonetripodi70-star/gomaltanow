@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import AdSlot from "@/components/AdSlot";
 
 export const dynamic = "force-dynamic";
 
@@ -265,6 +266,8 @@ export default async function SectionPage({
           )}
         </div>
       </section>
+
+      <AdSlot placement="updates" />
     </main>
   );
 }
