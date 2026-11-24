@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { getAllPlaceLinks, placeHref } from "@/lib/places";
+import { TRANSLATED } from "@/lib/i18n";
 
 // Mappa del sito per Google: /sitemap.xml
 // Le pagine fisse sono elencate qui; articoli e sezioni "Updates" arrivano da Supabase.
@@ -73,6 +74,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: path === "/" ? 1 : 0.7,
     }),
   );
+
+  // Versioni tradotte (/it, /pl, ...)
+  for (const [lang, paths] of Object.entries(TRANSLATED)) {
+    for (const path of paths) {
+      pages.push({
+        url: `${BASE}/${lang}${path === "/" ? "" : path}`,
+        changeFrequency: "monthly",
+        priority: path === "/" ? 0.8 : 0.6,
+      });
+    }
+  }
 
   // Solo le sezioni "Updates" che hanno almeno un articolo
   const sections = [

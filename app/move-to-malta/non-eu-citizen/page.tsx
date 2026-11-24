@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Moving to Malta as a Non-EU Citizen | GoMaltaNow",
   description:
     "Practical guides for non-EU citizens moving to Malta: permits, employment, residence, housing, healthcare and everyday life.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen" },
+  alternates: {
+    canonical: "/move-to-malta/non-eu-citizen",
+    languages: {"en": "/move-to-malta/non-eu-citizen", "it": "/it/move-to-malta/non-eu-citizen", "pl": "/pl/move-to-malta/non-eu-citizen", "fr": "/fr/move-to-malta/non-eu-citizen", "de": "/de/move-to-malta/non-eu-citizen", "es": "/es/move-to-malta/non-eu-citizen", "uk": "/uk/move-to-malta/non-eu-citizen", "x-default": "/move-to-malta/non-eu-citizen"},
+  },
 };
 
 

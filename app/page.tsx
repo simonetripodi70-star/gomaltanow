@@ -9,7 +9,7 @@ import { CONTACT_EMAIL } from "@/lib/site";
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
-    languages: { en: "/", it: "/it", "x-default": "/" },
+    languages: {"en": "/", "it": "/it", "pl": "/pl", "fr": "/fr", "de": "/de", "es": "/es", "uk": "/uk", "x-default": "/"},
   },
 };
 

@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   title: "Best Beaches in Malta and Gozo | GoMaltaNow",
   description:
     "The best beaches in Malta and Gozo: where they are, what they are like, the best months to go and whether there is parking.",
-  alternates: { canonical: "/beaches" },
+  alternates: {
+    canonical: "/beaches",
+    languages: {"en": "/beaches", "it": "/it/beaches", "pl": "/pl/beaches", "fr": "/fr/beaches", "de": "/de/beaches", "es": "/es/beaches", "uk": "/uk/beaches", "x-default": "/beaches"},
+  },
 };
 
 export const dynamic = "force-dynamic";

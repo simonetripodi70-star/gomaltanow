@@ -289,6 +289,8 @@ export default async function BeforeYouMovePage() {
         </div>
       </section>
 
+      <MoveGuideDetail guide="non-eu/before-you-move" />
+
       <section className="bg-[#173E63] py-16 text-white">
         <div className="mx-auto max-w-5xl px-6 text-center md:px-8">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/60">
@@ -381,8 +383,6 @@ export default async function BeforeYouMovePage() {
           </div>
         </div>
       </section>
-
-      <MoveGuideDetail guide="non-eu/before-you-move" />
 
       {movingArticles.length > 0 && (
         <section

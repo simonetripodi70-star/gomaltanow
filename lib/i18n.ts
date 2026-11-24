@@ -14,11 +14,13 @@ export const LOCALE_LABELS: Record<Locale, string> = {
 
 // Pagine già tradotte per ogni lingua (percorso inglese, senza prefisso).
 // Aggiornato da tools/i18n_gen quando si traducono nuove pagine.
+const PHASE1 = ["/", "/visit-malta", "/move-to-malta", "/move-to-malta/eu-citizen", "/move-to-malta/non-eu-citizen", "/beaches", "/visit-malta/things-to-do"];
+
 export const TRANSLATED: Record<Exclude<Locale, "en">, string[]> = {
-  it: ["/"],
-  pl: [],
-  fr: [],
-  de: [],
-  es: [],
-  uk: [],
+  it: PHASE1,
+  pl: PHASE1,
+  fr: PHASE1,
+  de: PHASE1,
+  es: PHASE1,
+  uk: PHASE1,
 };

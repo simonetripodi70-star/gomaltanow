@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Guide pratiche per visitare Malta, trasferirsi e viverci: spiagge, casa, lavoro, permessi di soggiorno, sanità, banche e le ultime novità ufficiali.",
   alternates: {
     canonical: "/it",
-    languages: {"en": "/", "it": "/it", "x-default": "/"},
+    languages: {"en": "/", "it": "/it", "pl": "/pl", "fr": "/fr", "de": "/de", "es": "/es", "uk": "/uk", "x-default": "/"},
   },
 };
 
@@ -130,21 +130,21 @@ export default async function Home() {
             <div className="hidden items-center gap-8 text-base font-medium md:flex">
               <a
                 className="transition hover:text-[#D96A4A]"
-                href="/visit-malta"
+                href="/it/visit-malta"
               >
                 Visitare Malta
               </a>
 
               <Link
                 className="transition hover:text-[#D96A4A]"
-                href="/move-to-malta"
+                href="/it/move-to-malta"
               >
                 Trasferirsi a Malta
               </Link>
 
               <Link
                 className="transition hover:text-[#D96A4A]"
-                href="/beaches"
+                href="/it/beaches"
               >
                 Spiagge
               </Link>
@@ -188,7 +188,7 @@ export default async function Home() {
           <div className="mt-10 grid w-full max-w-6xl gap-6 md:grid-cols-2">
             <Link
               id="visit-malta"
-              href="/visit-malta"
+              href="/it/visit-malta"
               className="group relative overflow-hidden rounded-3xl border border-[#D65C40] bg-gradient-to-br from-[#C7442D] to-[#A92F20] p-8 text-white shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.4)] md:p-10"
             >
               <div className="absolute bottom-[-45px] right-[-35px] text-[190px] font-serif text-white/5">
@@ -236,7 +236,7 @@ export default async function Home() {
 
             <Link
               id="move-to-malta"
-              href="/move-to-malta"
+              href="/it/move-to-malta"
               className="group relative overflow-hidden rounded-3xl border border-[#E6DED4] bg-[#FFFDF9] p-8 text-[#171717] shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.35)] md:p-10"
             >
               <div className="absolute bottom-[-45px] right-[-35px] text-[190px] font-serif text-[#B83F29]/5">
@@ -318,7 +318,7 @@ export default async function Home() {
 
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             <Link
-              href="/beaches"
+              href="/it/beaches"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -640,14 +640,14 @@ export default async function Home() {
 
           <div className="flex flex-wrap gap-3">
             <a
-              href="/visit-malta"
+              href="/it/visit-malta"
               className="rounded-full bg-white px-6 py-3 font-semibold text-[#A92F20] transition hover:-translate-y-1 hover:shadow-xl"
             >
               Visitare Malta
             </a>
 
             <Link
-              href="/move-to-malta"
+              href="/it/move-to-malta"
               className="rounded-full border border-white/60 px-6 py-3 font-semibold text-white transition hover:-translate-y-1 hover:bg-white hover:text-[#A92F20]"
             >
               Trasferirsi a Malta
@@ -687,7 +687,7 @@ export default async function Home() {
               <div className="flex flex-col gap-3 text-white/60">
                 <Link
                   className="transition hover:text-white"
-                  href="/beaches"
+                  href="/it/beaches"
                 >
                   Spiagge
                 </Link>
@@ -738,7 +738,7 @@ export default async function Home() {
 
                 <Link
                   className="transition hover:text-white"
-                  href="/move-to-malta"
+                  href="/it/move-to-malta"
                 >
                   Guida al trasferimento
                 </Link>

@@ -289,6 +289,8 @@ export default async function ResidencePage() {
         </div>
       </section>
 
+      <MoveGuideDetail guide="non-eu/residence" />
+
       <section className="bg-[#173E63] py-16 text-white">
         <div className="mx-auto max-w-5xl px-6 text-center md:px-8">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/60">
@@ -384,8 +386,6 @@ export default async function ResidencePage() {
           </div>
         </div>
       </section>
-
-      <MoveGuideDetail guide="non-eu/residence" />
 
       {residenceArticles.length > 0 && (
         <section

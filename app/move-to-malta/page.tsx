@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Moving to Malta: EU and Non-EU Guides | GoMaltaNow",
   description:
     "Choose your path to Malta: practical guides for EU and non-EU citizens on documents, residence, housing, work and everyday life.",
-  alternates: { canonical: "/move-to-malta" },
+  alternates: {
+    canonical: "/move-to-malta",
+    languages: {"en": "/move-to-malta", "it": "/it/move-to-malta", "pl": "/pl/move-to-malta", "fr": "/fr/move-to-malta", "de": "/de/move-to-malta", "es": "/es/move-to-malta", "uk": "/uk/move-to-malta", "x-default": "/move-to-malta"},
+  },
 };
 
 

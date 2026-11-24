@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Moving to Malta as an EU Citizen | GoMaltaNow",
   description:
     "Everything EU citizens need to know before moving to Malta: documents, residence, housing, work, banking and healthcare.",
-  alternates: { canonical: "/move-to-malta/eu-citizen" },
+  alternates: {
+    canonical: "/move-to-malta/eu-citizen",
+    languages: {"en": "/move-to-malta/eu-citizen", "it": "/it/move-to-malta/eu-citizen", "pl": "/pl/move-to-malta/eu-citizen", "fr": "/fr/move-to-malta/eu-citizen", "de": "/de/move-to-malta/eu-citizen", "es": "/es/move-to-malta/eu-citizen", "uk": "/uk/move-to-malta/eu-citizen", "x-default": "/move-to-malta/eu-citizen"},
+  },
 };
 
 

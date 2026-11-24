@@ -289,6 +289,8 @@ export default async function SinglePermitPage() {
         </div>
       </section>
 
+      <MoveGuideDetail guide="non-eu/single-permit" />
+
       {/* Intro */}
       <section className="bg-[#173E63] py-16 text-white">
         <div className="mx-auto max-w-5xl px-6 text-center md:px-8">
@@ -355,8 +357,6 @@ export default async function SinglePermitPage() {
           </div>
         </div>
       </section>
-
-      <MoveGuideDetail guide="non-eu/single-permit" />
 
       {/* Articles */}
       {permitArticles.length > 0 && (

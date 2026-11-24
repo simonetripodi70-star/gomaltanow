@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Visit Malta: Travel Guide and Things to Do | GoMaltaNow",
   description:
     "Plan your trip to Malta: beaches, historic cities, islands, transport, food and practical travel information in one place.",
-  alternates: { canonical: "/visit-malta" },
+  alternates: {
+    canonical: "/visit-malta",
+    languages: {"en": "/visit-malta", "it": "/it/visit-malta", "pl": "/pl/visit-malta", "fr": "/fr/visit-malta", "de": "/de/visit-malta", "es": "/es/visit-malta", "uk": "/uk/visit-malta", "x-default": "/visit-malta"},
+  },
 };
 
 

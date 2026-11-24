@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Things to Do in Malta: Sights, Beaches and Trips | GoMaltaNow",
   description:
     "Historic cities, beaches, islands, food, boat trips and experiences to help you plan a memorable stay in Malta.",
-  alternates: { canonical: "/visit-malta/things-to-do" },
+  alternates: {
+    canonical: "/visit-malta/things-to-do",
+    languages: {"en": "/visit-malta/things-to-do", "it": "/it/visit-malta/things-to-do", "pl": "/pl/visit-malta/things-to-do", "fr": "/fr/visit-malta/things-to-do", "de": "/de/visit-malta/things-to-do", "es": "/es/visit-malta/things-to-do", "uk": "/uk/visit-malta/things-to-do", "x-default": "/visit-malta/things-to-do"},
+  },
 };
 
 
