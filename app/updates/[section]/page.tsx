@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import { Fragment } from "react";
 import AdSlot from "@/components/AdSlot";
+import SideRail from "@/components/SideRail";
 
 export const dynamic = "force-dynamic";
 
@@ -220,9 +222,15 @@ export default async function SectionPage({
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2">
-              {articles.map((article) => (
+              {articles.map((article, index) => (
+                <Fragment key={article.id}>
+                {index === 4 && (
+                  <AdSlot
+                    placement="updatesMid"
+                    className="md:col-span-2"
+                  />
+                )}
                 <article
-                  key={article.id}
                   className="flex flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex flex-wrap gap-2">
@@ -261,6 +269,7 @@ export default async function SectionPage({
                     </Link>
                   </div>
                 </article>
+                </Fragment>
               ))}
             </div>
           )}
@@ -268,6 +277,8 @@ export default async function SectionPage({
       </section>
 
       <AdSlot placement="updates" />
+
+      <SideRail contentWidth={1152} />
     </main>
   );
 }
