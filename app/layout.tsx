@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ADSENSE_CLIENT } from "@/lib/ads";
 import { CONTACT_EMAIL } from "@/lib/site";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,6 +38,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Tema chiaro/scuro: applicato prima che la pagina compaia, senza lampi */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}",
+          }}
+        />
         {/* Google AdSense */}
         <script
           async
@@ -78,6 +86,8 @@ export default function RootLayout({
             </a>
           </nav>
         </div>
+
+        <ThemeToggle />
 
         {/* Cloudflare Web Analytics (visite reali) */}
         <script
