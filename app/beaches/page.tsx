@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { getPlaceCards, getPlacesByArea, placeHref, type PlaceCard } from "@/lib/places";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
 
@@ -14,27 +13,23 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-type Beach = {
-  id: number | string;
-  name: string;
-  image: string | null;
-  location: string | null;
-  description: string | null;
-  best_months: string | null;
-  parking: boolean | null;
-};
+// Spiagge con scheda dedicata (area "beaches") + Ramla Bay e Blue Lagoon,
+// che hanno già la loro scheda in Gozo e Comino.
+function region(p: PlaceCard) {
+  if (p.area === "comino") return "Comino";
+  if (p.area === "gozo" || (p.kicker ?? "").includes("Gozo")) return "Gozo";
+  return "Malta";
+}
 
 export default async function BeachesPage() {
-  const { data, error } = await supabase
-    .from("beaches")
-    .select("*")
-    .order("name");
-
-  if (error) {
-    console.error("Could not load beaches", error);
-  }
-
-  const beaches = (data ?? []) as Beach[];
+  const [beaches, extra] = await Promise.all([
+    getPlacesByArea("beaches"),
+    getPlaceCards(["ramla-bay", "blue-lagoon"]),
+  ]);
+  const all = [...beaches, ...extra];
+  const groups = ["Malta", "Gozo", "Comino"]
+    .map((name) => ({ name, items: all.filter((p) => region(p) === name) }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -68,15 +63,15 @@ export default async function BeachesPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#625D57] md:text-xl">
-            Sandy bays, rocky coves and clear water. See where each beach
-            is, when to go and whether you can park nearby.
+            Sandy bays, rocky coves and clear water. Open any beach to see
+            how to get there, parking, facilities and swimming tips.
           </p>
         </div>
       </section>
 
       <section className="py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          {beaches.length === 0 ? (
+          {groups.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-[#CFC3B7] bg-[#FFFDF9] p-10 text-center">
               <h2 className="font-serif text-3xl">
                 Beaches are loading soon
@@ -87,61 +82,56 @@ export default async function BeachesPage() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {beaches.map((beach) => (
-                <article
-                  key={beach.id}
-                  className="flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-[#FFFDF9] shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                >
-                  {beach.image && (
-                    <div className="relative h-56">
-                      <Image
-                        src={beach.image}
-                        alt={`${beach.name}, Malta`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-
-                  <div className="flex flex-1 flex-col p-7">
-                    {beach.location && (
-                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
-                        {beach.location}
-                      </p>
-                    )}
-
-                    <h2 className="mt-3 font-serif text-3xl leading-tight">
-                      {beach.name}
-                    </h2>
-
-                    {beach.description && (
-                      <p className="mt-4 flex-1 leading-7 text-[#625D57]">
-                        {beach.description}
-                      </p>
-                    )}
-
-                    <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-black/10 pt-5 text-sm">
-                      <div>
-                        <dt className="font-bold text-[#171717]">
-                          Best months
-                        </dt>
-                        <dd className="mt-1 text-[#625D57]">
-                          {beach.best_months || "All year"}
-                        </dd>
+            groups.map((g, gi) => (
+              <div key={g.name} className={gi > 0 ? "mt-16" : ""}>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
+                  {g.name}
+                </p>
+                <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
+                  Beaches in {g.name}.
+                </h2>
+                <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                  {g.items.map((p) => (
+                    <Link
+                      key={p.slug}
+                      href={placeHref(p.area, p.slug)}
+                      className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-[#FFFDF9] shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                    >
+                      {p.image_url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={p.image_url.replace("width=1600", "width=800")}
+                          alt={p.image_alt || p.name}
+                          loading="lazy"
+                          className="h-56 w-full object-cover"
+                        />
+                      )}
+                      <div className="flex flex-1 flex-col p-7">
+                        {p.kicker && (
+                          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
+                            {p.kicker}
+                          </p>
+                        )}
+                        <h3 className="mt-3 font-serif text-3xl leading-tight transition group-hover:text-[#B83F29]">
+                          {p.name}
+                        </h3>
+                        <p className="mt-4 flex-1 leading-7 text-[#625D57]">
+                          {p.summary}
+                        </p>
+                        <span className="mt-6 border-t border-black/10 pt-5 text-sm font-bold text-[#B83F29]">
+                          How to get there, parking and tips →
+                        </span>
                       </div>
-                      <div>
-                        <dt className="font-bold text-[#171717]">Parking</dt>
-                        <dd className="mt-1 text-[#625D57]">
-                          {beach.parking ? "Yes" : "Limited or none"}
-                        </dd>
-                      </div>
-                    </dl>
+                    </Link>
+                  ))}
+                </div>
+                {gi === 0 && (
+                  <div className="mt-12">
+                    <AdSlot placement="guideMid" />
                   </div>
-                </article>
-              ))}
-            </div>
+                )}
+              </div>
+            ))
           )}
 
           <div className="mt-14 rounded-3xl bg-[#173E63] p-8 text-white md:p-10">

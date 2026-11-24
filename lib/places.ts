@@ -115,7 +115,9 @@ export async function getPlacesByArea(area: string) {
 
 // Le guide generali (area "visit-malta") stanno in /visit-malta/<slug>,
 // i luoghi di un'area in /visit-malta/<area>/<slug>.
+// Le spiagge stanno in /beaches/<slug>.
 export function placeHref(area: string, slug: string) {
+  if (area === "beaches") return `/beaches/${slug}`;
   return area === "visit-malta"
     ? `/visit-malta/${slug}`
     : `/visit-malta/${area}/${slug}`;
