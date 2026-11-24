@@ -7,7 +7,10 @@ import SideRail from "@/components/SideRail";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", it: "/it", "x-default": "/" },
+  },
 };
 
 

@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const LOCALE_PREFIX = /^\/(it|pl|fr|de|es|uk)(?=\/|$)/;
+
 export function middleware(request: NextRequest) {
+  // Pagine tradotte: passa la lingua al layout (attributo lang della pagina)
+  const locale = request.nextUrl.pathname.match(LOCALE_PREFIX)?.[1];
+  if (locale) {
+    const headers = new Headers(request.headers);
+    headers.set("x-locale", locale);
+    return NextResponse.next({ request: { headers } });
+  }
+
   const isDevelopment = process.env.NODE_ENV === "development";
 
   const username =
@@ -50,5 +60,7 @@ export const config = {
     "/admin/ai-writer/:path*",
     "/api/ai-writer/:path*",
     "/api/admin/articles/:path*",
+    "/(it|pl|fr|de|es|uk)",
+    "/(it|pl|fr|de|es|uk)/:path*",
   ],
 };

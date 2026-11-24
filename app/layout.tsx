@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ADSENSE_CLIENT } from "@/lib/ads";
 import { CONTACT_EMAIL } from "@/lib/site";
 import ThemeToggle from "@/components/ThemeToggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { headers } from "next/headers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,14 +28,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lang = (await headers()).get("x-locale") || "en";
+
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
@@ -88,6 +92,7 @@ export default function RootLayout({
         </div>
 
         <ThemeToggle />
+        <LanguageSwitcher />
 
         {/* Cloudflare Web Analytics (visite reali) */}
         <script
