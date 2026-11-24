@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
+import { hasAd } from "@/lib/ads";
 
 export const dynamic = "force-dynamic";
 
@@ -243,7 +244,14 @@ export default async function ArticlePage({
         </div>
       </header>
 
-      <article className="mx-auto max-w-4xl px-6 py-12 md:px-8 md:py-20">
+      <div
+        className={
+          hasAd("articleSide")
+            ? "mx-auto xl:grid xl:max-w-[1320px] xl:grid-cols-[minmax(0,1fr)_300px] xl:gap-10 xl:pr-8"
+            : undefined
+        }
+      >
+      <article className="mx-auto w-full max-w-4xl px-6 py-12 md:px-8 md:py-20">
         <div className="flex flex-wrap gap-2">
           <MetadataBadge
             value={article.category}
@@ -317,6 +325,15 @@ export default async function ArticlePage({
                   content={section.content}
                   className="mt-5"
                 />
+
+                {sections.length >= 4 &&
+                  index ===
+                    Math.floor(sections.length / 2) - 1 && (
+                    <AdSlot
+                      placement="articleMid"
+                      className="mt-10"
+                    />
+                  )}
               </section>
             ),
           )}
@@ -407,6 +424,20 @@ export default async function ArticlePage({
           </Link>
         </div>
       </article>
+
+        {hasAd("articleSide") && (
+          <div className="hidden xl:block">
+            <div className="sticky top-8 pt-20">
+              <AdSlot
+                placement="articleSide"
+                size="tall"
+                minWidth={1280}
+                className=""
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </main>
   );
 }
