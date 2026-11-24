@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Przeprowadzka na Maltę dla obywateli UE | GoMaltaNow",
@@ -47,7 +48,7 @@ const guides: Guide[] = [
     description:
       "Przygotuj dokumenty, budżet i pierwsze praktyczne kroki przed przyjazdem na Maltę.",
     image: "/images/before-you-move.jpg",
-    href: "/move-to-malta/eu-citizen/before-you-move",
+    href: "/pl/move-to-malta/eu-citizen/before-you-move",
     cta: "Otwórz poradnik",
     articleKeys: [
       "before-you-move",
@@ -62,7 +63,7 @@ const guides: Guide[] = [
     description:
       "Poznaj procedurę rejestracji pobytu i najważniejsze dokumenty, których zwykle potrzebują obywatele UE.",
     image: "/images/residence-malta.jpg",
-    href: "/move-to-malta/eu-citizen/residence",
+    href: "/pl/move-to-malta/eu-citizen/residence",
     cta: "Otwórz poradnik",
     articleKeys: [
       "residence",
@@ -77,7 +78,7 @@ const guides: Guide[] = [
     description:
       "Porównaj okolice, ceny najmu, umowy i główne etapy wynajmu.",
     image: "/images/find-home-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-home",
+    href: "/pl/move-to-malta/eu-citizen/find-a-home",
     cta: "Otwórz poradnik",
     articleKeys: [
       "housing",
@@ -93,7 +94,7 @@ const guides: Guide[] = [
     description:
       "Gdzie szukać, jak przygotować aplikację i czego spodziewać się na rynku pracy.",
     image: "/images/find-job-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-job",
+    href: "/pl/move-to-malta/eu-citizen/find-a-job",
     cta: "Otwórz poradnik",
     articleKeys: [
       "jobs",
@@ -109,7 +110,7 @@ const guides: Guide[] = [
     description:
       "Czego możesz potrzebować, by otworzyć konto, otrzymywać pensję i robić lokalne płatności.",
     image: "/images/banking-payments-malta.jpg",
-    href: "/move-to-malta/eu-citizen/banking-payments",
+    href: "/pl/move-to-malta/eu-citizen/banking-payments",
     cta: "Otwórz poradnik",
     articleKeys: [
       "banking-payments",
@@ -125,7 +126,7 @@ const guides: Guide[] = [
     description:
       "Jak działa opieka zdrowotna na Malcie i co załatwić po przeprowadzce.",
     image: "/images/healthcare-malta.jpg",
-    href: "/move-to-malta/eu-citizen/healthcare",
+    href: "/pl/move-to-malta/eu-citizen/healthcare",
     cta: "Otwórz poradnik",
     articleKeys: [
       "healthcare",
@@ -253,7 +254,7 @@ function getGuideArticles(
 
 export default async function EUCitizenPage() {
   const publishedArticles =
-    await getPublishedArticles();
+    await localizeArticles(await getPublishedArticles(), "pl");
 
   const linkedArticleIds = new Set(
     guides.flatMap((guide) =>
@@ -417,7 +418,7 @@ export default async function EUCitizenPage() {
                           (article) => (
                             <Link
                               key={article.id}
-                              href={`/articles/${article.slug}`}
+                              href={`/pl/articles/${article.slug}`}
                               className="group flex items-start justify-between gap-3 rounded-xl border border-transparent bg-white px-4 py-3 transition hover:border-[#2F5F8A]/20 hover:shadow-sm"
                             >
                               <span className="font-semibold leading-6 text-[#292521] transition group-hover:text-[#2F5F8A]">
@@ -474,7 +475,7 @@ export default async function EUCitizenPage() {
                 (article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/pl/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#2F5F8A]/20 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

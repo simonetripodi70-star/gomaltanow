@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "GoMaltaNow | Malta fácil: visitar, mudarse y vivir en Malta",
@@ -94,7 +95,7 @@ async function getLatestArticles(): Promise<LatestArticle[]> {
 
 export default async function Home() {
   const latestArticles =
-    await getLatestArticles();
+    await localizeArticles(await getLatestArticles(), "es");
 
   return (
     <main className="bg-[#F7F1EA] text-[#171717]">
@@ -351,7 +352,7 @@ export default async function Home() {
             </Link>
 
             <Link
-              href="/updates/housing"
+              href="/es/updates/housing"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -384,7 +385,7 @@ export default async function Home() {
             </Link>
 
             <Link
-              href="/updates/work"
+              href="/es/updates/work"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -419,7 +420,7 @@ export default async function Home() {
             </Link>
 
             <Link
-              href="/updates/transport"
+              href="/es/updates/transport"
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
@@ -496,7 +497,7 @@ export default async function Home() {
               {latestArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/articles/${article.slug}`}
+                  href={`/es/articles/${article.slug}`}
                   aria-label={`Read ${article.title}`}
                   className="group flex h-full cursor-pointer flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm outline-none transition duration-300 hover:-translate-y-2 hover:border-[#B83F29]/20 hover:shadow-xl focus-visible:ring-4 focus-visible:ring-[#B83F29]/30"
                 >
@@ -550,25 +551,25 @@ export default async function Home() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <SectionLink
-              href="/updates/transport"
+              href="/es/updates/transport"
               title="Transporte"
               description="Transporte público y movilidad"
             />
 
             <SectionLink
-              href="/updates/housing"
+              href="/es/updates/housing"
               title="Vivienda"
               description="Alquiler y servicios de vivienda"
             />
 
             <SectionLink
-              href="/updates/work"
+              href="/es/updates/work"
               title="Trabajo"
               description="Empleo y requisitos"
             />
 
             <SectionLink
-              href="/updates/residence"
+              href="/es/updates/residence"
               title="Residencia"
               description="Permisos y trámites"
             />
@@ -694,7 +695,7 @@ export default async function Home() {
 
                 <Link
                   className="transition hover:text-white"
-                  href="/updates/transport"
+                  href="/es/updates/transport"
                 >
                   Transporte
                 </Link>
@@ -717,21 +718,21 @@ export default async function Home() {
               <div className="flex flex-col gap-3 text-white/60">
                 <Link
                   className="transition hover:text-white"
-                  href="/updates/housing"
+                  href="/es/updates/housing"
                 >
                   Vivienda
                 </Link>
 
                 <Link
                   className="transition hover:text-white"
-                  href="/updates/work"
+                  href="/es/updates/work"
                 >
                   Trabajo
                 </Link>
 
                 <Link
                   className="transition hover:text-white"
-                  href="/updates/residence"
+                  href="/es/updates/residence"
                 >
                   Residencia
                 </Link>

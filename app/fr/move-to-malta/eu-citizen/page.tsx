@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "S'installer à Malte en tant que citoyen de l'UE | GoMaltaNow",
@@ -47,7 +48,7 @@ const guides: Guide[] = [
     description:
       "Préparez vos documents, votre budget et vos premières démarches avant d'arriver à Malte.",
     image: "/images/before-you-move.jpg",
-    href: "/move-to-malta/eu-citizen/before-you-move",
+    href: "/fr/move-to-malta/eu-citizen/before-you-move",
     cta: "Ouvrir le guide",
     articleKeys: [
       "before-you-move",
@@ -62,7 +63,7 @@ const guides: Guide[] = [
     description:
       "Comprenez la procédure de résidence et les principaux documents dont les citoyens de l'UE ont généralement besoin.",
     image: "/images/residence-malta.jpg",
-    href: "/move-to-malta/eu-citizen/residence",
+    href: "/fr/move-to-malta/eu-citizen/residence",
     cta: "Ouvrir le guide",
     articleKeys: [
       "residence",
@@ -77,7 +78,7 @@ const guides: Guide[] = [
     description:
       "Comparez les quartiers, les loyers, les contrats et les principales étapes de la location.",
     image: "/images/find-home-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-home",
+    href: "/fr/move-to-malta/eu-citizen/find-a-home",
     cta: "Ouvrir le guide",
     articleKeys: [
       "housing",
@@ -93,7 +94,7 @@ const guides: Guide[] = [
     description:
       "Où chercher, comment préparer votre candidature et à quoi vous attendre sur le marché du travail.",
     image: "/images/find-job-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-job",
+    href: "/fr/move-to-malta/eu-citizen/find-a-job",
     cta: "Ouvrir le guide",
     articleKeys: [
       "jobs",
@@ -109,7 +110,7 @@ const guides: Guide[] = [
     description:
       "Ce qu'il peut vous falloir pour ouvrir un compte, recevoir votre salaire et gérer les paiements locaux.",
     image: "/images/banking-payments-malta.jpg",
-    href: "/move-to-malta/eu-citizen/banking-payments",
+    href: "/fr/move-to-malta/eu-citizen/banking-payments",
     cta: "Ouvrir le guide",
     articleKeys: [
       "banking-payments",
@@ -125,7 +126,7 @@ const guides: Guide[] = [
     description:
       "Comment fonctionne le système de santé à Malte et quoi organiser après votre installation.",
     image: "/images/healthcare-malta.jpg",
-    href: "/move-to-malta/eu-citizen/healthcare",
+    href: "/fr/move-to-malta/eu-citizen/healthcare",
     cta: "Ouvrir le guide",
     articleKeys: [
       "healthcare",
@@ -253,7 +254,7 @@ function getGuideArticles(
 
 export default async function EUCitizenPage() {
   const publishedArticles =
-    await getPublishedArticles();
+    await localizeArticles(await getPublishedArticles(), "fr");
 
   const linkedArticleIds = new Set(
     guides.flatMap((guide) =>
@@ -417,7 +418,7 @@ export default async function EUCitizenPage() {
                           (article) => (
                             <Link
                               key={article.id}
-                              href={`/articles/${article.slug}`}
+                              href={`/fr/articles/${article.slug}`}
                               className="group flex items-start justify-between gap-3 rounded-xl border border-transparent bg-white px-4 py-3 transition hover:border-[#2F5F8A]/20 hover:shadow-sm"
                             >
                               <span className="font-semibold leading-6 text-[#292521] transition group-hover:text-[#2F5F8A]">
@@ -474,7 +475,7 @@ export default async function EUCitizenPage() {
                 (article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/fr/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#2F5F8A]/20 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

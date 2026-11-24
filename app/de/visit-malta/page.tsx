@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Malta besuchen: Reiseführer und Aktivitäten | GoMaltaNow",
@@ -34,7 +35,7 @@ const travelSections = [
     title: "Strände",
     description:
       "Entdecke Maltas beste Strände, Badestellen und Küsten.",
-    href: "/beaches",
+    href: "/de/beaches",
     label: "Meer und Sonne",
     number: "01",
     articleKeys: [
@@ -49,7 +50,7 @@ const travelSections = [
     title: "Aktivitäten",
     description:
       "Finde Sehenswürdigkeiten, Erlebnisse und Aktivitäten für deinen Aufenthalt auf Malta.",
-    href: "/visit-malta/things-to-do",
+    href: "/de/visit-malta/things-to-do",
     label: "Erlebnisse",
     number: "02",
     articleKeys: [
@@ -64,7 +65,7 @@ const travelSections = [
     title: "Valletta",
     description:
       "Entdecke Maltas Hauptstadt: historische Straßen, Museen, Aussichtspunkte und Hafenpromenade.",
-    href: "/visit-malta/valletta",
+    href: "/de/visit-malta/valletta",
     label: "Hauptstadt",
     number: "03",
     articleKeys: [
@@ -76,7 +77,7 @@ const travelSections = [
     title: "Mdina und Rabat",
     description:
       "Spaziere durch Maltas historische Stille Stadt und die benachbarten Straßen von Rabat.",
-    href: "/visit-malta/mdina-rabat",
+    href: "/de/visit-malta/mdina-rabat",
     label: "Geschichte",
     number: "04",
     articleKeys: [
@@ -89,7 +90,7 @@ const travelSections = [
     title: "Gozo",
     description:
       "Plane einen Tagesausflug oder längeren Aufenthalt auf Maltas ruhiger Schwesterinsel.",
-    href: "/visit-malta/gozo",
+    href: "/de/visit-malta/gozo",
     label: "Insel",
     number: "05",
     articleKeys: [
@@ -100,7 +101,7 @@ const travelSections = [
     title: "Comino",
     description:
       "Plane deinen Besuch auf Comino mit der Blauen Lagune und der umliegenden Küste.",
-    href: "/visit-malta/comino",
+    href: "/de/visit-malta/comino",
     label: "Blaue Lagune",
     number: "06",
     articleKeys: [
@@ -112,7 +113,7 @@ const travelSections = [
     title: "Verkehr",
     description:
       "Busse, Fähren, Taxis, Fahrdienst-Apps und wie du dich auf Malta fortbewegst.",
-    href: "/visit-malta/transport",
+    href: "/de/visit-malta/transport",
     label: "Unterwegs",
     number: "07",
     articleKeys: [
@@ -128,7 +129,7 @@ const travelSections = [
     title: "Unterkunft finden",
     description:
       "Vergleiche Gegenden und Unterkünfte je nach Art deiner Reise.",
-    href: "/visit-malta/where-to-stay",
+    href: "/de/visit-malta/where-to-stay",
     label: "Unterkunft",
     number: "08",
     articleKeys: [
@@ -143,7 +144,7 @@ const travelSections = [
     title: "Essen und Restaurants",
     description:
       "Entdecke die maltesische Küche, typische Gerichte und hilfreiche Restaurant-Tipps.",
-    href: "/visit-malta/food-restaurants",
+    href: "/de/visit-malta/food-restaurants",
     label: "Essen",
     number: "09",
     articleKeys: [
@@ -158,7 +159,7 @@ const travelSections = [
     title: "Praktische Reiseinfos",
     description:
       "Nützliches zu Geld, Wetter, Sicherheit, mobilen Daten und dem Reisealltag.",
-    href: "/visit-malta/practical-info",
+    href: "/de/visit-malta/practical-info",
     label: "Reise-Basics",
     number: "10",
     articleKeys: [
@@ -272,7 +273,7 @@ async function getTravelArticles(): Promise<
 
 export default async function VisitMaltaPage() {
   const articles =
-    await getTravelArticles();
+    await localizeArticles(await getTravelArticles(), "de");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -432,7 +433,7 @@ export default async function VisitMaltaPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/de/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <span className="w-fit rounded-full bg-[#F3E6DF] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#B83F29]">

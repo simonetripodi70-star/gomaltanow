@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Co robić na Malcie: zabytki, plaże i wycieczki | GoMaltaNow",
@@ -48,37 +49,37 @@ const activityArticleKeys = [
 const activityIdeas = [
   {
     number: "01",
-    href: "/visit-malta/valletta",
+    href: "/pl/visit-malta/valletta",
     title: "Zwiedzaj zabytkowe miasta",
     text: "Spaceruj po Vallettcie, Mdinie i Trzech Miastach, odkrywając architekturę, fortyfikacje i historię Malty.",
   },
   {
     number: "02",
-    href: "/beaches",
+    href: "/pl/beaches",
     title: "Czas nad morzem",
     text: "Idź na plażę, pływaj w czystej wodzie, odkrywaj punkty widokowe na wybrzeżu lub wybierz się w rejs wokół wysp.",
   },
   {
     number: "03",
-    href: "/visit-malta/gozo",
+    href: "/pl/visit-malta/gozo",
     title: "Odwiedź Gozo",
     text: "Wybierz się na jednodniową wycieczkę lub zostań dłużej, by poznać wioski, plaże, krajobrazy i spokojniejszą stronę wysp.",
   },
   {
     number: "04",
-    href: "/visit-malta/comino",
+    href: "/pl/visit-malta/comino",
     title: "Odkryj Comino",
     text: "Odwiedź Błękitną Lagunę i pobliskie wybrzeże, dobrze planując transport, tłumy i porę roku.",
   },
   {
     number: "05",
-    href: "/visit-malta/food-restaurants",
+    href: "/pl/visit-malta/food-restaurants",
     title: "Spróbuj maltańskiej kuchni",
     text: "Spróbuj lokalnych dań, piekarni, street foodu i restauracji, by poznać inną stronę maltańskiej kultury.",
   },
   {
     number: "06",
-    href: "/visit-malta/mdina-rabat/mdina-in-the-evening",
+    href: "/pl/visit-malta/mdina-rabat/mdina-in-the-evening",
     title: "Malta nocą",
     text: "Ciesz się nabrzeżem, wieczornymi spacerami, restauracjami, barami i życiem nocnym w zależności od rodzaju podróży.",
   },
@@ -215,7 +216,7 @@ async function getActivityArticles(): Promise<
 
 export default async function ThingsToDoPage() {
   const activityArticles =
-    await getActivityArticles();
+    await localizeArticles(await getActivityArticles(), "pl");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -420,7 +421,7 @@ export default async function ThingsToDoPage() {
               {activityArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/articles/${article.slug}`}
+                  href={`/pl/articles/${article.slug}`}
                   className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="flex flex-wrap gap-2">
@@ -492,14 +493,14 @@ export default async function ThingsToDoPage() {
             </Link>
 
             <Link
-              href="/visit-malta/valletta"
+              href="/pl/visit-malta/valletta"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Valletta
             </Link>
 
             <Link
-              href="/visit-malta/gozo"
+              href="/pl/visit-malta/gozo"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Gozo

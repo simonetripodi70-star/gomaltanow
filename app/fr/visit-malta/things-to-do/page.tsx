@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Que faire à Malte : sites, plages et excursions | GoMaltaNow",
@@ -48,37 +49,37 @@ const activityArticleKeys = [
 const activityIdeas = [
   {
     number: "01",
-    href: "/visit-malta/valletta",
+    href: "/fr/visit-malta/valletta",
     title: "Explorer les villes historiques",
     text: "Promenez-vous à La Valette, Mdina et dans les Trois Cités pour découvrir l'architecture, les fortifications et l'histoire de Malte.",
   },
   {
     number: "02",
-    href: "/beaches",
+    href: "/fr/beaches",
     title: "Profiter de la mer",
     text: "Allez à la plage, nagez dans une eau claire, découvrez les points de vue côtiers ou faites une sortie en bateau autour des îles.",
   },
   {
     number: "03",
-    href: "/visit-malta/gozo",
+    href: "/fr/visit-malta/gozo",
     title: "Visiter Gozo",
     text: "Faites une excursion d'une journée ou restez plus longtemps pour découvrir villages, plages, paysages côtiers et le côté plus calme des îles maltaises.",
   },
   {
     number: "04",
-    href: "/visit-malta/comino",
+    href: "/fr/visit-malta/comino",
     title: "Découvrir Comino",
     text: "Visitez le Blue Lagoon et la côte voisine en anticipant les transports, l'affluence et la saison.",
   },
   {
     number: "05",
-    href: "/visit-malta/food-restaurants",
+    href: "/fr/visit-malta/food-restaurants",
     title: "Goûter la cuisine maltaise",
     text: "Goûtez les plats locaux, les boulangeries, la street food et les restaurants pour découvrir une autre facette de la culture maltaise.",
   },
   {
     number: "06",
-    href: "/visit-malta/mdina-rabat/mdina-in-the-evening",
+    href: "/fr/visit-malta/mdina-rabat/mdina-in-the-evening",
     title: "Malte de nuit",
     text: "Profitez du front de mer, des promenades du soir, des restaurants, des bars et de la vie nocturne selon votre type de voyage.",
   },
@@ -215,7 +216,7 @@ async function getActivityArticles(): Promise<
 
 export default async function ThingsToDoPage() {
   const activityArticles =
-    await getActivityArticles();
+    await localizeArticles(await getActivityArticles(), "fr");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -420,7 +421,7 @@ export default async function ThingsToDoPage() {
               {activityArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/articles/${article.slug}`}
+                  href={`/fr/articles/${article.slug}`}
                   className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="flex flex-wrap gap-2">
@@ -492,14 +493,14 @@ export default async function ThingsToDoPage() {
             </Link>
 
             <Link
-              href="/visit-malta/valletta"
+              href="/fr/visit-malta/valletta"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               La Valette
             </Link>
 
             <Link
-              href="/visit-malta/gozo"
+              href="/fr/visit-malta/gozo"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Gozo

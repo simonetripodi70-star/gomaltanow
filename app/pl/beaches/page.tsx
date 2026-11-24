@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPlaceCards, getPlacesByArea, placeHref, type PlaceCard } from "@/lib/places";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeList } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Najpiękniejsze plaże Malty i Gozo | GoMaltaNow",
@@ -18,16 +19,18 @@ export const dynamic = "force-dynamic";
 
 // Spiagge con scheda dedicata (area "beaches") + Ramla Bay e Blue Lagoon,
 // che hanno già la loro scheda in Gozo e Comino.
+const GOZO_BEACHES = ["hondoq-ir-rummien", "san-blas-bay", "wied-il-ghasri", "mgarr-ix-xini"];
+
 function region(p: PlaceCard) {
   if (p.area === "comino") return "Comino";
-  if (p.area === "gozo" || (p.kicker ?? "").includes("Gozo")) return "Gozo";
+  if (p.area === "gozo" || GOZO_BEACHES.includes(p.slug)) return "Gozo";
   return "Malta";
 }
 
 export default async function BeachesPage() {
   const [beaches, extra] = await Promise.all([
-    getPlacesByArea("beaches"),
-    getPlaceCards(["ramla-bay", "blue-lagoon"]),
+    getPlacesByArea("beaches").then((x) => localizeList("place", x, "pl")),
+    getPlaceCards(["ramla-bay", "blue-lagoon"]).then((x) => localizeList("place", x, "pl")),
   ]);
   const all = [...beaches, ...extra];
   const groups = ["Malta", "Gozo", "Comino"]
@@ -95,7 +98,7 @@ export default async function BeachesPage() {
                   {g.items.map((p) => (
                     <Link
                       key={p.slug}
-                      href={placeHref(p.area, p.slug)}
+                      href={"/pl" + placeHref(p.area, p.slug)}
                       className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-[#FFFDF9] shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                     >
                       {p.image_url && (
@@ -150,7 +153,7 @@ export default async function BeachesPage() {
                 Atrakcje →
               </Link>
               <Link
-                href="/visit-malta/valletta"
+                href="/pl/visit-malta/valletta"
                 className="rounded-full border border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10"
               >
                 Przewodnik po Vallettcie

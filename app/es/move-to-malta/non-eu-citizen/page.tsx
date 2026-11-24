@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Mudarse a Malta como ciudadano de fuera de la UE | GoMaltaNow",
@@ -34,7 +35,7 @@ const guides = [
     title: "Antes de mudarte",
     description:
       "Prepara los documentos, las finanzas y los aspectos prácticos que puedes necesitar antes de mudarte a Malta.",
-    href: "/move-to-malta/non-eu-citizen/before-you-move",
+    href: "/es/move-to-malta/non-eu-citizen/before-you-move",
     label: "Preparación",
     number: "01",
     articleKeys: [
@@ -48,7 +49,7 @@ const guides = [
     title: "Single Permit y permiso de trabajo",
     description:
       "Entiende el proceso principal del permiso de trabajo y residencia para nacionales de terceros países que trabajan en Malta.",
-    href: "/move-to-malta/non-eu-citizen/single-permit",
+    href: "/es/move-to-malta/non-eu-citizen/single-permit",
     label: "Permisos",
     number: "02",
     articleKeys: [
@@ -62,7 +63,7 @@ const guides = [
     title: "Encontrar trabajo",
     description:
       "Dónde buscar trabajo, cómo funciona la contratación y qué tener en cuenta cuando un empleador patrocina tu permiso.",
-    href: "/move-to-malta/non-eu-citizen/find-a-job",
+    href: "/es/move-to-malta/non-eu-citizen/find-a-job",
     label: "Empleo",
     number: "03",
     articleKeys: [
@@ -78,7 +79,7 @@ const guides = [
     title: "Encontrar casa",
     description:
       "Alquiler, depósitos, contratos y los pasos prácticos para encontrar alojamiento en Malta.",
-    href: "/move-to-malta/non-eu-citizen/find-a-home",
+    href: "/es/move-to-malta/non-eu-citizen/find-a-home",
     label: "Vivienda",
     number: "04",
     articleKeys: [
@@ -94,7 +95,7 @@ const guides = [
     title: "Residencia y documentos",
     description:
       "Controla tus documentos de residencia, los requisitos de identidad y los trámites que debes hacer al llegar.",
-    href: "/move-to-malta/non-eu-citizen/residence",
+    href: "/es/move-to-malta/non-eu-citizen/residence",
     label: "Residencia",
     number: "05",
     articleKeys: [
@@ -109,7 +110,7 @@ const guides = [
     title: "Sanidad",
     description:
       "Cómo funcionan el acceso a la sanidad, el seguro y los servicios médicos para residentes de fuera de la UE en Malta.",
-    href: "/move-to-malta/non-eu-citizen/healthcare",
+    href: "/es/move-to-malta/non-eu-citizen/healthcare",
     label: "Salud",
     number: "06",
     articleKeys: [
@@ -125,7 +126,7 @@ const guides = [
     title: "Bancos y pagos",
     description:
       "Bancos, tarjetas, nómina, transferencias y formas prácticas de gestionar tu dinero en Malta.",
-    href: "/move-to-malta/non-eu-citizen/banking-payments",
+    href: "/es/move-to-malta/non-eu-citizen/banking-payments",
     label: "Dinero",
     number: "07",
     articleKeys: [
@@ -231,7 +232,7 @@ async function getArticles(): Promise<Article[]> {
 }
 
 export default async function NonEuCitizenPage() {
-  const articles = await getArticles();
+  const articles = await localizeArticles(await getArticles(), "es");
 
   return (
     <main className="min-h-screen bg-[#F4EFE8] text-[#171717]">
@@ -400,7 +401,7 @@ export default async function NonEuCitizenPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/es/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#C9DCCF] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

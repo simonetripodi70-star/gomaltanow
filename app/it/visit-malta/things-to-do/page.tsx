@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Cose da fare a Malta: luoghi, spiagge e gite | GoMaltaNow",
@@ -48,37 +49,37 @@ const activityArticleKeys = [
 const activityIdeas = [
   {
     number: "01",
-    href: "/visit-malta/valletta",
+    href: "/it/visit-malta/valletta",
     title: "Scopri le città storiche",
     text: "Passeggia a La Valletta, Mdina e nelle Tre Città per scoprire l'architettura, le fortificazioni e la storia di Malta.",
   },
   {
     number: "02",
-    href: "/beaches",
+    href: "/it/beaches",
     title: "Goditi il mare",
     text: "Vai in spiaggia, nuota in acque limpide, scopri i belvedere sulla costa o fai un giro in barca attorno alle isole.",
   },
   {
     number: "03",
-    href: "/visit-malta/gozo",
+    href: "/it/visit-malta/gozo",
     title: "Visita Gozo",
     text: "Fai una gita in giornata o fermati di più per scoprire villaggi, spiagge, paesaggi costieri e il lato più tranquillo delle isole maltesi.",
   },
   {
     number: "04",
-    href: "/visit-malta/comino",
+    href: "/it/visit-malta/comino",
     title: "Scopri Comino",
     text: "Visita la Laguna Blu e la costa vicina, organizzandoti bene su trasporti, folla e periodo dell'anno.",
   },
   {
     number: "05",
-    href: "/visit-malta/food-restaurants",
+    href: "/it/visit-malta/food-restaurants",
     title: "Assaggia la cucina maltese",
     text: "Prova piatti tipici, panetterie, cibo di strada e ristoranti per conoscere un altro lato della cultura maltese.",
   },
   {
     number: "06",
-    href: "/visit-malta/mdina-rabat/mdina-in-the-evening",
+    href: "/it/visit-malta/mdina-rabat/mdina-in-the-evening",
     title: "Malta di sera",
     text: "Goditi il lungomare, passeggiate serali, ristoranti, bar e vita notturna in base al tipo di viaggio che desideri.",
   },
@@ -215,7 +216,7 @@ async function getActivityArticles(): Promise<
 
 export default async function ThingsToDoPage() {
   const activityArticles =
-    await getActivityArticles();
+    await localizeArticles(await getActivityArticles(), "it");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -420,7 +421,7 @@ export default async function ThingsToDoPage() {
               {activityArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/articles/${article.slug}`}
+                  href={`/it/articles/${article.slug}`}
                   className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="flex flex-wrap gap-2">
@@ -492,14 +493,14 @@ export default async function ThingsToDoPage() {
             </Link>
 
             <Link
-              href="/visit-malta/valletta"
+              href="/it/visit-malta/valletta"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               La Valletta
             </Link>
 
             <Link
-              href="/visit-malta/gozo"
+              href="/it/visit-malta/gozo"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Gozo

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Przeprowadzka na Maltę dla obywateli spoza UE | GoMaltaNow",
@@ -34,7 +35,7 @@ const guides = [
     title: "Przed przeprowadzką",
     description:
       "Przygotuj dokumenty, finanse i sprawy praktyczne, które mogą być potrzebne przed przeprowadzką na Maltę.",
-    href: "/move-to-malta/non-eu-citizen/before-you-move",
+    href: "/pl/move-to-malta/non-eu-citizen/before-you-move",
     label: "Przygotowanie",
     number: "01",
     articleKeys: [
@@ -48,7 +49,7 @@ const guides = [
     title: "Single Permit i zezwolenie na pracę",
     description:
       "Poznaj główną procedurę zezwolenia na pracę i pobyt dla obywateli państw trzecich pracujących na Malcie.",
-    href: "/move-to-malta/non-eu-citizen/single-permit",
+    href: "/pl/move-to-malta/non-eu-citizen/single-permit",
     label: "Zezwolenia",
     number: "02",
     articleKeys: [
@@ -62,7 +63,7 @@ const guides = [
     title: "Znajdź pracę",
     description:
       "Gdzie szukać pracy, jak wygląda rekrutacja i na co uważać, gdy pracodawca składa wniosek o twoje zezwolenie.",
-    href: "/move-to-malta/non-eu-citizen/find-a-job",
+    href: "/pl/move-to-malta/non-eu-citizen/find-a-job",
     label: "Zatrudnienie",
     number: "03",
     articleKeys: [
@@ -78,7 +79,7 @@ const guides = [
     title: "Znajdź mieszkanie",
     description:
       "Wynajem, kaucje, umowy i praktyczne kroki przy szukaniu mieszkania na Malcie.",
-    href: "/move-to-malta/non-eu-citizen/find-a-home",
+    href: "/pl/move-to-malta/non-eu-citizen/find-a-home",
     label: "Mieszkanie",
     number: "04",
     articleKeys: [
@@ -94,7 +95,7 @@ const guides = [
     title: "Pobyt i dokumenty",
     description:
       "Pilnuj dokumentów pobytowych, wymogów dotyczących tożsamości i formalności po przyjeździe.",
-    href: "/move-to-malta/non-eu-citizen/residence",
+    href: "/pl/move-to-malta/non-eu-citizen/residence",
     label: "Pobyt",
     number: "05",
     articleKeys: [
@@ -109,7 +110,7 @@ const guides = [
     title: "Opieka zdrowotna",
     description:
       "Jak działa dostęp do opieki zdrowotnej, ubezpieczenia i usług medycznych dla mieszkańców spoza UE na Malcie.",
-    href: "/move-to-malta/non-eu-citizen/healthcare",
+    href: "/pl/move-to-malta/non-eu-citizen/healthcare",
     label: "Zdrowie",
     number: "06",
     articleKeys: [
@@ -125,7 +126,7 @@ const guides = [
     title: "Banki i płatności",
     description:
       "Banki, karty, wynagrodzenie, przelewy i praktyczne sposoby zarządzania pieniędzmi na Malcie.",
-    href: "/move-to-malta/non-eu-citizen/banking-payments",
+    href: "/pl/move-to-malta/non-eu-citizen/banking-payments",
     label: "Finanse",
     number: "07",
     articleKeys: [
@@ -231,7 +232,7 @@ async function getArticles(): Promise<Article[]> {
 }
 
 export default async function NonEuCitizenPage() {
-  const articles = await getArticles();
+  const articles = await localizeArticles(await getArticles(), "pl");
 
   return (
     <main className="min-h-screen bg-[#F4EFE8] text-[#171717]">
@@ -400,7 +401,7 @@ export default async function NonEuCitizenPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/pl/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#C9DCCF] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

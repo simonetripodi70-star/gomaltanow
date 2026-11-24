@@ -18,9 +18,11 @@ export const dynamic = "force-dynamic";
 
 // Spiagge con scheda dedicata (area "beaches") + Ramla Bay e Blue Lagoon,
 // che hanno già la loro scheda in Gozo e Comino.
+const GOZO_BEACHES = ["hondoq-ir-rummien", "san-blas-bay", "wied-il-ghasri", "mgarr-ix-xini"];
+
 function region(p: PlaceCard) {
   if (p.area === "comino") return "Comino";
-  if (p.area === "gozo" || (p.kicker ?? "").includes("Gozo")) return "Gozo";
+  if (p.area === "gozo" || GOZO_BEACHES.includes(p.slug)) return "Gozo";
   return "Malta";
 }
 

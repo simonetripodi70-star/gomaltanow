@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Що робити на Мальті: пам'ятки, пляжі та поїздки | GoMaltaNow",
@@ -48,37 +49,37 @@ const activityArticleKeys = [
 const activityIdeas = [
   {
     number: "01",
-    href: "/visit-malta/valletta",
+    href: "/uk/visit-malta/valletta",
     title: "Відкрийте історичні міста",
     text: "Прогуляйтеся Валлеттою, Мдіною та Трьома містами, щоб відкрити архітектуру, фортифікації та історію Мальти.",
   },
   {
     number: "02",
-    href: "/beaches",
+    href: "/uk/beaches",
     title: "Час біля моря",
     text: "Ідіть на пляж, плавайте в прозорій воді, відкривайте оглядові майданчики або вирушайте на морську прогулянку навколо островів.",
   },
   {
     number: "03",
-    href: "/visit-malta/gozo",
+    href: "/uk/visit-malta/gozo",
     title: "Відвідайте Гозо",
     text: "Здійсніть одноденну поїздку або залиштеся довше, щоб відкрити села, пляжі, узбережжя та спокійнішу сторону Мальтійських островів.",
   },
   {
     number: "04",
-    href: "/visit-malta/comino",
+    href: "/uk/visit-malta/comino",
     title: "Відкрийте Коміно",
     text: "Відвідайте Блакитну лагуну та узбережжя поруч, ретельно спланувавши транспорт, натовпи й пору року.",
   },
   {
     number: "05",
-    href: "/visit-malta/food-restaurants",
+    href: "/uk/visit-malta/food-restaurants",
     title: "Скуштуйте мальтійську кухню",
     text: "Скуштуйте місцеві страви, пекарні, вуличну їжу та ресторани, щоб пізнати іншу сторону мальтійської культури.",
   },
   {
     number: "06",
-    href: "/visit-malta/mdina-rabat/mdina-in-the-evening",
+    href: "/uk/visit-malta/mdina-rabat/mdina-in-the-evening",
     title: "Мальта вночі",
     text: "Насолоджуйтеся набережними, вечірніми прогулянками, ресторанами, барами та нічним життям залежно від типу подорожі.",
   },
@@ -215,7 +216,7 @@ async function getActivityArticles(): Promise<
 
 export default async function ThingsToDoPage() {
   const activityArticles =
-    await getActivityArticles();
+    await localizeArticles(await getActivityArticles(), "uk");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -420,7 +421,7 @@ export default async function ThingsToDoPage() {
               {activityArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/articles/${article.slug}`}
+                  href={`/uk/articles/${article.slug}`}
                   className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="flex flex-wrap gap-2">
@@ -492,14 +493,14 @@ export default async function ThingsToDoPage() {
             </Link>
 
             <Link
-              href="/visit-malta/valletta"
+              href="/uk/visit-malta/valletta"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Валлетта
             </Link>
 
             <Link
-              href="/visit-malta/gozo"
+              href="/uk/visit-malta/gozo"
               className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
             >
               Гозо

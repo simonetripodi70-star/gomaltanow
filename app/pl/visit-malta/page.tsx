@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Zwiedzaj Maltę: przewodnik i atrakcje | GoMaltaNow",
@@ -34,7 +35,7 @@ const travelSections = [
     title: "Plaże",
     description:
       "Odkryj najlepsze plaże, kąpieliska i wybrzeża Malty.",
-    href: "/beaches",
+    href: "/pl/beaches",
     label: "Morze i słońce",
     number: "01",
     articleKeys: [
@@ -49,7 +50,7 @@ const travelSections = [
     title: "Atrakcje",
     description:
       "Znajdź atrakcje, przeżycia i zajęcia na pobyt na Malcie.",
-    href: "/visit-malta/things-to-do",
+    href: "/pl/visit-malta/things-to-do",
     label: "Atrakcje",
     number: "02",
     articleKeys: [
@@ -64,7 +65,7 @@ const travelSections = [
     title: "Valletta",
     description:
       "Odkryj stolicę Malty: zabytkowe ulice, muzea, punkty widokowe i nabrzeże.",
-    href: "/visit-malta/valletta",
+    href: "/pl/visit-malta/valletta",
     label: "Stolica",
     number: "03",
     articleKeys: [
@@ -76,7 +77,7 @@ const travelSections = [
     title: "Mdina i Rabat",
     description:
       "Spaceruj po zabytkowym Cichym Mieście i sąsiednich uliczkach Rabatu.",
-    href: "/visit-malta/mdina-rabat",
+    href: "/pl/visit-malta/mdina-rabat",
     label: "Historia",
     number: "04",
     articleKeys: [
@@ -89,7 +90,7 @@ const travelSections = [
     title: "Gozo",
     description:
       "Zaplanuj jednodniową wycieczkę lub dłuższy pobyt na spokojnej siostrzanej wyspie Malty.",
-    href: "/visit-malta/gozo",
+    href: "/pl/visit-malta/gozo",
     label: "Wyspa",
     number: "05",
     articleKeys: [
@@ -100,7 +101,7 @@ const travelSections = [
     title: "Comino",
     description:
       "Zaplanuj wizytę na Comino, z Błękitną Laguną i okolicznym wybrzeżem.",
-    href: "/visit-malta/comino",
+    href: "/pl/visit-malta/comino",
     label: "Błękitna Laguna",
     number: "06",
     articleKeys: [
@@ -112,7 +113,7 @@ const travelSections = [
     title: "Transport",
     description:
       "Autobusy, promy, taksówki, aplikacje przewozowe i jak poruszać się po Malcie.",
-    href: "/visit-malta/transport",
+    href: "/pl/visit-malta/transport",
     label: "Poruszanie się",
     number: "07",
     articleKeys: [
@@ -128,7 +129,7 @@ const travelSections = [
     title: "Gdzie spać",
     description:
       "Porównaj okolice i rodzaje noclegów w zależności od rodzaju podróży.",
-    href: "/visit-malta/where-to-stay",
+    href: "/pl/visit-malta/where-to-stay",
     label: "Noclegi",
     number: "08",
     articleKeys: [
@@ -143,7 +144,7 @@ const travelSections = [
     title: "Jedzenie i restauracje",
     description:
       "Odkryj maltańską kuchnię, lokalne dania i przydatne poradniki kulinarne.",
-    href: "/visit-malta/food-restaurants",
+    href: "/pl/visit-malta/food-restaurants",
     label: "Jedzenie",
     number: "09",
     articleKeys: [
@@ -158,7 +159,7 @@ const travelSections = [
     title: "Praktyczne informacje",
     description:
       "Przydatne informacje o pieniądzach, pogodzie, bezpieczeństwie, internecie mobilnym i codziennej podróży.",
-    href: "/visit-malta/practical-info",
+    href: "/pl/visit-malta/practical-info",
     label: "Podstawy",
     number: "10",
     articleKeys: [
@@ -272,7 +273,7 @@ async function getTravelArticles(): Promise<
 
 export default async function VisitMaltaPage() {
   const articles =
-    await getTravelArticles();
+    await localizeArticles(await getTravelArticles(), "pl");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -432,7 +433,7 @@ export default async function VisitMaltaPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/pl/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <span className="w-fit rounded-full bg-[#F3E6DF] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#B83F29]">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Visitar Malta: guía de viaje y qué hacer | GoMaltaNow",
@@ -34,7 +35,7 @@ const travelSections = [
     title: "Playas",
     description:
       "Descubre las mejores playas, zonas de baño y costas de Malta.",
-    href: "/beaches",
+    href: "/es/beaches",
     label: "Mar y sol",
     number: "01",
     articleKeys: [
@@ -49,7 +50,7 @@ const travelSections = [
     title: "Qué hacer",
     description:
       "Encuentra atracciones, experiencias y actividades para tu estancia en Malta.",
-    href: "/visit-malta/things-to-do",
+    href: "/es/visit-malta/things-to-do",
     label: "Experiencias",
     number: "02",
     articleKeys: [
@@ -64,7 +65,7 @@ const travelSections = [
     title: "La Valeta",
     description:
       "Descubre la capital de Malta: calles históricas, museos, miradores y paseo marítimo.",
-    href: "/visit-malta/valletta",
+    href: "/es/visit-malta/valletta",
     label: "Capital",
     number: "03",
     articleKeys: [
@@ -76,7 +77,7 @@ const travelSections = [
     title: "Mdina y Rabat",
     description:
       "Pasea por la histórica Ciudad del Silencio de Malta y las calles vecinas de Rabat.",
-    href: "/visit-malta/mdina-rabat",
+    href: "/es/visit-malta/mdina-rabat",
     label: "Historia",
     number: "04",
     articleKeys: [
@@ -89,7 +90,7 @@ const travelSections = [
     title: "Gozo",
     description:
       "Planifica una excursión de un día o una estancia más larga en la tranquila isla hermana de Malta.",
-    href: "/visit-malta/gozo",
+    href: "/es/visit-malta/gozo",
     label: "Isla",
     number: "05",
     articleKeys: [
@@ -100,7 +101,7 @@ const travelSections = [
     title: "Comino",
     description:
       "Planifica tu visita a Comino, con la Laguna Azul y la costa de alrededor.",
-    href: "/visit-malta/comino",
+    href: "/es/visit-malta/comino",
     label: "Laguna Azul",
     number: "06",
     articleKeys: [
@@ -112,7 +113,7 @@ const travelSections = [
     title: "Transporte",
     description:
       "Autobuses, ferris, taxis, apps de transporte y cómo moverse por Malta.",
-    href: "/visit-malta/transport",
+    href: "/es/visit-malta/transport",
     label: "Moverse",
     number: "07",
     articleKeys: [
@@ -128,7 +129,7 @@ const travelSections = [
     title: "Dónde alojarse",
     description:
       "Compara zonas y tipos de alojamiento según el viaje que quieras hacer.",
-    href: "/visit-malta/where-to-stay",
+    href: "/es/visit-malta/where-to-stay",
     label: "Alojamiento",
     number: "08",
     articleKeys: [
@@ -143,7 +144,7 @@ const travelSections = [
     title: "Comida y restaurantes",
     description:
       "Descubre la cocina maltesa, los platos típicos y guías útiles para comer bien.",
-    href: "/visit-malta/food-restaurants",
+    href: "/es/visit-malta/food-restaurants",
     label: "Comida",
     number: "09",
     articleKeys: [
@@ -158,7 +159,7 @@ const travelSections = [
     title: "Información práctica",
     description:
       "Información útil sobre dinero, clima, seguridad, datos móviles y el día a día del viaje.",
-    href: "/visit-malta/practical-info",
+    href: "/es/visit-malta/practical-info",
     label: "Lo básico",
     number: "10",
     articleKeys: [
@@ -272,7 +273,7 @@ async function getTravelArticles(): Promise<
 
 export default async function VisitMaltaPage() {
   const articles =
-    await getTravelArticles();
+    await localizeArticles(await getTravelArticles(), "es");
 
   return (
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
@@ -432,7 +433,7 @@ export default async function VisitMaltaPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/es/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#E3C8BE] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <span className="w-fit rounded-full bg-[#F3E6DF] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-[#B83F29]">

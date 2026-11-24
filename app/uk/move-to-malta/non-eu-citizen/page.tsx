@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Переїзд на Мальту для громадян не з ЄС | GoMaltaNow",
@@ -34,7 +35,7 @@ const guides = [
     title: "Перед переїздом",
     description:
       "Підготуйте документи, фінанси та практичні питання, які можуть знадобитися перед переїздом на Мальту.",
-    href: "/move-to-malta/non-eu-citizen/before-you-move",
+    href: "/uk/move-to-malta/non-eu-citizen/before-you-move",
     label: "Підготовка",
     number: "01",
     articleKeys: [
@@ -48,7 +49,7 @@ const guides = [
     title: "Single Permit і дозвіл на роботу",
     description:
       "Зрозумійте основну процедуру дозволу на роботу та проживання для громадян третіх країн, які працюють на Мальті.",
-    href: "/move-to-malta/non-eu-citizen/single-permit",
+    href: "/uk/move-to-malta/non-eu-citizen/single-permit",
     label: "Дозволи",
     number: "02",
     articleKeys: [
@@ -62,7 +63,7 @@ const guides = [
     title: "Знайти роботу",
     description:
       "Де шукати роботу, як відбувається найм і на що зважати, коли роботодавець оформлює ваш дозвіл.",
-    href: "/move-to-malta/non-eu-citizen/find-a-job",
+    href: "/uk/move-to-malta/non-eu-citizen/find-a-job",
     label: "Працевлаштування",
     number: "03",
     articleKeys: [
@@ -78,7 +79,7 @@ const guides = [
     title: "Знайти житло",
     description:
       "Оренда, депозити, договори та практичні кроки пошуку житла на Мальті.",
-    href: "/move-to-malta/non-eu-citizen/find-a-home",
+    href: "/uk/move-to-malta/non-eu-citizen/find-a-home",
     label: "Житло",
     number: "04",
     articleKeys: [
@@ -94,7 +95,7 @@ const guides = [
     title: "Проживання та документи",
     description:
       "Стежте за документами на проживання, вимогами щодо особи та формальностями після прибуття.",
-    href: "/move-to-malta/non-eu-citizen/residence",
+    href: "/uk/move-to-malta/non-eu-citizen/residence",
     label: "Проживання",
     number: "05",
     articleKeys: [
@@ -109,7 +110,7 @@ const guides = [
     title: "Медицина",
     description:
       "Як працюють доступ до медицини, страхування та медичні послуги для мешканців не з ЄС на Мальті.",
-    href: "/move-to-malta/non-eu-citizen/healthcare",
+    href: "/uk/move-to-malta/non-eu-citizen/healthcare",
     label: "Здоров'я",
     number: "06",
     articleKeys: [
@@ -125,7 +126,7 @@ const guides = [
     title: "Банки та платежі",
     description:
       "Банки, картки, зарплата, перекази та практичні способи керувати грошима на Мальті.",
-    href: "/move-to-malta/non-eu-citizen/banking-payments",
+    href: "/uk/move-to-malta/non-eu-citizen/banking-payments",
     label: "Фінанси",
     number: "07",
     articleKeys: [
@@ -231,7 +232,7 @@ async function getArticles(): Promise<Article[]> {
 }
 
 export default async function NonEuCitizenPage() {
-  const articles = await getArticles();
+  const articles = await localizeArticles(await getArticles(), "uk");
 
   return (
     <main className="min-h-screen bg-[#F4EFE8] text-[#171717]">
@@ -400,7 +401,7 @@ export default async function NonEuCitizenPage() {
                 .map((article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/uk/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-[#C9DCCF] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

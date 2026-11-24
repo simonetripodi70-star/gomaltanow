@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Mudarse a Malta como ciudadano de la UE | GoMaltaNow",
@@ -47,7 +48,7 @@ const guides: Guide[] = [
     description:
       "Prepara tus documentos, tu presupuesto y los primeros pasos prácticos antes de llegar a Malta.",
     image: "/images/before-you-move.jpg",
-    href: "/move-to-malta/eu-citizen/before-you-move",
+    href: "/es/move-to-malta/eu-citizen/before-you-move",
     cta: "Abrir guía",
     articleKeys: [
       "before-you-move",
@@ -62,7 +63,7 @@ const guides: Guide[] = [
     description:
       "Entiende el proceso de residencia y los documentos principales que suelen necesitar los ciudadanos de la UE.",
     image: "/images/residence-malta.jpg",
-    href: "/move-to-malta/eu-citizen/residence",
+    href: "/es/move-to-malta/eu-citizen/residence",
     cta: "Abrir guía",
     articleKeys: [
       "residence",
@@ -77,7 +78,7 @@ const guides: Guide[] = [
     description:
       "Compara zonas, precios de alquiler, contratos y los pasos principales para alquilar.",
     image: "/images/find-home-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-home",
+    href: "/es/move-to-malta/eu-citizen/find-a-home",
     cta: "Abrir guía",
     articleKeys: [
       "housing",
@@ -93,7 +94,7 @@ const guides: Guide[] = [
     description:
       "Dónde buscar, cómo preparar tu candidatura y qué esperar del mercado laboral.",
     image: "/images/find-job-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-job",
+    href: "/es/move-to-malta/eu-citizen/find-a-job",
     cta: "Abrir guía",
     articleKeys: [
       "jobs",
@@ -109,7 +110,7 @@ const guides: Guide[] = [
     description:
       "Qué puedes necesitar para abrir una cuenta, cobrar tu salario y gestionar pagos locales.",
     image: "/images/banking-payments-malta.jpg",
-    href: "/move-to-malta/eu-citizen/banking-payments",
+    href: "/es/move-to-malta/eu-citizen/banking-payments",
     cta: "Abrir guía",
     articleKeys: [
       "banking-payments",
@@ -125,7 +126,7 @@ const guides: Guide[] = [
     description:
       "Cómo funciona la sanidad en Malta y qué organizar después de mudarte.",
     image: "/images/healthcare-malta.jpg",
-    href: "/move-to-malta/eu-citizen/healthcare",
+    href: "/es/move-to-malta/eu-citizen/healthcare",
     cta: "Abrir guía",
     articleKeys: [
       "healthcare",
@@ -253,7 +254,7 @@ function getGuideArticles(
 
 export default async function EUCitizenPage() {
   const publishedArticles =
-    await getPublishedArticles();
+    await localizeArticles(await getPublishedArticles(), "es");
 
   const linkedArticleIds = new Set(
     guides.flatMap((guide) =>
@@ -417,7 +418,7 @@ export default async function EUCitizenPage() {
                           (article) => (
                             <Link
                               key={article.id}
-                              href={`/articles/${article.slug}`}
+                              href={`/es/articles/${article.slug}`}
                               className="group flex items-start justify-between gap-3 rounded-xl border border-transparent bg-white px-4 py-3 transition hover:border-[#2F5F8A]/20 hover:shadow-sm"
                             >
                               <span className="font-semibold leading-6 text-[#292521] transition group-hover:text-[#2F5F8A]">
@@ -474,7 +475,7 @@ export default async function EUCitizenPage() {
                 (article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/es/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#2F5F8A]/20 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">

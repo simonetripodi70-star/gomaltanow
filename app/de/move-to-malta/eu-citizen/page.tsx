@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { localizeArticle, localizeArticles } from "@/lib/translations";
 
 export const metadata: Metadata = {
   title: "Als EU-Bürger nach Malta ziehen | GoMaltaNow",
@@ -47,7 +48,7 @@ const guides: Guide[] = [
     description:
       "Bereite Dokumente, Budget und die ersten praktischen Schritte vor deiner Ankunft auf Malta vor.",
     image: "/images/before-you-move.jpg",
-    href: "/move-to-malta/eu-citizen/before-you-move",
+    href: "/de/move-to-malta/eu-citizen/before-you-move",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "before-you-move",
@@ -62,7 +63,7 @@ const guides: Guide[] = [
     description:
       "Verstehe das Aufenthaltsverfahren und die wichtigsten Dokumente, die EU-Bürger meist brauchen.",
     image: "/images/residence-malta.jpg",
-    href: "/move-to-malta/eu-citizen/residence",
+    href: "/de/move-to-malta/eu-citizen/residence",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "residence",
@@ -77,7 +78,7 @@ const guides: Guide[] = [
     description:
       "Vergleiche Gegenden, Mietpreise, Verträge und die wichtigsten Schritte beim Mieten.",
     image: "/images/find-home-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-home",
+    href: "/de/move-to-malta/eu-citizen/find-a-home",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "housing",
@@ -93,7 +94,7 @@ const guides: Guide[] = [
     description:
       "Wo du suchst, wie du deine Bewerbung vorbereitest und was dich auf dem Arbeitsmarkt erwartet.",
     image: "/images/find-job-malta.jpg",
-    href: "/move-to-malta/eu-citizen/find-a-job",
+    href: "/de/move-to-malta/eu-citizen/find-a-job",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "jobs",
@@ -109,7 +110,7 @@ const guides: Guide[] = [
     description:
       "Was du brauchst, um ein Konto zu eröffnen, dein Gehalt zu erhalten und Zahlungen vor Ort zu erledigen.",
     image: "/images/banking-payments-malta.jpg",
-    href: "/move-to-malta/eu-citizen/banking-payments",
+    href: "/de/move-to-malta/eu-citizen/banking-payments",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "banking-payments",
@@ -125,7 +126,7 @@ const guides: Guide[] = [
     description:
       "Wie das Gesundheitssystem auf Malta funktioniert und was du nach dem Umzug regeln solltest.",
     image: "/images/healthcare-malta.jpg",
-    href: "/move-to-malta/eu-citizen/healthcare",
+    href: "/de/move-to-malta/eu-citizen/healthcare",
     cta: "Ratgeber öffnen",
     articleKeys: [
       "healthcare",
@@ -253,7 +254,7 @@ function getGuideArticles(
 
 export default async function EUCitizenPage() {
   const publishedArticles =
-    await getPublishedArticles();
+    await localizeArticles(await getPublishedArticles(), "de");
 
   const linkedArticleIds = new Set(
     guides.flatMap((guide) =>
@@ -417,7 +418,7 @@ export default async function EUCitizenPage() {
                           (article) => (
                             <Link
                               key={article.id}
-                              href={`/articles/${article.slug}`}
+                              href={`/de/articles/${article.slug}`}
                               className="group flex items-start justify-between gap-3 rounded-xl border border-transparent bg-white px-4 py-3 transition hover:border-[#2F5F8A]/20 hover:shadow-sm"
                             >
                               <span className="font-semibold leading-6 text-[#292521] transition group-hover:text-[#2F5F8A]">
@@ -474,7 +475,7 @@ export default async function EUCitizenPage() {
                 (article) => (
                   <Link
                     key={article.id}
-                    href={`/articles/${article.slug}`}
+                    href={`/de/articles/${article.slug}`}
                     className="group flex h-full flex-col rounded-3xl border border-black/5 bg-[#FFFDF9] p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#2F5F8A]/20 hover:shadow-xl"
                   >
                     <div className="flex flex-wrap gap-2">
