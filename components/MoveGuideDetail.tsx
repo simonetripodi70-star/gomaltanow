@@ -1,10 +1,14 @@
 import AdSlot from "@/components/AdSlot";
-import { MOVE_GUIDES } from "@/lib/move-guides";
+import { MOVE_GUIDES, type MoveGuide } from "@/lib/move-guides";
+import type { Locale } from "@/lib/i18n";
+import { getTranslation, overlay } from "@/lib/translations";
+import { t } from "@/lib/ui-labels";
 
 // Blocco "guida passo-passo" per le pagine Move to Malta.
-export default function MoveGuideDetail({ guide }: { guide: string }) {
-  const g = MOVE_GUIDES[guide];
-  if (!g) return null;
+export default async function MoveGuideDetail({ guide, lang = "en" }: { guide: string; lang?: Locale }) {
+  const base = MOVE_GUIDES[guide];
+  if (!base) return null;
+  const g = overlay(base, await getTranslation<Partial<MoveGuide>>("guide", guide, lang));
 
   return (
     <>
@@ -37,19 +41,19 @@ export default function MoveGuideDetail({ guide }: { guide: string }) {
                     <dl className="mt-5 flex flex-wrap gap-3 text-sm">
                       {s.where && (
                         <div className="rounded-full bg-[#F3EDE5] px-4 py-2">
-                          <dt className="inline font-bold">Where: </dt>
+                          <dt className="inline font-bold">{t(lang, "where")} </dt>
                           <dd className="inline text-[#625D57]">{s.where}</dd>
                         </div>
                       )}
                       {s.cost && (
                         <div className="rounded-full bg-[#F3EDE5] px-4 py-2">
-                          <dt className="inline font-bold">Cost: </dt>
+                          <dt className="inline font-bold">{t(lang, "cost")} </dt>
                           <dd className="inline text-[#625D57]">{s.cost}</dd>
                         </div>
                       )}
                       {s.time && (
                         <div className="rounded-full bg-[#F3EDE5] px-4 py-2">
-                          <dt className="inline font-bold">Time: </dt>
+                          <dt className="inline font-bold">{t(lang, "time")} </dt>
                           <dd className="inline text-[#625D57]">{s.time}</dd>
                         </div>
                       )}
@@ -77,10 +81,10 @@ export default function MoveGuideDetail({ guide }: { guide: string }) {
         <section className="bg-[#173E63] py-16 text-white md:py-20">
           <div className="mx-auto max-w-7xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/60">
-              Costs at a glance
+              {t(lang, "costsKicker")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              What it costs.
+              {t(lang, "costsTitle")}
             </h2>
             <dl className="mt-10 grid gap-4 md:grid-cols-2">
               {g.costs.map((c) => (
@@ -106,10 +110,10 @@ export default function MoveGuideDetail({ guide }: { guide: string }) {
         <section className="bg-[#F8F4EE] py-16 md:py-20">
           <div className="mx-auto max-w-4xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-              FAQ
+              {t(lang, "faqKicker")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              Common questions.
+              {t(lang, "faqShort")}
             </h2>
             <div className="mt-10 grid gap-4">
               {g.faq.map((f) => (
@@ -132,7 +136,7 @@ export default function MoveGuideDetail({ guide }: { guide: string }) {
       <section className="bg-[#FBF7F2] py-12">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-            Official sources · last checked {g.lastChecked}
+            {t(lang, "sourcesChecked", { date: g.lastChecked })}
           </p>
           <ul className="mt-5 flex flex-wrap gap-3">
             {g.sources.map((s) => (
@@ -149,8 +153,7 @@ export default function MoveGuideDetail({ guide }: { guide: string }) {
             ))}
           </ul>
           <p className="mt-5 max-w-3xl text-sm leading-6 text-[#7A736B]">
-            Rules and fees change often. Always confirm the current
-            requirements with the official authority before you apply.
+            {t(lang, "rulesChange")}
           </p>
         </div>
       </section>

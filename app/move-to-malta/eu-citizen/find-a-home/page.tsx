@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Finding a Home in Malta for EU Citizens | GoMaltaNow",
   description:
     "Compare areas, understand the real monthly cost and prepare the right questions before renting a property in Malta.",
-  alternates: { canonical: "/move-to-malta/eu-citizen/find-a-home" },
+  alternates: alternatesFor("/move-to-malta/eu-citizen/find-a-home"),
 };
 
 

@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CONTACT_EMAIL } from "@/lib/site";
 
+import { alternatesFor } from "@/lib/i18n";
+
 export const metadata: Metadata = {
   title: "Privacy Policy | GoMaltaNow",
   description:
     "How GoMaltaNow handles your data, cookies and advertising, and the rights you have under the GDPR.",
+  alternates: alternatesFor("/privacy"),
 };
 
 const linkClass =

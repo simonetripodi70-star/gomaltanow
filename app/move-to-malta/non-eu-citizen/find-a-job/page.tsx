@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Finding a Job in Malta for Non-EU Citizens | GoMaltaNow",
   description:
     "How to approach your job search, prepare your applications and understand the employment process in Malta as a non-EU citizen.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen/find-a-job" },
+  alternates: alternatesFor("/move-to-malta/non-eu-citizen/find-a-job"),
 };
 
 

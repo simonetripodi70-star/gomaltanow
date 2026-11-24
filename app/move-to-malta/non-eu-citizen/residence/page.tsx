@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Residence Permits in Malta for Non-EU Citizens | GoMaltaNow",
   description:
     "Keep track of permits, identity documents, residence cards, renewals and administrative records while living in Malta.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen/residence" },
+  alternates: alternatesFor("/move-to-malta/non-eu-citizen/residence"),
 };
 
 

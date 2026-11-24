@@ -1,33 +1,18 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import PlaceDetail from "@/components/PlaceDetail";
-import { getPlace } from "@/lib/places";
+import { PlaceRoute, placeMetadata } from "@/components/PlaceRoute";
 
 export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ slug: string }> };
 
+const config = (slug: string) => ({ area: "mdina-rabat", slug: slug, path: `/visit-malta/mdina-rabat/${slug}`, title: "titlePlace", backHref: "/visit-malta/mdina-rabat", backLabel: "backMdina", lang: "en" } as const);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const place = await getPlace("mdina-rabat", slug);
-  if (!place) return { title: "Place not found | GoMaltaNow" };
-  return {
-    title: `${place.name}: Opening Hours, Tickets and How to Get There | GoMaltaNow`,
-    description: place.summary,
-    alternates: { canonical: `/visit-malta/mdina-rabat/${place.slug}` },
-    openGraph: place.image_url ? { images: [place.image_url] } : undefined,
-  };
+  return placeMetadata(config(slug));
 }
 
-export default async function MdinaRabatPlacePage({ params }: Props) {
+export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const place = await getPlace("mdina-rabat", slug);
-  if (!place) notFound();
-  return (
-    <PlaceDetail
-      place={place}
-      backHref="/visit-malta/mdina-rabat"
-      backLabel="Back to Mdina & Rabat"
-    />
-  );
+  return PlaceRoute(config(slug));
 }

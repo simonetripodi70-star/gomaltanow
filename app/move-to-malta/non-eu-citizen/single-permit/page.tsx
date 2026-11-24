@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Single Permit and Work Permit in Malta | GoMaltaNow",
   description:
     "The main steps, documents and practical points for moving to Malta for employment as a third-country national.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen/single-permit" },
+  alternates: alternatesFor("/move-to-malta/non-eu-citizen/single-permit"),
 };
 
 

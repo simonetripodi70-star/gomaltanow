@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Residence in Malta for EU Citizens | GoMaltaNow",
   description:
     "Understand your residence path in Malta as an EU citizen: the main documents, questions and steps before you apply.",
-  alternates: { canonical: "/move-to-malta/eu-citizen/residence" },
+  alternates: alternatesFor("/move-to-malta/eu-citizen/residence"),
 };
 
 

@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Before Moving to Malta: EU Citizen Checklist | GoMaltaNow",
   description:
     "A clear plan before travelling can save you time, money and stress during your first weeks in Malta. Checklist for EU citizens.",
-  alternates: { canonical: "/move-to-malta/eu-citizen/before-you-move" },
+  alternates: alternatesFor("/move-to-malta/eu-citizen/before-you-move"),
 };
 
 

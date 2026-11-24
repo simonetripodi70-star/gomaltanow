@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import { hasAd } from "@/lib/ads";
+import { alternatesFor } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -192,7 +193,7 @@ export async function generateMetadata({
   return {
     title: `${article.title} | GoMaltaNow`,
     description: article.summary,
-    alternates: { canonical: `/articles/${article.slug}` },
+    alternates: alternatesFor(`/articles/${article.slug}`),
   };
 }
 

@@ -134,8 +134,14 @@ async function translate(job: Job) {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json().catch(() => ({}))) as { action?: string; lang?: string };
+    const body = (await request.json().catch(() => ({}))) as { action?: string; lang?: string; kind?: string };
     const lang = body.lang && LANGS[body.lang] ? body.lang : undefined;
+
+    if (body.action === "export") {
+      const { data, error } = await admin().from("translations").select("ref,lang,data").eq("kind", body.kind || "ui");
+      if (error) throw error;
+      return Response.json({ rows: data ?? [] });
+    }
     const { jobs, total } = await pending(lang);
 
     if (body.action !== "next") {

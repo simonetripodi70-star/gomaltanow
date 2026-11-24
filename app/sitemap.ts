@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { getAllPlaceLinks, placeHref } from "@/lib/places";
-import { TRANSLATED } from "@/lib/i18n";
+import { TRANSLATED_LOCALES, localePath } from "@/lib/i18n";
 
 // Mappa del sito per Google: /sitemap.xml
 // Le pagine fisse sono elencate qui; articoli e sezioni "Updates" arrivano da Supabase.
@@ -75,17 +75,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  // Versioni tradotte (/it, /pl, ...)
-  for (const [lang, paths] of Object.entries(TRANSLATED)) {
-    for (const path of paths) {
-      pages.push({
-        url: `${BASE}/${lang}${path === "/" ? "" : path}`,
-        changeFrequency: "monthly",
-        priority: path === "/" ? 0.8 : 0.6,
-      });
-    }
-  }
-
   // Solo le sezioni "Updates" che hanno almeno un articolo
   const sections = [
     ...new Set(
@@ -120,6 +109,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     });
+  }
+
+  // Versioni tradotte di ogni pagina (/it, /pl, ...)
+  const english = [...pages];
+  for (const lang of TRANSLATED_LOCALES) {
+    for (const p of english) {
+      const path = p.url.slice(BASE.length) || "/";
+      pages.push({ ...p, url: `${BASE}${localePath(path, lang)}`, priority: Math.max(0.5, (p.priority ?? 0.7) - 0.1) });
+    }
   }
 
   return pages;

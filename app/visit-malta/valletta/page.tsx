@@ -4,12 +4,13 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Valletta Guide: What to See in Malta's Capital | GoMaltaNow",
   description:
     "Explore Valletta: historic streets, harbour views, museums, churches and the most important sights in Malta's capital.",
-  alternates: { canonical: "/visit-malta/valletta" },
+  alternates: alternatesFor("/visit-malta/valletta"),
 };
 
 

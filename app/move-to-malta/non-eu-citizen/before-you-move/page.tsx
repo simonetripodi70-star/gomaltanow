@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Before Moving to Malta: Non-EU Citizen Checklist | GoMaltaNow",
   description:
     "Organise your documents, budget, accommodation and immigration planning before you travel to Malta as a non-EU citizen.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen/before-you-move" },
+  alternates: alternatesFor("/move-to-malta/non-eu-citizen/before-you-move"),
 };
 
 

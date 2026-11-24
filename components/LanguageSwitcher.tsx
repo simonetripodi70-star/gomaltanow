@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { LOCALES, LOCALE_LABELS, TRANSLATED, type Locale } from "@/lib/i18n";
+import { LOCALES, LOCALE_LABELS, isTranslatedPath, type Locale } from "@/lib/i18n";
 
 // Selettore lingua (in basso a sinistra, accanto al pulsante chiaro/scuro).
 // Mostra solo le lingue in cui la pagina corrente è tradotta.
@@ -15,9 +15,7 @@ export default function LanguageSwitcher() {
   const base =
     current === "en" ? pathname : pathname.slice(current.length + 1) || "/";
 
-  const available = LOCALES.filter(
-    (l) => l === "en" || TRANSLATED[l as Exclude<Locale, "en">].includes(base),
-  );
+  const available = isTranslatedPath(base) ? [...LOCALES] : ["en" as Locale];
 
   if (available.length < 2) return null;
 

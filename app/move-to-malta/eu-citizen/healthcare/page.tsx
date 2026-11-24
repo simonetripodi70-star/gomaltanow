@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Healthcare in Malta for EU Citizens | GoMaltaNow",
   description:
     "Organise your documents, understand the main healthcare options and plan how you will access everyday care after moving to Malta.",
-  alternates: { canonical: "/move-to-malta/eu-citizen/healthcare" },
+  alternates: alternatesFor("/move-to-malta/eu-citizen/healthcare"),
 };
 
 

@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Banking in Malta for EU Citizens: Banks and Revolut | GoMaltaNow",
   description:
     "How Revolut, traditional Maltese banks and other providers can help you manage salary, rent, transfers and everyday expenses.",
-  alternates: { canonical: "/move-to-malta/eu-citizen/banking-payments" },
+  alternates: alternatesFor("/move-to-malta/eu-citizen/banking-payments"),
 };
 
 

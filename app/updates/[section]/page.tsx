@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Fragment } from "react";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -150,7 +151,7 @@ export async function generateMetadata({
   const articles = await getPublishedArticles(section).catch(() => []);
 
   return {
-    alternates: { canonical: `/updates/${section}` },
+    alternates: alternatesFor(`/updates/${section}`),
     // Le sezioni senza articoli non vengono indicizzate da Google (pagine vuote)
     robots: articles.length === 0 ? { index: false, follow: true } : undefined,
     title: information

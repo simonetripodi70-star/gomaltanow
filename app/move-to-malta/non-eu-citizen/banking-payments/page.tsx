@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import MoveGuideDetail from "@/components/MoveGuideDetail";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Banking in Malta for Non-EU Citizens | GoMaltaNow",
   description:
     "How to prepare for opening an account, receiving your salary, managing cards and handling everyday payments in Malta.",
-  alternates: { canonical: "/move-to-malta/non-eu-citizen/banking-payments" },
+  alternates: alternatesFor("/move-to-malta/non-eu-citizen/banking-payments"),
 };
 
 

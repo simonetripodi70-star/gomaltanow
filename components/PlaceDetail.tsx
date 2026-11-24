@@ -7,21 +7,29 @@ import {
   type Place,
   type PlaceCard,
 } from "@/lib/places";
+import { localePath, type Locale } from "@/lib/i18n";
+import { getTranslation, localizeList, overlay } from "@/lib/translations";
+import { t, DATE_LOCALE } from "@/lib/ui-labels";
 
 // Pagina dettagliata di un luogo, nello stesso stile delle guide Visit Malta.
 export default async function PlaceDetail({
-  place,
+  place: basePlace,
   backHref,
   backLabel,
-  areaPlaces = [],
+  areaPlaces: baseAreaPlaces = [],
+  lang = "en",
 }: {
   place: Place;
   backHref: string;
   backLabel: string;
   // Per le pagine "hub" (es. Gozo): i luoghi dell'area da mostrare in griglia
   areaPlaces?: PlaceCard[];
+  lang?: Locale;
 }) {
-  const nearby = await getPlaceCards(place.nearby ?? []);
+  const place = overlay(basePlace, await getTranslation<Partial<Place>>("place", basePlace.slug, lang));
+  const nearby = await localizeList("place", await getPlaceCards(place.nearby ?? []), lang);
+  const areaPlaces = await localizeList("place", baseAreaPlaces, lang);
+  const href = (area: string, slug: string) => localePath(placeHref(area, slug), lang);
   const mapQuery = place.map_query || `${place.name}, Malta`;
   const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   const mapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
@@ -30,7 +38,7 @@ export default async function PlaceDetail({
     <main className="min-h-screen bg-[#F5F0E9] text-[#171717]">
       <nav className="bg-[#0B0D0F] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-          <Link href="/" className="font-serif text-2xl font-semibold md:text-3xl">
+          <Link href={localePath("/", lang)} className="font-serif text-2xl font-semibold md:text-3xl">
             <span>GoMalta</span>
             <span className="text-[#C94F32]">Now</span>
           </Link>
@@ -63,7 +71,7 @@ export default async function PlaceDetail({
                   href="#plan"
                   className="inline-flex rounded-full bg-[#B83F29] px-6 py-3 font-bold text-white transition hover:-translate-y-1 hover:bg-[#953220] hover:shadow-lg"
                 >
-                  Plan your visit ↓
+                  {t(lang, "planVisit")}
                 </a>
                 <a
                   href={mapsLink}
@@ -71,7 +79,7 @@ export default async function PlaceDetail({
                   rel="noopener noreferrer"
                   className="inline-flex rounded-full border border-[#B83F29] px-6 py-3 font-bold text-[#B83F29] transition hover:bg-[#B83F29] hover:text-white"
                 >
-                  Open in Google Maps
+                  {t(lang, "openMaps")}
                 </a>
               </div>
             </div>
@@ -114,7 +122,7 @@ export default async function PlaceDetail({
           <aside className="lg:sticky lg:top-6 lg:self-start">
             <div className="rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-                Practical information
+                {t(lang, "practicalInfo")}
               </p>
               <dl className="mt-5 divide-y divide-black/10">
                 {place.facts.map((f) => (
@@ -126,14 +134,14 @@ export default async function PlaceDetail({
               </dl>
               {place.last_checked && (
                 <p className="mt-4 text-xs text-[#766F69]">
-                  Information checked on {formatDate(place.last_checked)}. Times and prices can change: check the official website before you go.
+                  {t(lang, "checkedOn", { date: formatDate(place.last_checked, lang) })}
                 </p>
               )}
             </div>
 
             <div className="mt-6 overflow-hidden rounded-3xl border border-[#E3D4CA]">
               <iframe
-                title={`Map of ${place.name}`}
+                title={t(lang, "mapOf", { name: place.name })}
                 src={mapsEmbed}
                 loading="lazy"
                 className="h-64 w-full"
@@ -149,16 +157,16 @@ export default async function PlaceDetail({
         <section id="places" className="bg-[#F8F4EE] py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-              Places to visit
+              {t(lang, "placesToVisit")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              What to see in {place.name}.
+              {t(lang, "whatToSee", { name: place.name })}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {areaPlaces.map((p) => (
                 <Link
                   key={p.slug}
-                  href={placeHref(p.area, p.slug)}
+                  href={href(p.area, p.slug)}
                   className="group flex flex-col overflow-hidden rounded-3xl border border-[#E0D7CC] bg-white transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   {p.image_url && (
@@ -181,7 +189,7 @@ export default async function PlaceDetail({
                     </h3>
                     <p className="mt-3 flex-1 leading-7 text-[#625D57]">{p.summary}</p>
                     <span className="mt-5 font-bold text-[#B83F29]">
-                      Opening hours, tickets and how to get there →
+                      {t(lang, "placeCardCta")}
                     </span>
                   </div>
                 </Link>
@@ -196,10 +204,10 @@ export default async function PlaceDetail({
         <section className="bg-[#F8F4EE] py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-              Getting there
+              {t(lang, "gettingThere")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              How to get to {place.name}.
+              {t(lang, "howToGet", { name: place.name })}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               {place.getting_there.map((g) => (
@@ -223,10 +231,10 @@ export default async function PlaceDetail({
         <section className="bg-white py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-              Local tips
+              {t(lang, "localTips")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              Make the most of your visit.
+              {t(lang, "makeMost")}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {place.tips.map((tip, i) => (
@@ -250,7 +258,7 @@ export default async function PlaceDetail({
         <section className="border-y border-[#E3C8BE] bg-[#F3E6DF] py-16 md:py-20">
           <div className="mx-auto max-w-4xl px-6 md:px-8">
             <h2 className="font-serif text-4xl font-medium md:text-5xl">
-              Frequently asked questions
+              {t(lang, "faqTitle")}
             </h2>
             <div className="mt-8 space-y-5">
               {place.faq.map((item) => (
@@ -269,16 +277,16 @@ export default async function PlaceDetail({
         <section className="bg-[#F8F4EE] py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-6 md:px-8">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
-              Nearby
+              {t(lang, "nearby")}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-              Continue exploring.
+              {t(lang, "continueExploring")}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {nearby.map((p) => (
                 <Link
                   key={p.slug}
-                  href={placeHref(p.area, p.slug)}
+                  href={href(p.area, p.slug)}
                   className="group flex flex-col overflow-hidden rounded-3xl border border-[#E0D7CC] bg-white transition duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
                   {p.image_url && (
@@ -295,7 +303,7 @@ export default async function PlaceDetail({
                       {p.name}
                     </h3>
                     <p className="mt-3 flex-1 leading-7 text-[#625D57]">{p.summary}</p>
-                    <span className="mt-5 font-bold text-[#B83F29]">Read the guide →</span>
+                    <span className="mt-5 font-bold text-[#B83F29]">{t(lang, "readGuide")}</span>
                   </div>
                 </Link>
               ))}
@@ -309,7 +317,7 @@ export default async function PlaceDetail({
         <div className="mx-auto max-w-4xl px-6 text-sm text-[#766F69] md:px-8">
           {place.sources.length > 0 && (
             <>
-              <h2 className="font-serif text-2xl text-[#171717]">Official sources</h2>
+              <h2 className="font-serif text-2xl text-[#171717]">{t(lang, "officialSources")}</h2>
               <ul className="mt-4 space-y-2">
                 {place.sources.map((s) => (
                   <li key={s.url}>
@@ -328,7 +336,7 @@ export default async function PlaceDetail({
           )}
           {place.image_credit && (
             <p className="mt-6">
-              Photo:{" "}
+              {t(lang, "photo")}{" "}
               {place.image_source ? (
                 <a href={place.image_source} target="_blank" rel="noopener noreferrer" className="underline">
                   {place.image_credit}
@@ -347,21 +355,21 @@ export default async function PlaceDetail({
 
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">
-          <Link href="/" className="font-serif text-2xl font-semibold">
+          <Link href={localePath("/", lang)} className="font-serif text-2xl font-semibold">
             <span>GoMalta</span>
             <span className="text-[#C94F32]">Now</span>
           </Link>
-          <p className="text-sm text-white/55">© 2026 GoMaltaNow. Malta Made Simple.</p>
+          <p className="text-sm text-white/55">{t(lang, "tagline")}</p>
         </div>
       </footer>
     </main>
   );
 }
 
-function formatDate(value: string) {
+function formatDate(value: string, lang: Locale) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("en-GB", {
+  return new Intl.DateTimeFormat(DATE_LOCALE[lang], {
     day: "2-digit",
     month: "long",
     year: "numeric",
