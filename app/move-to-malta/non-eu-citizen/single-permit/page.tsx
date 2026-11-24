@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import MoveGuideDetail from "@/components/MoveGuideDetail";
 
 export const metadata: Metadata = {
   title: "Single Permit and Work Permit in Malta | GoMaltaNow",
@@ -354,6 +355,8 @@ export default async function SinglePermitPage() {
           </div>
         </div>
       </section>
+
+      <MoveGuideDetail guide="non-eu/single-permit" />
 
       {/* Articles */}
       {permitArticles.length > 0 && (

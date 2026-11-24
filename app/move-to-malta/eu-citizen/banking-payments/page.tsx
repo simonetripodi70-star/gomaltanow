@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import MoveGuideDetail from "@/components/MoveGuideDetail";
 
 export const metadata: Metadata = {
   title: "Banking in Malta for EU Citizens: Banks and Revolut | GoMaltaNow",
@@ -265,6 +266,8 @@ export default async function BankingPaymentsPage() {
           </div>
         </div>
       </section>
+
+      <MoveGuideDetail guide="eu/banking-payments" />
 
       {bankingArticles.length > 0 && (
         <section

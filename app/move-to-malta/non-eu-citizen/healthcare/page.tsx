@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import MoveGuideDetail from "@/components/MoveGuideDetail";
 
 export const metadata: Metadata = {
   title: "Healthcare in Malta for Non-EU Citizens | GoMaltaNow",
@@ -381,6 +382,8 @@ export default async function HealthcarePage() {
           </div>
         </div>
       </section>
+
+      <MoveGuideDetail guide="non-eu/healthcare" />
 
       {healthcareArticles.length > 0 && (
         <section

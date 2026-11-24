@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import MoveGuideDetail from "@/components/MoveGuideDetail";
 
 export const metadata: Metadata = {
   title: "Finding a Home in Malta for EU Citizens | GoMaltaNow",
@@ -254,6 +255,8 @@ export default async function FindAHomePage() {
           </div>
         </div>
       </section>
+
+      <MoveGuideDetail guide="eu/find-a-home" />
 
       {/* Published housing articles */}
       {housingArticles.length > 0 && (
