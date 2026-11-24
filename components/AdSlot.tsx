@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ADSENSE_CLIENT,
   AD_SLOTS,
@@ -14,23 +14,49 @@ declare global {
   }
 }
 
+// auto = banner adattabile · tall = 300×600 · rail = 160×600
+type AdSize = "auto" | "tall" | "rail";
+
+const FIXED: Record<Exclude<AdSize, "auto">, [number, number]> = {
+  tall: [300, 600],
+  rail: [160, 600],
+};
+
 type AdSlotProps = {
   placement: AdPlacement;
   className?: string;
+  size?: AdSize;
+  // Se indicato, l'annuncio si carica solo su schermi almeno così larghi (px)
+  minWidth?: number;
 };
 
 export default function AdSlot({
   placement,
   className = "mx-auto w-full max-w-5xl px-6 py-10 md:px-8",
+  size = "auto",
+  minWidth,
 }: AdSlotProps) {
   const adRef = useRef<HTMLModElement>(null);
   const sponsor = SPONSORS[placement];
   const slot = AD_SLOTS[placement];
+  const [allowed, setAllowed] = useState(!minWidth);
+
+  useEffect(() => {
+    if (!minWidth) return;
+    const mq = window.matchMedia(`(min-width: ${minWidth}px)`);
+    const update = () => {
+      // Una volta caricato, l'annuncio resta (il CSS lo nasconde se la finestra si stringe)
+      if (mq.matches) setAllowed(true);
+    };
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [minWidth]);
 
   useEffect(() => {
     const ad = adRef.current;
 
-    if (sponsor || !slot || !ad || ad.dataset.adsbygoogleStatus) {
+    if (!allowed || sponsor || !slot || !ad || ad.dataset.adsbygoogleStatus) {
       return;
     }
 
@@ -39,11 +65,13 @@ export default function AdSlot({
     } catch {
       // Se AdSense è bloccato (per esempio da un ad blocker) lo spazio resta vuoto.
     }
-  }, [sponsor, slot]);
+  }, [allowed, sponsor, slot]);
 
-  if (!sponsor && !slot) {
+  if ((!sponsor && !slot) || !allowed) {
     return null;
   }
+
+  const fixed = size === "auto" ? null : FIXED[size];
 
   return (
     <aside
@@ -66,9 +94,19 @@ export default function AdSlot({
             src={sponsor.image}
             alt={sponsor.name}
             loading="lazy"
+            width={fixed?.[0]}
+            height={fixed?.[1]}
             className="h-auto w-full"
           />
         </a>
+      ) : fixed ? (
+        <ins
+          ref={adRef}
+          className="adsbygoogle"
+          style={{ display: "inline-block", width: fixed[0], height: fixed[1] }}
+          data-ad-client={ADSENSE_CLIENT}
+          data-ad-slot={slot}
+        />
       ) : (
         <ins
           ref={adRef}
