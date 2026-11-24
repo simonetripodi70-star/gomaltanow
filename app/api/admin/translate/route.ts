@@ -125,7 +125,7 @@ async function translate(job: Job) {
       "Use the usual local spelling of place names when one exists (e.g. Valletta → La Valletta in Italian), otherwise keep the Maltese name.",
       "Keep a natural, friendly and clear tone, suitable for a website. Keep symbols such as → ↓ ← and line breaks (\\n) in the same places.",
     ].join(" "),
-    input: JSON.stringify(job.source),
+    input: `Translate this JSON object:\n${JSON.stringify(job.source)}`,
     text: { format: { type: "json_object" } },
   });
   if (!response.output_text) throw new Error("Empty response");
