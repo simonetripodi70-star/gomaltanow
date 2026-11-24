@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
+import SideRail from "@/components/SideRail";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -463,6 +464,8 @@ export default async function Home() {
 
       <AdSlot placement="home" />
 
+      <SideRail contentWidth={1400} />
+
       {/* Latest Updates */}
       <section
         id="latest-updates"
@@ -591,6 +594,8 @@ export default async function Home() {
       </section>
 
       {/* Why GoMaltaNow */}
+      <AdSlot placement="homeMid" />
+
       <section className="bg-[#111315] py-20 text-white md:py-24">
         <div className="mx-auto max-w-[1400px] px-6 md:px-8">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">

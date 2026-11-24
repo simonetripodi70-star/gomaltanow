@@ -77,6 +77,13 @@ export default function RootLayout({
             </a>
           </nav>
         </div>
+
+        {/* Cloudflare Web Analytics (visite reali) */}
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "e1a4cdf6dd884df4b4a0ef3ab241452c"}'
+        />
       </body>
     </html>
   );
