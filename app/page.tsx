@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
 import { CONTACT_EMAIL } from "@/lib/site";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -118,7 +124,7 @@ export default async function Home() {
             <div className="hidden items-center gap-8 text-base font-medium md:flex">
               <a
                 className="transition hover:text-[#D96A4A]"
-                href="#visit-malta"
+                href="/visit-malta"
               >
                 Visit Malta
               </a>
@@ -180,7 +186,7 @@ export default async function Home() {
           <div className="mt-10 grid w-full max-w-6xl gap-6 md:grid-cols-2">
             <Link
               id="visit-malta"
-              href="/beaches"
+              href="/visit-malta"
               className="group relative overflow-hidden rounded-3xl border border-[#D65C40] bg-gradient-to-br from-[#C7442D] to-[#A92F20] p-8 text-white shadow-2xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_rgba(0,0,0,0.4)] md:p-10"
             >
               <div className="absolute bottom-[-45px] right-[-35px] text-[190px] font-serif text-white/5">
@@ -489,12 +495,6 @@ export default async function Home() {
               </p>
             </div>
 
-            <Link
-              href="/updates/government-updates"
-              className="font-semibold text-[#B83F29] transition hover:tracking-wide"
-            >
-              Government updates →
-            </Link>
           </div>
 
           {latestArticles.length === 0 ? (
@@ -663,7 +663,7 @@ export default async function Home() {
 
           <div className="flex flex-wrap gap-3">
             <a
-              href="#visit-malta"
+              href="/visit-malta"
               className="rounded-full bg-white px-6 py-3 font-semibold text-[#A92F20] transition hover:-translate-y-1 hover:shadow-xl"
             >
               Visit Malta

@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Healthcare in Malta for EU Citizens | GoMaltaNow",
+  description:
+    "Organise your documents, understand the main healthcare options and plan how you will access everyday care after moving to Malta.",
+  alternates: { canonical: "/move-to-malta/eu-citizen/healthcare" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -482,8 +490,6 @@ export default async function HealthcarePage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       {/* Footer */}
       <footer className="bg-[#0B0D0F] py-8 text-white">

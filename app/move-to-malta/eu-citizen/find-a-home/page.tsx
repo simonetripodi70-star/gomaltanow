@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Finding a Home in Malta for EU Citizens | GoMaltaNow",
+  description:
+    "Compare areas, understand the real monthly cost and prepare the right questions before renting a property in Malta.",
+  alternates: { canonical: "/move-to-malta/eu-citizen/find-a-home" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -477,8 +485,6 @@ export default async function FindAHomePage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       {/* Footer */}
       <footer className="bg-[#0B0D0F] py-8 text-white">

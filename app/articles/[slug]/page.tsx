@@ -192,6 +192,7 @@ export async function generateMetadata({
   return {
     title: `${article.title} | GoMaltaNow`,
     description: article.summary,
+    alternates: { canonical: `/articles/${article.slug}` },
   };
 }
 

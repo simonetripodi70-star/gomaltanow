@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Before Moving to Malta: Non-EU Citizen Checklist | GoMaltaNow",
+  description:
+    "Organise your documents, budget, accommodation and immigration planning before you travel to Malta as a non-EU citizen.",
+  alternates: { canonical: "/move-to-malta/non-eu-citizen/before-you-move" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -548,8 +556,6 @@ export default async function BeforeYouMovePage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">

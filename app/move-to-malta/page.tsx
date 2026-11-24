@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Moving to Malta: EU and Non-EU Guides | GoMaltaNow",
+  description:
+    "Choose your path to Malta: practical guides for EU and non-EU citizens on documents, residence, housing, work and everyday life.",
+  alternates: { canonical: "/move-to-malta" },
+};
+
 
 export default function MoveToMaltaPage() {
   return (

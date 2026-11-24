@@ -147,8 +147,12 @@ export async function generateMetadata({
 }: SectionPageProps) {
   const { section } = await params;
   const information = sectionInformation[section];
+  const articles = await getPublishedArticles(section).catch(() => []);
 
   return {
+    alternates: { canonical: `/updates/${section}` },
+    // Le sezioni senza articoli non vengono indicizzate da Google (pagine vuote)
+    robots: articles.length === 0 ? { index: false, follow: true } : undefined,
     title: information
       ? `${information.title} | GoMaltaNow`
       : "Malta Updates | GoMaltaNow",

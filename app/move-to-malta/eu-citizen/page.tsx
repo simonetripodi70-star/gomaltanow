@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+
+export const metadata: Metadata = {
+  title: "Moving to Malta as an EU Citizen | GoMaltaNow",
+  description:
+    "Everything EU citizens need to know before moving to Malta: documents, residence, housing, work, banking and healthcare.",
+  alternates: { canonical: "/move-to-malta/eu-citizen" },
+};
+
 
 export const dynamic = "force-dynamic";
 

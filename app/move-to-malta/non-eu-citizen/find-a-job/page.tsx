@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Finding a Job in Malta for Non-EU Citizens | GoMaltaNow",
+  description:
+    "How to approach your job search, prepare your applications and understand the employment process in Malta as a non-EU citizen.",
+  alternates: { canonical: "/move-to-malta/non-eu-citizen/find-a-job" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -536,8 +544,6 @@ export default async function FindAJobPage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">

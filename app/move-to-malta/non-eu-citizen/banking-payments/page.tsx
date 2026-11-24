@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Banking in Malta for Non-EU Citizens | GoMaltaNow",
+  description:
+    "How to prepare for opening an account, receiving your salary, managing cards and handling everyday payments in Malta.",
+  alternates: { canonical: "/move-to-malta/non-eu-citizen/banking-payments" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -628,8 +636,6 @@ export default async function BankingPaymentsPage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">

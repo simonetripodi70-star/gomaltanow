@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+
+export const metadata: Metadata = {
+  title: "Mdina and Rabat Guide: Sights and Tips | GoMaltaNow",
+  description:
+    "Explore Mdina and Rabat: fortified streets, historic sites, catacombs and one of Malta's most atmospheric areas.",
+  alternates: { canonical: "/visit-malta/mdina-rabat" },
+};
+
 
 export const dynamic = "force-dynamic";
 

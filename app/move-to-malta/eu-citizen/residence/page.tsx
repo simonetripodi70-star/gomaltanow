@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Residence in Malta for EU Citizens | GoMaltaNow",
+  description:
+    "Understand your residence path in Malta as an EU citizen: the main documents, questions and steps before you apply.",
+  alternates: { canonical: "/move-to-malta/eu-citizen/residence" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -437,8 +445,6 @@ export default async function ResidencePage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       {/* Footer */}
       <footer className="bg-[#0B0D0F] py-8 text-white">

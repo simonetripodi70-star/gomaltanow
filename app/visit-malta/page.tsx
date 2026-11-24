@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+
+export const metadata: Metadata = {
+  title: "Visit Malta: Travel Guide and Things to Do | GoMaltaNow",
+  description:
+    "Plan your trip to Malta: beaches, historic cities, islands, transport, food and practical travel information in one place.",
+  alternates: { canonical: "/visit-malta" },
+};
+
 
 export const dynamic = "force-dynamic";
 

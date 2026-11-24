@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
+
+export const metadata: Metadata = {
+  title: "Things to Do in Malta: Sights, Beaches and Trips | GoMaltaNow",
+  description:
+    "Historic cities, beaches, islands, food, boat trips and experiences to help you plan a memorable stay in Malta.",
+  alternates: { canonical: "/visit-malta/things-to-do" },
+};
+
 
 export const dynamic = "force-dynamic";
 

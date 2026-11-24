@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://gomaltanow.com"),
   title: "GoMaltaNow | Malta Made Simple: Visit, Move and Live in Malta",
   description:
     "Practical guides for visiting, moving to and living in Malta: beaches, housing, jobs, residence permits, healthcare, banking and the latest official updates.",

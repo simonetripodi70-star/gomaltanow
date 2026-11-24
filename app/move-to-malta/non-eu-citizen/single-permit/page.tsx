@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
-import AdSlot from "@/components/AdSlot";
+
+export const metadata: Metadata = {
+  title: "Single Permit and Work Permit in Malta | GoMaltaNow",
+  description:
+    "The main steps, documents and practical points for moving to Malta for employment as a third-country national.",
+  alternates: { canonical: "/move-to-malta/non-eu-citizen/single-permit" },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -569,8 +577,6 @@ export default async function SinglePermitPage() {
           </p>
         </div>
       </section>
-
-      <AdSlot placement="guide" />
 
       {/* Footer */}
       <footer className="bg-[#0B0D0F] py-8 text-white">
