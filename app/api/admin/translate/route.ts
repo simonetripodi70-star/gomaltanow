@@ -76,20 +76,22 @@ async function sources() {
   return items;
 }
 
+// Lavori da fare: elementi senza traduzione nella lingua (calcolo leggero)
 async function pending(lang?: string) {
   const db = admin();
   const items = await sources();
-  const { data: done, error } = await db.from("translations").select("kind,ref,lang,source_hash");
+  let q = db.from("translations").select("kind,ref,lang");
+  if (lang) q = q.eq("lang", lang);
+  const { data: done, error } = await q;
   if (error) throw error;
-  const doneMap = new Map((done ?? []).map((d) => [`${d.kind}|${d.ref}|${d.lang}`, d.source_hash]));
-  const jobs: Job[] = [];
+  const doneSet = new Set((done ?? []).map((d) => `${d.kind}|${d.ref}|${d.lang}`));
+  const jobs: Omit<Job, "hash">[] = [];
   let total = 0;
   for (const it of items) {
-    const hash = await sha(it.source);
     for (const l of Object.keys(LANGS)) {
       if (lang && l !== lang) continue;
       total++;
-      if (doneMap.get(`${it.kind}|${it.ref}|${l}`) !== hash) jobs.push({ ...it, lang: l, hash });
+      if (!doneSet.has(`${it.kind}|${it.ref}|${l}`)) jobs.push({ ...it, lang: l });
     }
   }
   return { jobs, total };
@@ -148,8 +150,9 @@ export async function POST(request: Request) {
       return Response.json({ total, remaining: jobs.length });
     }
 
-    const job = jobs[0];
-    if (!job) return Response.json({ total, remaining: 0, done: true });
+    const first = jobs[0];
+    if (!first) return Response.json({ total, remaining: 0, done: true });
+    const job: Job = { ...first, hash: await sha(first.source) };
 
     const data = await translate(job);
     const { error } = await admin()
