@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import AdSlot from "@/components/AdSlot";
+import SideRail from "@/components/SideRail";
 
 export const dynamic = "force-dynamic";
 
@@ -334,6 +335,8 @@ export default async function VallettaPage() {
         </div>
       </section>
 
+      <AdSlot placement="guideMid" />
+
       <section className="bg-[#F8F4EE] py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <div className="mb-10 max-w-3xl">
@@ -490,6 +493,8 @@ export default async function VallettaPage() {
       </section>
 
       <AdSlot placement="guide" />
+
+      <SideRail contentWidth={1280} />
 
       <footer className="bg-[#0B0D0F] py-8 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 md:flex-row md:items-center md:justify-between md:px-8">
