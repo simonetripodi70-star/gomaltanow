@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
+import { getAllPlaceLinks, placeHref } from "@/lib/places";
 
 // Mappa del sito per Google: /sitemap.xml
 // Le pagine fisse sono elencate qui; articoli e sezioni "Updates" arrivano da Supabase.
@@ -94,6 +95,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     pages.push({
       url: `${BASE}/articles/${article.slug}`,
       lastModified: date ? new Date(date) : undefined,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    });
+  }
+
+  // Schede dei luoghi (Visit Malta)
+  for (const place of await getAllPlaceLinks()) {
+    pages.push({
+      url: `${BASE}${placeHref(place.area, place.slug)}`,
+      lastModified: place.last_checked ? new Date(place.last_checked) : undefined,
       changeFrequency: "monthly",
       priority: 0.8,
     });

@@ -43,31 +43,37 @@ const vallettaArticleKeys = [
 const highlights = [
   {
     number: "01",
+    slug: "upper-barrakka-gardens",
     title: "Upper Barrakka Gardens",
     text: "Enjoy one of Valletta's best-known viewpoints over the Grand Harbour and the Three Cities.",
   },
   {
     number: "02",
+    slug: "st-johns-co-cathedral",
     title: "St John's Co-Cathedral",
     text: "Visit one of Malta's most important historic and artistic landmarks in the heart of the city.",
   },
   {
     number: "03",
+    slug: "republic-street",
     title: "Republic Street",
     text: "Walk through Valletta's main pedestrian route with shops, cafes, historic buildings and side streets to explore.",
   },
   {
     number: "04",
+    slug: "valletta-waterfront",
     title: "Valletta Waterfront",
     text: "Head down toward the harbour for restaurants, historic warehouses and a different view of the capital.",
   },
   {
     number: "05",
+    slug: "museums-in-valletta",
     title: "Museums and history",
     text: "Valletta has several museums and historic sites that make it easy to build a full day around culture and history.",
   },
   {
     number: "06",
+    slug: "three-cities-from-valletta",
     title: "Three Cities connection",
     text: "Combine Valletta with a harbour crossing or ferry trip to the Three Cities for a fuller Grand Harbour experience.",
   },
@@ -323,22 +329,27 @@ export default async function VallettaPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {highlights.map((item) => (
-              <article
+              <Link
                 key={item.number}
-                className="relative overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 md:p-8"
+                href={`/visit-malta/valletta/${item.slug}`}
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl md:p-8"
               >
                 <span className="font-serif text-5xl text-[#B83F29]/20">
                   {item.number}
                 </span>
 
-                <h3 className="mt-4 font-serif text-3xl font-medium">
+                <h3 className="mt-4 font-serif text-3xl font-medium transition group-hover:text-[#B83F29]">
                   {item.title}
                 </h3>
 
-                <p className="mt-4 leading-7 text-[#625D57]">
+                <p className="mt-4 flex-1 leading-7 text-[#625D57]">
                   {item.text}
                 </p>
-              </article>
+
+                <span className="mt-6 font-bold text-[#B83F29]">
+                  Opening hours, tickets and how to get there →
+                </span>
+              </Link>
             ))}
           </div>
         </div>
