@@ -45,31 +45,37 @@ const activityArticleKeys = [
 const activityIdeas = [
   {
     number: "01",
+    href: "/visit-malta/valletta",
     title: "Explore historic cities",
     text: "Walk through Valletta, Mdina and the Three Cities to discover Malta's architecture, fortifications and history.",
   },
   {
     number: "02",
+    href: "/beaches",
     title: "Spend time by the sea",
     text: "Visit beaches, swim in clear water, explore coastal viewpoints or take a boat trip around the islands.",
   },
   {
     number: "03",
+    href: "/visit-malta/gozo",
     title: "Visit Gozo",
     text: "Take a day trip or stay longer to explore villages, beaches, coastal scenery and a quieter side of the Maltese islands.",
   },
   {
     number: "04",
+    href: "/visit-malta/comino",
     title: "Discover Comino",
     text: "Visit the Blue Lagoon and surrounding coastline, while planning carefully around transport, crowds and the time of year.",
   },
   {
     number: "05",
+    href: "/visit-malta/food-restaurants",
     title: "Try Maltese food",
     text: "Taste local dishes, bakeries, street food and restaurants to experience another side of Maltese culture.",
   },
   {
     number: "06",
+    href: "/visit-malta/mdina-rabat/mdina-in-the-evening",
     title: "See Malta after dark",
     text: "Enjoy waterfront areas, evening walks, restaurants, bars and nightlife depending on the type of trip you want.",
   },
@@ -326,22 +332,27 @@ export default async function ThingsToDoPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {activityIdeas.map((idea) => (
-              <article
+              <Link
                 key={idea.number}
-                className="relative overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 md:p-8"
+                href={idea.href}
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl md:p-8"
               >
                 <span className="font-serif text-5xl text-[#B83F29]/20">
                   {idea.number}
                 </span>
 
-                <h3 className="mt-4 font-serif text-3xl font-medium">
+                <h3 className="mt-4 font-serif text-3xl font-medium transition group-hover:text-[#B83F29]">
                   {idea.title}
                 </h3>
 
-                <p className="mt-4 leading-7 text-[#625D57]">
+                <p className="mt-4 flex-1 leading-7 text-[#625D57]">
                   {idea.text}
                 </p>
-              </article>
+
+                <span className="mt-6 font-bold text-[#B83F29]">
+                  Read the full guide →
+                </span>
+              </Link>
             ))}
           </div>
         </div>

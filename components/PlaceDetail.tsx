@@ -1,17 +1,25 @@
 import Link from "next/link";
 import AdSlot from "@/components/AdSlot";
 import SideRail from "@/components/SideRail";
-import { getPlaceCards, placeHref, type Place } from "@/lib/places";
+import {
+  getPlaceCards,
+  placeHref,
+  type Place,
+  type PlaceCard,
+} from "@/lib/places";
 
 // Pagina dettagliata di un luogo, nello stesso stile delle guide Visit Malta.
 export default async function PlaceDetail({
   place,
   backHref,
   backLabel,
+  areaPlaces = [],
 }: {
   place: Place;
   backHref: string;
   backLabel: string;
+  // Per le pagine "hub" (es. Gozo): i luoghi dell'area da mostrare in griglia
+  areaPlaces?: PlaceCard[];
 }) {
   const nearby = await getPlaceCards(place.nearby ?? []);
   const mapQuery = place.map_query || `${place.name}, Malta`;
@@ -135,6 +143,53 @@ export default async function PlaceDetail({
           </aside>
         </div>
       </section>
+
+      {/* PLACES IN THIS AREA (hub pages) */}
+      {areaPlaces.length > 0 && (
+        <section id="places" className="bg-[#F8F4EE] py-16 md:py-20">
+          <div className="mx-auto max-w-7xl px-6 md:px-8">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B83F29]">
+              Places to visit
+            </p>
+            <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
+              What to see in {place.name}.
+            </h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {areaPlaces.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={placeHref(p.area, p.slug)}
+                  className="group flex flex-col overflow-hidden rounded-3xl border border-[#E0D7CC] bg-white transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+                >
+                  {p.image_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.image_url.replace("width=1600", "width=800")}
+                      alt={p.image_alt || p.name}
+                      loading="lazy"
+                      className="h-52 w-full object-cover"
+                    />
+                  )}
+                  <div className="flex flex-1 flex-col p-6">
+                    {p.kicker && (
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B83F29]">
+                        {p.kicker}
+                      </p>
+                    )}
+                    <h3 className="mt-2 font-serif text-3xl transition group-hover:text-[#B83F29]">
+                      {p.name}
+                    </h3>
+                    <p className="mt-3 flex-1 leading-7 text-[#625D57]">{p.summary}</p>
+                    <span className="mt-5 font-bold text-[#B83F29]">
+                      Opening hours, tickets and how to get there →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* GETTING THERE */}
       {place.getting_there.length > 0 && (

@@ -96,6 +96,27 @@ export async function getAllPlaceLinks() {
   return data ?? [];
 }
 
+export async function getPlacesByArea(area: string) {
+  const supabase = client();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("places")
+    .select("slug,area,name,kicker,summary,image_url,image_alt")
+    .eq("area", area)
+    .eq("status", "published")
+    .order("sort")
+    .returns<PlaceCard[]>();
+  if (error) {
+    console.error("Could not load area places", error);
+    return [];
+  }
+  return data ?? [];
+}
+
+// Le guide generali (area "visit-malta") stanno in /visit-malta/<slug>,
+// i luoghi di un'area in /visit-malta/<area>/<slug>.
 export function placeHref(area: string, slug: string) {
-  return `/visit-malta/${area}/${slug}`;
+  return area === "visit-malta"
+    ? `/visit-malta/${slug}`
+    : `/visit-malta/${area}/${slug}`;
 }

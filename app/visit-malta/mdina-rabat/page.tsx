@@ -43,31 +43,37 @@ const articleKeys = [
 const highlights = [
   {
     number: "01",
+    slug: "mdina-gate",
     title: "Mdina Gate",
     text: "Enter Malta's historic fortified city through one of its most recognisable landmarks and start exploring the narrow streets inside.",
   },
   {
     number: "02",
+    slug: "st-pauls-cathedral-mdina",
     title: "St Paul's Cathedral",
     text: "Visit one of Mdina's most important religious and architectural landmarks in the heart of the old city.",
   },
   {
     number: "03",
+    slug: "mdina-bastion-viewpoints",
     title: "Mdina viewpoints",
     text: "Walk toward the bastions for wide views across central Malta and the surrounding countryside.",
   },
   {
     number: "04",
+    slug: "rabat-streets",
     title: "Rabat streets",
     text: "Continue outside Mdina into Rabat for cafes, traditional streets and a more lived-in local atmosphere.",
   },
   {
     number: "05",
+    slug: "st-pauls-catacombs",
     title: "St Paul's Catacombs",
     text: "Explore one of Rabat's best-known historic sites and learn more about Malta's early Christian and Roman-era history.",
   },
   {
     number: "06",
+    slug: "mdina-in-the-evening",
     title: "Evening in Mdina",
     text: "Return later in the day to experience quieter streets, warm lighting and the atmosphere that gave Mdina its Silent City nickname.",
   },
@@ -324,22 +330,27 @@ export default async function MdinaRabatPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {highlights.map((item) => (
-              <article
+              <Link
                 key={item.number}
-                className="relative overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 md:p-8"
+                href={`/visit-malta/mdina-rabat/${item.slug}`}
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-[#E3D4CA] bg-[#FBF7F2] p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl md:p-8"
               >
                 <span className="font-serif text-5xl text-[#B83F29]/20">
                   {item.number}
                 </span>
 
-                <h3 className="mt-4 font-serif text-3xl font-medium">
+                <h3 className="mt-4 font-serif text-3xl font-medium transition group-hover:text-[#B83F29]">
                   {item.title}
                 </h3>
 
-                <p className="mt-4 leading-7 text-[#625D57]">
+                <p className="mt-4 flex-1 leading-7 text-[#625D57]">
                   {item.text}
                 </p>
-              </article>
+
+                <span className="mt-6 font-bold text-[#B83F29]">
+                  Opening hours, tickets and how to get there →
+                </span>
+              </Link>
             ))}
           </div>
         </div>
