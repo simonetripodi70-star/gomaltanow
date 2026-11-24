@@ -18,7 +18,6 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
 /* ---------- Tema scuro (generato automaticamente dai colori delle pagine) ---------- */
 html.dark { color-scheme: dark; }
 html.dark body { background: #121416; color: #EDE8E2; }
@@ -35,6 +34,7 @@ html.dark .bg-\[\#EFE5DA\] { background-color: #211E1A; }
 html.dark .bg-\[\#F1EAE2\] { background-color: #1F1C18; }
 html.dark .bg-\[\#F2EACF\] { background-color: #23211B; }
 html.dark .bg-\[\#F3E6DF\] { background-color: #1F1B19; }
+html.dark .bg-\[\#F3EDE5\] { background-color: #1E1B18; }
 html.dark .bg-\[\#F4E6DF\] { background-color: #1F1B18; }
 html.dark .bg-\[\#F4EFE8\] { background-color: #1D1B17; }
 html.dark .bg-\[\#F4F7F5\] { background-color: #151A17; }
@@ -59,6 +59,7 @@ html.dark .border-\[\#CFC3B7\] { border-color: #463D34; }
 html.dark .border-\[\#D1C3E1\] { border-color: #3D3446; }
 html.dark .border-\[\#D5DDD7\] { border-color: #37443A; }
 html.dark .border-\[\#D8C98F\] { border-color: #464334; }
+html.dark .border-\[\#D8CCBF\] { border-color: #463E34; }
 html.dark .border-\[\#D8CFC6\] { border-color: #463D34; }
 html.dark .border-\[\#D9C4B8\] { border-color: #463B34; }
 html.dark .border-\[\#D9E3DD\] { border-color: #34463B; }
@@ -95,6 +96,7 @@ html.dark .text-\[\#625D57\] { color: #BCBAB8; }
 html.dark .text-\[\#655B53\] { color: #BEBAB7; }
 html.dark .text-\[\#75601C\] { color: #E1CB84; }
 html.dark .text-\[\#766F69\] { color: #B2B0AE; }
+html.dark .text-\[\#7A736B\] { color: #B1AEAC; }
 html.dark .text-\[\#7C291E\] { color: #E18F84; }
 html.dark .text-\[\#8A3B2B\] { color: #DB988A; }
 html.dark .text-\[\#8A827B\] { color: #A8A5A3; }
@@ -117,5 +119,6 @@ html.dark .hover\:bg-white:hover { background-color: #24272B; }
 html.dark .hover\:border-\[\#D8B848\]\/40:hover { border-color: rgba(70,66,52,0.4); }
 html.dark .hover\:text-\[\#8F2E1E\]:hover { color: #E48F81; }
 html.dark .hover\:text-\[\#A92F20\]:hover { color: #E78A7E; }
+html.dark .hover\:text-\[\#B83F29\]:hover { color: #E39182; }
 html.dark .hover\:text-\[\#D96A4A\]:hover { color: #E49781; }
 
